@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Range = Aiirh.Collections.Models.Range;
+using Range = Aiirh.Basic.Entities.Collections.Range;
 
-namespace Aiirh.Collections.Extensions
+namespace Aiirh.Basic.Extensions
 {
     public static class NumberRangeExtensions
     {

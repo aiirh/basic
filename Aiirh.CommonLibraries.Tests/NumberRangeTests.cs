@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Aiirh.Collections.Extensions;
-using Aiirh.Collections.Models;
+using Aiirh.Basic.Entities.Collections;
+using Aiirh.Basic.Extensions;
 using NUnit.Framework;
 
 namespace Aiirh.CommonLibraries.Tests

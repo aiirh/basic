@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Aiirh.Collections.Models
+namespace Aiirh.Basic.Entities.Collections
 {
     public class Range : IComparable<Range>
     {

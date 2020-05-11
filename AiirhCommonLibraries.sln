@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aiirh.CommonLibraries.Tests", "Aiirh.CommonLibraries.Tests\Aiirh.CommonLibraries.Tests.csproj", "{9826D83E-0F08-4F8E-9D57-9297D18F1093}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.Collections", "Aiirh.Collections\Aiirh.Collections.csproj", "{F8323EAC-E347-4C3C-A582-D03AEB05388B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.Basic", "Aiirh.Basic\Aiirh.Basic.csproj", "{E4E656CC-6513-4024-AD30-475F79C3F6C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{9826D83E-0F08-4F8E-9D57-9297D18F1093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9826D83E-0F08-4F8E-9D57-9297D18F1093}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9826D83E-0F08-4F8E-9D57-9297D18F1093}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8323EAC-E347-4C3C-A582-D03AEB05388B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8323EAC-E347-4C3C-A582-D03AEB05388B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8323EAC-E347-4C3C-A582-D03AEB05388B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8323EAC-E347-4C3C-A582-D03AEB05388B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4E656CC-6513-4024-AD30-475F79C3F6C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E656CC-6513-4024-AD30-475F79C3F6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E656CC-6513-4024-AD30-475F79C3F6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E656CC-6513-4024-AD30-475F79C3F6C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

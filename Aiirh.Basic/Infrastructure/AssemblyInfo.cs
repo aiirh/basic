@@ -2,7 +2,7 @@
 
 [assembly: InternalsVisibleTo("Aiirh.CommonLibraries.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace Aiirh.Collections.Infrastructure
+namespace Aiirh.Basic.Infrastructure
 {
     public class AssemblyInfo
     {

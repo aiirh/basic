@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Aiirh.Collections\Aiirh.Collections.csproj" />
+    <ProjectReference Include="..\Aiirh.Basic\Aiirh.Basic.csproj" />
   </ItemGroup>
 
 </Project>

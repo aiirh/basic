@@ -6,6 +6,35 @@ namespace Aiirh.Basic.Extensions
 {
     public static class CollectionExtensions
     {
+        public static IEnumerable<T> MakeCollection<T>(this T value)
+        {
+            if (!value.IsNullOrDefault())
+            {
+                yield return value;
+            }
+        }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
+        {
+            return collection == null || !collection.Any();
+        }
+
+        public static bool AllHaveTheSameValue<T, TPropertyType>(this IEnumerable<T> entities, Func<T, TPropertyType> selector)
+        {
+            return entities.AllHaveTheSameValue(selector, out _);
+        }
+
+        public static bool AllHaveTheSameValue<T, TPropertyType>(this IEnumerable<T> entities, Func<T, TPropertyType> selector, out IList<TPropertyType> differentValues)
+        {
+            if (entities == null)
+            {
+                differentValues = Enumerable.Empty<TPropertyType>().ToList();
+                return true;
+            }
+            differentValues = entities.Select(selector).Distinct().ToList();
+            return differentValues.Count == 1;
+        }
+
         public static IEnumerable<List<T>> SplitList<T>(this List<T> locations, int nSize = 30)
         {
             for (var i = 0; i < locations.Count; i += nSize)

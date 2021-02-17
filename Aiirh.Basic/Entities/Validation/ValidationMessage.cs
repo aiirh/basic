@@ -4,16 +4,16 @@ namespace Aiirh.Basic.Entities.Validation
 {
     public class ValidationMessage
     {
-        public string Header => WebMessage.Header;
-        public string Description => WebMessage.Description;
+        public string Header => Message.Header;
+        public string Description => Message.Description;
 
-        public WebMessage WebMessage { get; }
+        public SimpleMessage Message { get; }
 
         public ValidationMessageSeverity Severity
         {
             get
             {
-                switch (WebMessage.Type)
+                switch (Message.Type)
                 {
                     case Type.ValidationWarning:
                         return ValidationMessageSeverity.Warning;
@@ -31,7 +31,7 @@ namespace Aiirh.Basic.Entities.Validation
 
         public ValidationMessage(string message, string description, ValidationMessageSeverity severity)
         {
-            WebMessage = WebMessage.Validation(message, description, severity);
+            Message = SimpleMessage.Validation(message, description, severity);
         }
 
         public ValidationMessage(ValidationCheck check) : this(check.Message.Header, check.Message.Description, check.Message.Severity)

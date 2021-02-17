@@ -1,6 +1,6 @@
 ﻿namespace Aiirh.Basic.Entities.Messages
 {
-    public class WebMessage : IMessage
+    public class SimpleMessage : IMessage
     {
         public string Header { get; set; }
         public string Description { get; set; }
@@ -9,11 +9,11 @@
         public bool IsValidationWarning => Type == Type.ValidationWarning;
         public Type Type { get; set; }
 
-        private WebMessage() { }
+        private SimpleMessage() { }
 
-        public static WebMessage Simple(string header, string description)
+        public static SimpleMessage Simple(string header, string description)
         {
-            return new WebMessage
+            return new SimpleMessage
             {
                 Header = header,
                 Description = description,
@@ -21,9 +21,9 @@
             };
         }
 
-        public static WebMessage Validation(string header, string description, ValidationMessageSeverity severity)
+        public static SimpleMessage Validation(string header, string description, ValidationMessageSeverity severity)
         {
-            return new WebMessage
+            return new SimpleMessage
             {
                 Header = header,
                 Description = description,
@@ -31,14 +31,14 @@
             };
         }
 
-        public static WebMessage CopyAndOverrideHeader(WebMessage source, string headerOverride)
+        public static SimpleMessage CopyAndOverrideHeader(SimpleMessage source, string headerOverride)
         {
             if (string.IsNullOrWhiteSpace(headerOverride))
             {
                 return source;
             }
             var newDescription = source.Header;
-            return new WebMessage
+            return new SimpleMessage
             {
                 Type = source.Type,
                 Description = newDescription,

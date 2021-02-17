@@ -11,7 +11,7 @@ namespace Aiirh.Basic.Entities.Validation
 
         public string GetSimpleMessage()
         {
-            return string.Join("; ", Messages?.Select(x => MessageBuilder.BuildMessage(x.WebMessage.Header, x.WebMessage.Description)) ?? Enumerable.Empty<string>());
+            return string.Join("; ", Messages?.Select(x => MessageBuilder.BuildMessage(x.Message.Header, x.Message.Description)) ?? Enumerable.Empty<string>());
         }
     }
 }

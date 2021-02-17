@@ -11,11 +11,11 @@ namespace Aiirh.Basic.Entities.Exceptions
     public class SimpleException : Exception
     {
 
-        public IEnumerable<WebMessage> WebMessages { get; }
+        public IEnumerable<SimpleMessage> Messages { get; }
 
         public SimpleException(IEnumerable<ValidationMessage> messages)
         {
-            WebMessages = messages?.Select(x => x.WebMessage) ?? Enumerable.Empty<WebMessage>();
+            Messages = messages?.Select(x => x.Message) ?? Enumerable.Empty<SimpleMessage>();
         }
 
         public SimpleException(ValidationMessages messages) : this(messages.AsEnumerable()) { }
@@ -25,14 +25,14 @@ namespace Aiirh.Basic.Entities.Exceptions
             switch (exceptionType)
             {
                 case Type.ValidationError:
-                    WebMessages = WebMessage.Validation(header, description, ValidationMessageSeverity.Error).MakeCollection();
+                    Messages = SimpleMessage.Validation(header, description, ValidationMessageSeverity.Error).MakeCollection();
                     break;
                 case Type.ValidationWarning:
-                    WebMessages = WebMessage.Validation(header, description, ValidationMessageSeverity.Warning).MakeCollection();
+                    Messages = SimpleMessage.Validation(header, description, ValidationMessageSeverity.Warning).MakeCollection();
                     break;
                 case Type.Simple:
                 default:
-                    WebMessages = WebMessage.Simple(header, description).MakeCollection();
+                    Messages = SimpleMessage.Simple(header, description).MakeCollection();
                     break;
             }
         }
@@ -42,14 +42,14 @@ namespace Aiirh.Basic.Entities.Exceptions
         public SimpleException(string header) : this(header, (string)null) { }
         public SimpleException(string header, Exception innerException) : this(header, null, Type.Simple, innerException) { }
 
-        public SimpleException(IOperationResult operationResult) : base(operationResult.SimpleMessage)
+        public SimpleException(IOperationResult operationResult) : base(string.Join(";", operationResult.Messages.Select(x => MessageBuilder.BuildMessage(x.Header, x.Description))))
         {
-            WebMessages = operationResult.WebMessages ?? Enumerable.Empty<WebMessage>();
+            Messages = operationResult.Messages ?? Enumerable.Empty<SimpleMessage>();
         }
 
         public SimpleException(RequestResult requestResult)
         {
-            WebMessages = requestResult.Messages ?? Enumerable.Empty<WebMessage>();
+            Messages = requestResult.Messages ?? Enumerable.Empty<SimpleMessage>();
         }
     }
 }

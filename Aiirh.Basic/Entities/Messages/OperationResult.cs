@@ -4,7 +4,6 @@ using System.Linq;
 using Aiirh.Basic.Entities.Exceptions;
 using Aiirh.Basic.Entities.Validation;
 using Aiirh.Basic.Extensions;
-using Newtonsoft.Json;
 
 namespace Aiirh.Basic.Entities.Messages
 {
@@ -13,10 +12,7 @@ namespace Aiirh.Basic.Entities.Messages
         bool Success { get; }
         bool HasOnlyWarnings { get; }
 
-        IEnumerable<WebMessage> WebMessages { get; }
-
-        [JsonIgnore]
-        string SimpleMessage { get; }
+        IEnumerable<SimpleMessage> Messages { get; }
     }
 
     public interface IOperationResult<out T> : IOperationResult
@@ -26,38 +22,34 @@ namespace Aiirh.Basic.Entities.Messages
 
     public class OperationResult : IOperationResult
     {
-
         public bool Success { get; set; }
-        public bool HasOnlyWarnings => WebMessages.Any() && WebMessages.All(x => x.IsValidationWarning);
-        public IEnumerable<WebMessage> WebMessages { get; set; }
-
-        [JsonIgnore]
-        public string SimpleMessage => string.Join("; ", WebMessages.Select(x => x.ToString()));
+        public bool HasOnlyWarnings => Messages.Any() && Messages.All(x => x.IsValidationWarning);
+        public IEnumerable<SimpleMessage> Messages { get; set; }
 
         public static IOperationResult CreateSuccess()
         {
             return new OperationResult
             {
                 Success = true,
-                WebMessages = Enumerable.Empty<WebMessage>()
+                Messages = Enumerable.Empty<SimpleMessage>()
             };
         }
 
-        public static IOperationResult CreateSuccess(IEnumerable<WebMessage> messages)
+        public static IOperationResult CreateSuccess(IEnumerable<SimpleMessage> messages)
         {
             return new OperationResult
             {
                 Success = true,
-                WebMessages = messages
+                Messages = messages
             };
         }
 
         public static IOperationResult CreateError(Exception e)
         {
-            var messages = e is SimpleException se ? se.WebMessages : WebMessage.Simple(e.Message, e.LogException()).MakeCollection();
+            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogException()).MakeCollection();
             return new OperationResult
             {
-                WebMessages = messages
+                Messages = messages
             };
         }
 
@@ -65,15 +57,15 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult
             {
-                WebMessages = messages.Select(x => WebMessage.Simple(x, null))
+                Messages = messages.Select(x => SimpleMessage.Simple(x, null))
             };
         }
 
-        public static OperationResult CreateError(IEnumerable<WebMessage> messages)
+        public static OperationResult CreateError(IEnumerable<SimpleMessage> messages)
         {
             return new OperationResult
             {
-                WebMessages = messages,
+                Messages = messages,
             };
         }
 
@@ -81,7 +73,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult
             {
-                WebMessages = WebMessage.Simple(message, null).MakeCollection()
+                Messages = SimpleMessage.Simple(message, null).MakeCollection()
             };
         }
 
@@ -89,7 +81,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult
             {
-                WebMessages = WebMessage.Simple(header, description).MakeCollection()
+                Messages = SimpleMessage.Simple(header, description).MakeCollection()
             };
         }
 
@@ -97,7 +89,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult
             {
-                WebMessages = WebMessage.Validation(header, description, severity).MakeCollection()
+                Messages = SimpleMessage.Validation(header, description, severity).MakeCollection()
             };
         }
 
@@ -105,7 +97,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult
             {
-                WebMessages = messages.Select(x => x.WebMessage)
+                Messages = messages.Select(x => x.Message)
             };
         }
 
@@ -114,7 +106,7 @@ namespace Aiirh.Basic.Entities.Messages
             var operationResult = result as OperationResult;
             return new OperationResult
             {
-                WebMessages = operationResult?.WebMessages ?? Enumerable.Empty<WebMessage>(),
+                Messages = operationResult?.Messages ?? Enumerable.Empty<SimpleMessage>(),
                 Success = false
             };
         }
@@ -129,7 +121,7 @@ namespace Aiirh.Basic.Entities.Messages
             var operationResult = result as OperationResult;
             return new OperationResult<T>
             {
-                WebMessages = operationResult?.WebMessages ?? Enumerable.Empty<WebMessage>(),
+                Messages = operationResult?.Messages ?? Enumerable.Empty<SimpleMessage>(),
                 Data = data,
                 Success = result.Success
             };
@@ -140,17 +132,17 @@ namespace Aiirh.Basic.Entities.Messages
             var operationResult = result as OperationResult;
             return new OperationResult<T>
             {
-                WebMessages = operationResult?.WebMessages ?? Enumerable.Empty<WebMessage>(),
+                Messages = operationResult?.Messages ?? Enumerable.Empty<SimpleMessage>(),
                 Data = default,
                 Success = false
             };
         }
 
-        public new static OperationResult<T> CreateError(IEnumerable<WebMessage> messages)
+        public new static OperationResult<T> CreateError(IEnumerable<SimpleMessage> messages)
         {
             return new OperationResult<T>
             {
-                WebMessages = messages,
+                Messages = messages,
                 Data = default
             };
         }
@@ -159,7 +151,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult<T>
             {
-                WebMessages = results.Where(x => !x.Success).SelectMany(x => x.WebMessages),
+                Messages = results.Where(x => !x.Success).SelectMany(x => x.Messages),
                 Data = default,
                 Success = false
             };
@@ -167,10 +159,10 @@ namespace Aiirh.Basic.Entities.Messages
 
         public static OperationResult<T> CreateError(Exception e, T data = default)
         {
-            var messages = e is SimpleException se ? se.WebMessages : WebMessage.Simple(e.Message, e.LogException()).MakeCollection();
+            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogException()).MakeCollection();
             return new OperationResult<T>
             {
-                WebMessages = messages,
+                Messages = messages,
                 Data = data
             };
         }
@@ -179,7 +171,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult<T>
             {
-                WebMessages = WebMessage.Simple(header, e.Message).MakeCollection(),
+                Messages = SimpleMessage.Simple(header, e.Message).MakeCollection(),
                 Data = default
             };
         }
@@ -188,7 +180,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult<T>
             {
-                WebMessages = messages.Select(x => WebMessage.Simple(x, null)),
+                Messages = messages.Select(x => SimpleMessage.Simple(x, null)),
                 Data = data
             };
         }
@@ -197,7 +189,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult<T>
             {
-                WebMessages = WebMessage.Simple(message, null).MakeCollection(),
+                Messages = SimpleMessage.Simple(message, null).MakeCollection(),
                 Data = data
             };
         }
@@ -206,7 +198,7 @@ namespace Aiirh.Basic.Entities.Messages
         {
             return new OperationResult<T>
             {
-                WebMessages = WebMessage.Simple(header, message).MakeCollection(),
+                Messages = SimpleMessage.Simple(header, message).MakeCollection(),
                 Data = data
             };
         }
@@ -216,17 +208,17 @@ namespace Aiirh.Basic.Entities.Messages
             return new OperationResult<T>
             {
                 Data = data,
-                WebMessages = WebMessage.Simple("Success!", message).MakeCollection(),
+                Messages = SimpleMessage.Simple("Success!", message).MakeCollection(),
                 Success = true
             };
         }
 
-        public static OperationResult<T> CreateSuccess(T data, IEnumerable<WebMessage> messages)
+        public static OperationResult<T> CreateSuccess(T data, IEnumerable<SimpleMessage> messages)
         {
             return new OperationResult<T>
             {
                 Data = data,
-                WebMessages = messages,
+                Messages = messages,
                 Success = true
             };
         }
@@ -236,7 +228,7 @@ namespace Aiirh.Basic.Entities.Messages
             return new OperationResult<T>
             {
                 Data = data,
-                WebMessages = messages.Select(x => x.WebMessage)
+                Messages = messages.Select(x => x.Message)
             };
         }
 
@@ -245,7 +237,7 @@ namespace Aiirh.Basic.Entities.Messages
             return new OperationResult<T>
             {
                 Data = data,
-                WebMessages = WebMessage.Validation(header, description, severity).MakeCollection()
+                Messages = SimpleMessage.Validation(header, description, severity).MakeCollection()
             };
         }
     }

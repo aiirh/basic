@@ -18,7 +18,7 @@ namespace Aiirh.Basic.Entities.Messages
                 Data = data,
                 StatusCode = (int)HttpStatusCode.OK,
                 Status = "OK",
-                Messages = WebMessage.Simple(message, null).MakeCollection(),
+                Messages = SimpleMessage.Simple(message, null).MakeCollection(),
                 InternalReference = internalReference
             };
         }
@@ -39,12 +39,12 @@ namespace Aiirh.Basic.Entities.Messages
         public object Data => new object();
 
         [JsonIgnore]
-        public IEnumerable<WebMessage> Messages { get; protected set; }
+        public IEnumerable<SimpleMessage> Messages { get; protected set; }
 
         [JsonProperty("internalReference", NullValueHandling = NullValueHandling.Ignore)]
         public string InternalReference { get; set; }
 
-        public static ApiResponse CreateError(HttpStatusCode code, string statusMessage, IEnumerable<WebMessage> messages, string internalReference = null)
+        public static ApiResponse CreateError(HttpStatusCode code, string statusMessage, IEnumerable<SimpleMessage> messages, string internalReference = null)
         {
             return new ApiResponse
             {
@@ -61,7 +61,7 @@ namespace Aiirh.Basic.Entities.Messages
             {
                 StatusCode = (int)code,
                 Status = statusMessage,
-                Messages = WebMessage.Simple(message, null).MakeCollection(),
+                Messages = SimpleMessage.Simple(message, null).MakeCollection(),
                 InternalReference = internalReference
             };
         }
@@ -72,7 +72,7 @@ namespace Aiirh.Basic.Entities.Messages
             {
                 StatusCode = (int)code,
                 Status = statusMessage,
-                Messages = messages.Select(x => WebMessage.Simple(x, null)),
+                Messages = messages.Select(x => SimpleMessage.Simple(x, null)),
                 InternalReference = internalReference
             };
         }
@@ -83,7 +83,7 @@ namespace Aiirh.Basic.Entities.Messages
             {
                 StatusCode = (int)HttpStatusCode.OK,
                 Status = "OK",
-                Messages = WebMessage.Simple(message, null).MakeCollection(),
+                Messages = SimpleMessage.Simple(message, null).MakeCollection(),
                 InternalReference = internalReference
             };
         }

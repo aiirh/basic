@@ -17,7 +17,7 @@ namespace Aiirh.Basic.Extensions
             return validationResults.GroupBy(x => x.InvalidEntity).Select(g => new ValidationResult<T>
             {
                 InvalidEntity = g.Key,
-                Messages = g.SelectMany(x => x.Messages).DistinctBy(x => x.WebMessage.ToString())
+                Messages = g.SelectMany(x => x.Messages).DistinctBy(x => x.Message.ToString())
             });
         }
     }

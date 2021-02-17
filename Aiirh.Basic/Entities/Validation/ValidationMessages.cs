@@ -63,8 +63,8 @@ namespace Aiirh.Basic.Entities.Validation
 
         public string GetApiMessagesWithSeparatedWarnings(bool printType)
         {
-            var errors = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Error).Select(x => $"{(printType ? "ERROR: " : string.Empty)}{x.WebMessage}"));
-            var warnings = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Warning).Select(x => $"{(printType ? "WARNING: " : string.Empty)}{x.WebMessage}"));
+            var errors = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Error).Select(x => $"{(printType ? "ERROR: " : string.Empty)}{x.Message}"));
+            var warnings = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Warning).Select(x => $"{(printType ? "WARNING: " : string.Empty)}{x.Message}"));
             return string.IsNullOrWhiteSpace(errors)
                 ? warnings
                 : string.IsNullOrWhiteSpace(warnings)
@@ -72,9 +72,9 @@ namespace Aiirh.Basic.Entities.Validation
                     : string.Join("|", errors, warnings);
         }
 
-        public IEnumerable<WebMessage> GetWebMessages()
+        public IEnumerable<SimpleMessage> GetWebMessages()
         {
-            return _messages.Select(x => x.WebMessage);
+            return _messages.Select(x => x.Message);
         }
 
         public ValidationMessages()

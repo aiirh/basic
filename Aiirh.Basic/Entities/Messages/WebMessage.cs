@@ -1,10 +1,9 @@
 ﻿namespace Aiirh.Basic.Entities.Messages
 {
-    public class WebMessage : IErrorMessage
+    public class WebMessage : IMessage
     {
         public string Header { get; set; }
         public string Description { get; set; }
-        public string ApiMessage { get; set; }
         public bool IsSimpleError => Type == Type.Simple;
         public bool IsValidationError => Type == Type.ValidationError;
         public bool IsValidationWarning => Type == Type.ValidationWarning;
@@ -12,24 +11,12 @@
 
         private WebMessage() { }
 
-        public static WebMessage Simple(string header, string description, string apiMessage)
-        {
-            return new WebMessage
-            {
-                Header = header,
-                Description = description,
-                ApiMessage = apiMessage,
-                Type = Type.Simple
-            };
-        }
-
         public static WebMessage Simple(string header, string description)
         {
             return new WebMessage
             {
                 Header = header,
                 Description = description,
-                ApiMessage = BuildApiMessage(header, description),
                 Type = Type.Simple
             };
         }
@@ -39,18 +26,7 @@
             return new WebMessage
             {
                 Header = header,
-                Description = BuildApiMessage(header, description),
-                Type = severity == ValidationMessageSeverity.Warning ? Type.ValidationWarning : Type.ValidationError
-            };
-        }
-
-        public static WebMessage Validation(string header, string description, string apiMessage, ValidationMessageSeverity severity)
-        {
-            return new WebMessage
-            {
-                Header = header,
                 Description = description,
-                ApiMessage = apiMessage,
                 Type = severity == ValidationMessageSeverity.Warning ? Type.ValidationWarning : Type.ValidationError
             };
         }
@@ -66,19 +42,23 @@
             {
                 Type = source.Type,
                 Description = newDescription,
-                Header = headerOverride,
-                ApiMessage = BuildApiMessage(headerOverride, newDescription)
+                Header = headerOverride
             };
         }
 
         public override string ToString()
         {
-            return $"Header={Header}; Type={Type}; Description={Description}";
+            return MessageBuilder.BuildMessage(Header, Description);
         }
+    }
 
-        private static string BuildApiMessage(string header, string description)
+    public static class MessageBuilder
+    {
+        public static string BuildMessage(string header, string description)
         {
-            return !string.IsNullOrWhiteSpace(description) ? $"{header}. {description}" : header;
+            var finalHeader = string.IsNullOrWhiteSpace(header) ? "Error" : header;
+            var finalDescription = string.IsNullOrWhiteSpace(description) ? null : $": {description}";
+            return $"{finalHeader}{finalDescription}";
         }
     }
 }

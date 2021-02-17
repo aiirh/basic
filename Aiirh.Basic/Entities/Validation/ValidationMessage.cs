@@ -4,14 +4,15 @@ namespace Aiirh.Basic.Entities.Validation
 {
     public class ValidationMessage
     {
-
-        public string Message => WebMessage.Header;
+        public string Header => WebMessage.Header;
         public string Description => WebMessage.Description;
-        public string ApiMessage => WebMessage.ApiMessage;
+
         public WebMessage WebMessage { get; }
 
-        public ValidationMessageSeverity Severity {
-            get {
+        public ValidationMessageSeverity Severity
+        {
+            get
+            {
                 switch (WebMessage.Type)
                 {
                     case Type.ValidationWarning:
@@ -26,15 +27,14 @@ namespace Aiirh.Basic.Entities.Validation
 
         private ValidationMessage() { }
 
-        public ValidationMessage(WebMessage webMessage, ValidationMessageSeverity severity) : this(webMessage.Header, webMessage.Description, webMessage.ApiMessage, severity) { }
+        public ValidationMessage(IMessage webMessage, ValidationMessageSeverity severity) : this(webMessage.Header, webMessage.Description, severity) { }
 
-        public ValidationMessage(string message, string description, string apiMessage, ValidationMessageSeverity severity)
+        public ValidationMessage(string message, string description, ValidationMessageSeverity severity)
         {
-            var resultApiMessage = string.IsNullOrWhiteSpace(apiMessage) ? $"{message}{(string.IsNullOrWhiteSpace(description) ? null : $": {description}")}" : apiMessage;
-            WebMessage = WebMessage.Validation(message, description, resultApiMessage, severity);
+            WebMessage = WebMessage.Validation(message, description, severity);
         }
 
-        public ValidationMessage(ValidationCheck check) : this(check.Message.Message, check.Message.Description, check.Message.ApiMessage, check.Severity)
+        public ValidationMessage(ValidationCheck check) : this(check.Message.Header, check.Message.Description, check.Message.Severity)
         {
         }
     }

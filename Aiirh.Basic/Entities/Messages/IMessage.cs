@@ -1,6 +1,6 @@
 ﻿namespace Aiirh.Basic.Entities.Messages
 {
-    public interface IErrorMessage
+    public interface IMessage
     {
         string Header { get; }
         string Description { get; }

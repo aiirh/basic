@@ -18,7 +18,7 @@ namespace Aiirh.Basic.Entities.Messages
                 Data = data,
                 StatusCode = (int)HttpStatusCode.OK,
                 Status = "OK",
-                Messages = WebMessage.Simple(message, null, message).MakeCollection(),
+                Messages = WebMessage.Simple(message, null).MakeCollection(),
                 InternalReference = internalReference
             };
         }
@@ -33,7 +33,7 @@ namespace Aiirh.Basic.Entities.Messages
         public string Status { get; protected set; }
 
         [JsonProperty("message", Order = 3)]
-        public string Message => string.Join("; ", Messages?.Select(x => x.ApiMessage) ?? Enumerable.Empty<string>());
+        public string Message => string.Join("; ", Messages?.Select(x => x.ToString()) ?? Enumerable.Empty<string>());
 
         [JsonProperty("data", Order = 4)]
         public object Data => new object();
@@ -61,7 +61,7 @@ namespace Aiirh.Basic.Entities.Messages
             {
                 StatusCode = (int)code,
                 Status = statusMessage,
-                Messages = WebMessage.Simple(message, null, message).MakeCollection(),
+                Messages = WebMessage.Simple(message, null).MakeCollection(),
                 InternalReference = internalReference
             };
         }
@@ -72,7 +72,7 @@ namespace Aiirh.Basic.Entities.Messages
             {
                 StatusCode = (int)code,
                 Status = statusMessage,
-                Messages = messages.Select(x => WebMessage.Simple(x, null, x)),
+                Messages = messages.Select(x => WebMessage.Simple(x, null)),
                 InternalReference = internalReference
             };
         }
@@ -83,7 +83,7 @@ namespace Aiirh.Basic.Entities.Messages
             {
                 StatusCode = (int)HttpStatusCode.OK,
                 Status = "OK",
-                Messages = WebMessage.Simple(message, null, message).MakeCollection(),
+                Messages = WebMessage.Simple(message, null).MakeCollection(),
                 InternalReference = internalReference
             };
         }

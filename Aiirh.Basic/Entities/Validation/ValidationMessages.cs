@@ -12,7 +12,8 @@ namespace Aiirh.Basic.Entities.Validation
         public bool IsValid => !_messages.Any();
         public bool IsValidOrOnlyWarnings => IsValid || _messages.All(x => x.Severity == ValidationMessageSeverity.Warning);
 
-        public ValidationMessage this[int index] {
+        public ValidationMessage this[int index]
+        {
             get => _messages[index];
             set => _messages.Insert(index, value);
         }
@@ -36,14 +37,9 @@ namespace Aiirh.Basic.Entities.Validation
             _messages.Add(new ValidationMessage(check));
         }
 
-        public void Add(string header, string description, string apiMessage, ValidationMessageSeverity severity)
-        {
-            _messages.Add(new ValidationMessage(header, description, apiMessage, severity));
-        }
-
         public void Add(string header, string description, ValidationMessageSeverity severity)
         {
-            _messages.Add(new ValidationMessage(header, description, $"{header}. {description}", severity));
+            _messages.Add(new ValidationMessage(header, description, severity));
         }
 
         public void AddRange(ValidationMessages messages)
@@ -62,13 +58,13 @@ namespace Aiirh.Basic.Entities.Validation
 
         public string GetApiMessages()
         {
-            return string.Join("; ", _messages.Select(x => x.ApiMessage));
+            return string.Join("; ", _messages.Select(x => x.ToString()));
         }
 
         public string GetApiMessagesWithSeparatedWarnings(bool printType)
         {
-            var errors = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Error).Select(x => $"{(printType ? "ERROR: " : string.Empty)}{x.ApiMessage}"));
-            var warnings = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Warning).Select(x => $"{(printType ? "WARNING: " : string.Empty)}{x.ApiMessage}"));
+            var errors = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Error).Select(x => $"{(printType ? "ERROR: " : string.Empty)}{x.WebMessage}"));
+            var warnings = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Warning).Select(x => $"{(printType ? "WARNING: " : string.Empty)}{x.WebMessage}"));
             return string.IsNullOrWhiteSpace(errors)
                 ? warnings
                 : string.IsNullOrWhiteSpace(warnings)

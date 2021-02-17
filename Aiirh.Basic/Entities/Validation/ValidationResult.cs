@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Aiirh.Basic.Entities.Messages;
 
 namespace Aiirh.Basic.Entities.Validation
 {
@@ -10,7 +11,7 @@ namespace Aiirh.Basic.Entities.Validation
 
         public string GetSimpleMessage()
         {
-            return string.Join(";", Messages?.Select(x => $"{x.WebMessage.Header}: {x.WebMessage.Description}") ?? Enumerable.Empty<string>());
+            return string.Join("; ", Messages?.Select(x => MessageBuilder.BuildMessage(x.WebMessage.Header, x.WebMessage.Description)) ?? Enumerable.Empty<string>());
         }
     }
 }

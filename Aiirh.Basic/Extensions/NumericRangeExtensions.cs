@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Range = Aiirh.Basic.Entities.Collections.Range;
+using Aiirh.Basic.Entities.Collections;
+
 
 namespace Aiirh.Basic.Extensions
 {
-    public static class NumberRangeExtensions
+    public static class NumericRangeExtensions
     {
-
-        public static IEnumerable<Range> Exclude(this Range initialRange, IEnumerable<Range> rangesToExclude)
+        public static IEnumerable<NumericRange> Exclude(this NumericRange initialRange, IEnumerable<NumericRange> rangesToExclude)
         {
             var reGroupedRanges = rangesToExclude.ReGroupRanges().ToList();
-            var newRanges = new List<Range>();
+            var newRanges = new List<NumericRange>();
 
-            var currentRange = new Range(initialRange.Begin, initialRange.End);
+            var currentRange = new NumericRange(initialRange.Begin, initialRange.End);
             foreach (var rangeToExclude in reGroupedRanges)
             {
                 var splitRanges = currentRange.Exclude(rangeToExclude).ToList();
@@ -23,19 +23,19 @@ namespace Aiirh.Basic.Extensions
                 }
 
                 newRanges.AddRange(splitRanges.Where(x => x.End < initialRange.End));
-                currentRange = rangeToExclude.End + 1 <= initialRange.End ? new Range(rangeToExclude.End + 1, initialRange.End) : null;
+                currentRange = rangeToExclude.End + 1 <= initialRange.End ? new NumericRange(rangeToExclude.End + 1, initialRange.End) : null;
             }
 
             if (currentRange != null)
             {
                 newRanges.Add(currentRange);
             }
+
             return newRanges;
         }
 
-        public static IEnumerable<Range> Exclude(this Range initialRange, Range another)
+        public static IEnumerable<NumericRange> Exclude(this NumericRange initialRange, NumericRange another)
         {
-
             if (initialRange == null)
             {
                 yield break;
@@ -58,8 +58,8 @@ namespace Aiirh.Basic.Extensions
             var isCompletelyEmbedded = initialRange.Begin < another.Begin && initialRange.End > another.End;
             if (isCompletelyEmbedded)
             {
-                yield return new Range(initialRange.Begin, another.Begin - 1);
-                yield return new Range(another.End + 1, initialRange.End);
+                yield return new NumericRange(initialRange.Begin, another.Begin - 1);
+                yield return new NumericRange(another.End + 1, initialRange.End);
                 yield break;
             }
 
@@ -67,7 +67,7 @@ namespace Aiirh.Basic.Extensions
             var isLeftSideIntersect = another.Begin <= initialRange.Begin && initialRange.End > another.End;
             if (isLeftSideIntersect)
             {
-                yield return new Range(another.End + 1, initialRange.End);
+                yield return new NumericRange(another.End + 1, initialRange.End);
                 yield break;
             }
 
@@ -75,19 +75,19 @@ namespace Aiirh.Basic.Extensions
             var isRightSideIntersect = another.End >= initialRange.End && initialRange.Begin < another.Begin;
             if (isRightSideIntersect)
             {
-                yield return new Range(initialRange.Begin, another.Begin - 1);
+                yield return new NumericRange(initialRange.Begin, another.Begin - 1);
                 yield break;
             }
         }
 
-        public static IEnumerable<Range> Concat(this IEnumerable<Range> ranges, Range range)
+        public static IEnumerable<NumericRange> Concat(this IEnumerable<NumericRange> ranges, NumericRange range)
         {
             var rangesList = ranges.ToList();
             rangesList.Add(range);
             return rangesList.ReGroupRanges();
         }
 
-        public static IEnumerable<Range> Concat(this IEnumerable<Range> ranges, IEnumerable<int> values)
+        public static IEnumerable<NumericRange> Concat(this IEnumerable<NumericRange> ranges, IEnumerable<int> values)
         {
             var newRanges = ranges.ReGroupRanges().ToList();
             foreach (var value in values)
@@ -100,7 +100,7 @@ namespace Aiirh.Basic.Extensions
                 var possibleToAdd = newRanges.FirstOrDefault(x => x.CanBeAddedToHeadOrTail(value));
                 if (possibleToAdd == null)
                 {
-                    newRanges.Add(new Range(value));
+                    newRanges.Add(new NumericRange(value));
                     newRanges = newRanges.ReGroupRanges().ToList();
                     continue;
                 }
@@ -108,10 +108,11 @@ namespace Aiirh.Basic.Extensions
                 possibleToAdd.Add(value);
                 newRanges = newRanges.ReGroupRanges().ToList();
             }
+
             return newRanges;
         }
 
-        public static IEnumerable<int> TakeValues(this IEnumerable<Range> rangesToExclude, int count)
+        public static IEnumerable<long> TakeValues(this IEnumerable<NumericRange> rangesToExclude, int count)
         {
             var reGroupedValueToExclude = rangesToExclude.ReGroupRanges().ToList();
             var possibleCount = reGroupedValueToExclude.TotalCountUnsafe();
@@ -131,12 +132,12 @@ namespace Aiirh.Basic.Extensions
             }
         }
 
-        public static int TotalCount(this IEnumerable<Range> ranges)
+        public static long TotalCount(this IEnumerable<NumericRange> ranges)
         {
             return ranges.ReGroupRanges().Sum(x => x.Count);
         }
 
-        internal static IEnumerable<Range> ReGroupRanges(this IEnumerable<Range> ranges)
+        internal static IEnumerable<NumericRange> ReGroupRanges(this IEnumerable<NumericRange> ranges)
         {
             var rangesList = ranges.ToList();
 
@@ -146,7 +147,7 @@ namespace Aiirh.Basic.Extensions
             }
 
             var sorted = rangesList.OrderBy(x => x).ToList();
-            var result = new List<Range>();
+            var result = new List<NumericRange>();
             var current = sorted[0];
             for (var i = 1; i < sorted.Count; i++)
             {
@@ -161,11 +162,12 @@ namespace Aiirh.Basic.Extensions
                     current = next;
                 }
             }
+
             result.Add(current);
             return result;
         }
 
-        public static bool Intersects(this Range current, Range another, out Range first, out Range second)
+        public static bool Intersects(this NumericRange current, NumericRange another, out NumericRange first, out NumericRange second)
         {
             var isCurrentGreater = current.CompareTo(another) > 0;
             first = isCurrentGreater ? another : current;
@@ -174,31 +176,32 @@ namespace Aiirh.Basic.Extensions
             return isEmbedded || second.Begin < first.End + 1;
         }
 
-        public static bool IntersectsOrCommonBorder(this Range current, Range another, out Range first, out Range second)
+        public static bool IntersectsOrCommonBorder(this NumericRange current, NumericRange another, out NumericRange first, out NumericRange second)
         {
             var intersects = current.Intersects(another, out first, out second);
             return intersects || second.Begin <= first.End + 1;
         }
 
-        public static Range Merge(this Range current, Range another)
+        public static NumericRange Merge(this NumericRange current, NumericRange another)
         {
             if (!current.IntersectsOrCommonBorder(another, out var first, out var second))
             {
                 throw new ArgumentException($"Range [{first.Begin}, {first.End}] doesn't intersect with range [{second.Begin}, {second.End}]");
             }
+
             return first.MergeUnsafe(second);
         }
 
-        private static int TotalCountUnsafe(this IEnumerable<Range> ranges)
+        private static long TotalCountUnsafe(this IEnumerable<NumericRange> ranges)
         {
             return ranges.Sum(x => x.Count);
         }
 
-        private static Range MergeUnsafe(this Range first, Range second)
+        private static NumericRange MergeUnsafe(this NumericRange first, NumericRange second)
         {
             var min = Math.Min(first.Begin, second.Begin);
             var max = Math.Max(first.End, second.End);
-            return new Range(min, max);
+            return new NumericRange(min, max);
         }
     }
 }

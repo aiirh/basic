@@ -3,26 +3,25 @@ using Newtonsoft.Json;
 
 namespace Aiirh.Basic.Entities.Collections
 {
-    public class Range : IComparable<Range>
+    public class NumericRange : IComparable<NumericRange>
     {
-
         private bool _isEmpty;
 
-        public int Begin { get; private set; }
-        public int End { get; private set; }
+        public long Begin { get; set; }
+        public long End { get; private set; }
 
         [JsonIgnore]
-        public int Count => _isEmpty ? 0 : End - Begin + 1;
+        public long Count => _isEmpty ? 0 : End - Begin + 1;
 
         [JsonConstructor]
-        public Range(int begin, int end)
+        public NumericRange(long begin, long end)
         {
             Begin = begin <= end ? begin : end;
             End = begin <= end ? end : begin;
             _isEmpty = false;
         }
 
-        public Range(int single)
+        public NumericRange(int single)
         {
             Begin = End = single;
             _isEmpty = false;
@@ -30,7 +29,7 @@ namespace Aiirh.Basic.Entities.Collections
 
         public override bool Equals(object obj)
         {
-            return obj is Range range && Begin == range.Begin && End == range.End;
+            return obj is NumericRange range && Begin == range.Begin && End == range.End;
         }
 
         public override int GetHashCode()
@@ -41,18 +40,17 @@ namespace Aiirh.Basic.Entities.Collections
             return hashCode;
         }
 
-        public int CompareTo(Range that)
+        public int CompareTo(NumericRange that)
         {
-
             if (Begin == that.Begin)
             {
-                return End - that.End;
+                return End.CompareTo(that.End);
             }
 
-            return Begin - that.Begin;
+            return Begin.CompareTo(that.Begin);
         }
 
-        public int GetFirstAndRemove()
+        public long GetFirstAndRemove()
         {
             if (Count > 1)
             {
@@ -85,11 +83,13 @@ namespace Aiirh.Basic.Entities.Collections
                 {
                     End = value;
                 }
+
                 if (value == Begin - 1)
                 {
                     Begin = value;
                 }
             }
+
             _isEmpty = false;
         }
 

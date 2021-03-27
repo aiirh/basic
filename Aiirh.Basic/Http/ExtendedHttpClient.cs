@@ -29,13 +29,13 @@ namespace Aiirh.Basic.Http
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
-        public ExtendedHttpClient(HttpMessageHandler handler, IRequestLogSystemWriter requestLogWriter, ILogger logger) : base(handler)
+        internal ExtendedHttpClient(HttpMessageHandler handler, IRequestLogSystemWriter requestLogWriter, ILogger logger) : base(handler)
         {
             _requestLogWriter = requestLogWriter;
             _logger = logger;
         }
 
-        public async Task<HttpResponseMessage> SendAsXmlAsync<TRequest>(string url, TRequest data, HttpRequestDescription description, bool skipMessageLog = false)
+        internal async Task<HttpResponseMessage> SendAsXmlAsync<TRequest>(string url, TRequest data, HttpRequestDescription description, bool skipMessageLog = false)
         {
             var (httpContent, requestText) = GetXmlContent(data);
             var stopWatch = Stopwatch.StartNew();
@@ -84,7 +84,7 @@ namespace Aiirh.Basic.Http
             }
         }
 
-        public async Task<HttpResponseMessage> SendAsJsonAsync<TRequest>(string url, TRequest data, HttpRequestDescription description, bool skipMessageLog = false)
+        internal async Task<HttpResponseMessage> SendAsJsonAsync<TRequest>(string url, TRequest data, HttpRequestDescription description, bool skipMessageLog = false)
         {
             var (httpContent, requestText) = GetJsonContent(data);
             var stopWatch = Stopwatch.StartNew();
@@ -132,7 +132,7 @@ namespace Aiirh.Basic.Http
             }
         }
 
-        public async Task<HttpResponseMessage> SendAsFormAsync(string url, ICollection<KeyValuePair<string, string>> formData, HttpRequestDescription description, bool skipMessageLog = false)
+        internal async Task<HttpResponseMessage> SendAsFormAsync(string url, ICollection<KeyValuePair<string, string>> formData, HttpRequestDescription description, bool skipMessageLog = false)
         {
             var stopWatch = Stopwatch.StartNew();
             HttpResponseMessage response = null;

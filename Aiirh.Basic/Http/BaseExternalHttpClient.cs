@@ -7,7 +7,7 @@ using Aiirh.Basic.Utilities;
 
 namespace Aiirh.Basic.Http
 {
-    public abstract class BaseExternalHttpClient<T> : BaseHttpClient
+    public abstract class BaseExternalHttpClient<TClient> : BaseHttpClient
     {
         private readonly HttpClientSettings _clientSettings;
 
@@ -17,7 +17,7 @@ namespace Aiirh.Basic.Http
             HttpClientSettings clientSettings) : base(
             cacheManager,
             httpClientBuilder,
-            typeof(T).Name)
+            typeof(TClient).Name)
         {
             _clientSettings = clientSettings;
         }

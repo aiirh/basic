@@ -26,7 +26,7 @@ namespace Aiirh.Basic.Http
     /// HttpClientBuilder
     /// </summary>
     /// <seealso cref="T:Aiirh.Basic.Http.IHttpClientBuilder" />
-    public class HttpClientBuilder : IHttpClientBuilder
+    internal class HttpClientBuilder : IHttpClientBuilder
     {
 
         private readonly IRequestLogSystemWriter _requestLogWriter;

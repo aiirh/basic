@@ -21,8 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Entities\Time\" />
-		<Folder Include="Entities\Sounds\" />
+		<Folder Include="Sounds\" />
 	</ItemGroup>
 
 </Project>

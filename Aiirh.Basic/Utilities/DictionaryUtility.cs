@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Aiirh.Basic.Entities.Exceptions;
+using Aiirh.Basic.Exceptions;
 
 namespace Aiirh.Basic.Utilities
 {
@@ -69,13 +69,13 @@ namespace Aiirh.Basic.Utilities
         public static List<KeyValuePair<string, string>> GetWeekdaysKeyValuePairs()
         {
             return new List<KeyValuePair<string, string>>
-                             {
-                                 new KeyValuePair<string, string>("Mo", "Monday"),
-                                 new KeyValuePair<string, string>("Tu", "Tuesday"),
-                                 new KeyValuePair<string, string>("We", "Wednesday"),
-                                 new KeyValuePair<string, string>("Th", "Thursday"),
-                                 new KeyValuePair<string, string>("Fr", "Friday")
-                             };
+            {
+                new KeyValuePair<string, string>("Mo", "Monday"),
+                new KeyValuePair<string, string>("Tu", "Tuesday"),
+                new KeyValuePair<string, string>("We", "Wednesday"),
+                new KeyValuePair<string, string>("Th", "Thursday"),
+                new KeyValuePair<string, string>("Fr", "Friday")
+            };
         }
 
         public static Dictionary<string, string> GetWeekdaysDict()

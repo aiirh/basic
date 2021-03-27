@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Aiirh.Basic.Services.Http;
+using Aiirh.Basic.Http;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace Aiirh.Basic.Utilities

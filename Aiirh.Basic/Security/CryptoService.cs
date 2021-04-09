@@ -22,7 +22,7 @@ namespace Aiirh.Basic.Security
             _passPhrase = passPhrase;
         }
 
-        public static string MD5Hash(string input)
+        public static string MD5Hash(this string input)
         {
             using var md5 = MD5.Create();
             var result = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
@@ -34,16 +34,22 @@ namespace Aiirh.Basic.Security
             return sBuilder.ToString();
         }
 
-        public static string MD5Base64Encoded(string input)
+        public static string MD5Base64Encoded(this string input)
         {
             using var md5 = new MD5CryptoServiceProvider();
             var result = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
             return Convert.ToBase64String(result);
         }
 
-        public static string EncryptString(string input)
+        public static string EncryptString(this string input)
         {
-            if (string.IsNullOrEmpty(_passPhrase))
+            return input.EncryptString(null);
+        }
+
+        public static string EncryptString(this string input, string customPassPhase)
+        {
+            var passPhase = string.IsNullOrEmpty(customPassPhase) ? _passPhrase : customPassPhase;
+            if (string.IsNullOrEmpty(passPhase))
             {
                 throw new SimpleException("CryptoService is not initialized");
             }
@@ -57,7 +63,7 @@ namespace Aiirh.Basic.Security
             var ivStringBytes = Generate128BitsOfRandomEntropy();
             var plainTextBytes = Encoding.UTF8.GetBytes(input);
 
-            using var password = new Rfc2898DeriveBytes(_passPhrase, saltStringBytes, Iterations);
+            using var password = new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations);
             var keyBytes = password.GetBytes(SecretKeySize / 8);
 
             using var symmetricKey = new RijndaelManaged
@@ -84,9 +90,15 @@ namespace Aiirh.Basic.Security
             return Convert.ToBase64String(cipherTextBytes);
         }
 
-        public static string DecryptString(string cipherText)
+        public static string DecryptString(this string cipherText)
         {
-            if (string.IsNullOrEmpty(_passPhrase))
+            return cipherText.DecryptString(null);
+        }
+
+        public static string DecryptString(this string cipherText, string customPassPhase)
+        {
+            var passPhase = string.IsNullOrEmpty(customPassPhase) ? _passPhrase : customPassPhase;
+            if (string.IsNullOrEmpty(passPhase))
             {
                 throw new SimpleException("CryptoService is not initialized");
             }
@@ -102,7 +114,7 @@ namespace Aiirh.Basic.Security
             var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(SecretKeySize / 8 * 2)
                 .Take(cipherTextBytesWithSaltAndIv.Length - (SecretKeySize / 8 * 2)).ToArray();
 
-            using var password = new Rfc2898DeriveBytes(_passPhrase, saltStringBytes, Iterations);
+            using var password = new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations);
             var keyBytes = password.GetBytes(SecretKeySize / 8);
 
             using var symmetricKey = new RijndaelManaged
@@ -132,7 +144,7 @@ namespace Aiirh.Basic.Security
             return randomBytes;
         }
 
-        public static string GetSha1String(string inputString)
+        public static string GetSha1String(this string inputString)
         {
             var sb = new StringBuilder();
             foreach (var b in GetHash(inputString))

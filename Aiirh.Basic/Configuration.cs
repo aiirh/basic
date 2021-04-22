@@ -1,4 +1,5 @@
-﻿using Aiirh.Basic.Security;
+﻿using Aiirh.Basic.Cache;
+using Aiirh.Basic.Security;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -22,11 +23,14 @@ namespace Aiirh.Basic
             {
                 CryptoService.Init(optionsToUse.CryptoServicePassPhrase);
             }
+
+            MemoryCacheManager.Init(optionsToUse.DisableCache);
         }
     }
 
     public class AiirhRegistrationOptions
     {
         public string CryptoServicePassPhrase { get; set; }
+        public bool DisableCache { get; set; }
     }
 }

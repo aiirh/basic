@@ -1,12 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Aiirh.Basic.Cache;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Aiirh.Basic.Http
 {
-    public static class Initialization
+    internal static class Initialization
     {
-        public static void RegisterServices(IServiceCollection services)
+        internal static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IHttpClientBuilder, HttpClientBuilder>();
+            services.AddScoped<IMemoryCacheManager, MemoryCacheManager>();
         }
     }
 }

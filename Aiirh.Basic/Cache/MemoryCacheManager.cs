@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
 namespace Aiirh.Basic.Cache
@@ -63,19 +62,23 @@ namespace Aiirh.Basic.Cache
         List<string> CacheKeys();
     }
 
-    public class MemoryCacheManager : IMemoryCacheManager
+    internal class MemoryCacheManager : IMemoryCacheManager
     {
 
         private static CancellationTokenSource _resetCacheToken = new CancellationTokenSource();
         private readonly IMemoryCache _memoryCache;
-        private readonly bool _disableCache;
+        private static bool _disableCache;
         private static readonly IDictionary<string, object> Lock = new ConcurrentDictionary<string, object>();
         private static volatile object globalLockObject = new object();
 
-        public MemoryCacheManager(IMemoryCache memoryCache, IConfiguration configuration)
+        public MemoryCacheManager(IMemoryCache memoryCache)
         {
-            _disableCache = bool.Parse(configuration["Application:DisableCache"] ?? "false");
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+        }
+
+        internal static void Init(bool disableCache)
+        {
+            _disableCache = disableCache;
         }
 
         public T GetOrAddRelative<T>(string cacheGroup, string cacheKey, Func<T> factory, TimeSpan relativeExpiration)

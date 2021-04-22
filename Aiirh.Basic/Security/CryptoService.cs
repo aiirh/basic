@@ -13,7 +13,7 @@ namespace Aiirh.Basic.Security
         private const int SecretKeySize = 128;
         private static string _passPhrase;
 
-        public static void Init(string passPhrase)
+        internal static void Init(string passPhrase)
         {
             if (string.IsNullOrEmpty(passPhrase))
             {

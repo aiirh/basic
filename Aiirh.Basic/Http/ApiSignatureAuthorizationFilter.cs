@@ -33,6 +33,12 @@ namespace Aiirh.Basic.Http
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            if (_apiSignatureManager.IsDisabled())
+            {
+                base.OnActionExecuting(context);
+                return;
+            }
+
             var controller = context.Controller as InternalApiController;
             var query = controller?.Request.Query;
             if (query == null)

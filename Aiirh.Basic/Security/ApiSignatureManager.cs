@@ -14,6 +14,8 @@ namespace Aiirh.Basic.Security
         string AppendSignature(string apiType, string baseUrl, params string[] additionalArgs);
 
         void ValidateKey(string apiType, string apiHash, string key, DateTime utcTime, params string[] additionalArgs);
+
+        bool IsDisabled();
     }
 
     internal class ApiSignatureManager : IApiSignatureManager
@@ -51,7 +53,7 @@ namespace Aiirh.Basic.Security
 
         public void ValidateKey(string apiType, string apiHash, string key, DateTime utcTime, params string[] additionalArgs)
         {
-            if (_apiSignatureOptions.Disabled)
+            if (IsDisabled())
             {
                 return;
             }
@@ -77,6 +79,11 @@ namespace Aiirh.Basic.Security
             }
 
             return;
+        }
+
+        public bool IsDisabled()
+        {
+            return _apiSignatureOptions.Disabled;
         }
 
         private static string GetHash(string publicKey, string privateKey, DateTime utcTime, params string[] additionalArgs)

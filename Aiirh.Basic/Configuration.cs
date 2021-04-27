@@ -11,6 +11,7 @@ namespace Aiirh.Basic
         {
             services.AddMemoryCache();
             Http.Initialization.RegisterServices(services);
+            Initialization.RegisterServices(services);
             if (options == null)
             {
                 return;
@@ -23,7 +24,7 @@ namespace Aiirh.Basic
             {
                 CryptoService.Init(optionsToUse.CryptoServicePassPhrase);
             }
-
+            ApiSignatureManager.Init(optionsToUse.ApiSignatureOptions);
             MemoryCacheManager.Init(optionsToUse.DisableCache);
         }
     }
@@ -31,6 +32,15 @@ namespace Aiirh.Basic
     public class AiirhRegistrationOptions
     {
         public string CryptoServicePassPhrase { get; set; }
-        public bool DisableCache { get; set; }
+
+        public bool DisableCache { get; set; } = false;
+
+        public ApiSignatureOptions ApiSignatureOptions { get; set; } = new ApiSignatureOptions();
+    }
+
+    public class ApiSignatureOptions
+    {
+        public bool Disabled { get; set; } = false;
+        public byte ApiSignatureValidityTimeInSeconds { get; set; } = 15;
     }
 }

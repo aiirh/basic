@@ -47,7 +47,7 @@ namespace Aiirh.Basic.Messages
 
         public static IOperationResult CreateError(Exception e)
         {
-            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogException()).MakeCollection();
+            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogInnerExceptions()).MakeCollection();
             return new OperationResult
             {
                 Messages = messages
@@ -160,7 +160,7 @@ namespace Aiirh.Basic.Messages
 
         public static OperationResult<T> CreateError(Exception e, T data = default)
         {
-            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogException()).MakeCollection();
+            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogInnerExceptions()).MakeCollection();
             return new OperationResult<T>
             {
                 Messages = messages,

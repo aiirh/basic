@@ -11,8 +11,8 @@ namespace Aiirh.Basic.Http
 {
     public interface IInternalHttpClient
     {
-        Task<TResponse> GetAsync<TResponse>(HttpClientParameters parameters);
-        Task<TResponse> PostAsJsonAsync<TRequest, TResponse>(TRequest request, HttpClientParameters parameters);
+        Task<TResponse> GetAsync<TResponse>(InternalComponentHttpClientParameters parameters);
+        Task<TResponse> PostAsJsonAsync<TRequest, TResponse>(TRequest request, InternalComponentHttpClientParameters parameters);
     }
 
     public abstract class BaseInternalHttpClient<TClient, TApiType> : BaseHttpClient, IInternalHttpClient where TApiType : Enum
@@ -38,12 +38,12 @@ namespace Aiirh.Basic.Http
             _clientParameters = clientParameters;
         }
 
-        public async Task<TResponse> GetAsync<TResponse>(HttpClientParameters parameters)
+        public async Task<TResponse> GetAsync<TResponse>(InternalComponentHttpClientParameters parameters)
         {
             var sw = Stopwatch.StartNew();
             var conf = await GetHttpClientInitArgs();
-            var baseUrl = parameters.BaseUrl ?? conf.BaseUrl;
-            var apiVersion = parameters is InternalComponentHttpClientParameters internalParameters ? internalParameters.ApiVersion : default;
+            var baseUrl = conf.BaseUrl;
+            var apiVersion = parameters.ApiVersion;
             var url = baseUrl.BuildUrl(parameters.UrlSegment, apiVersion, parameters.UrlParams);
             _logger.Info($"InternalHttpClient:{_clientName}", $@"Action {parameters.Action} started [Url=""{url}"", Reference1=""{parameters.Reference1}""]");
             var signedUrl = _apiSignatureManager.AppendSignature(_clientParameters.ApiType, url);
@@ -71,12 +71,12 @@ namespace Aiirh.Basic.Http
             throw new Exception(resp);
         }
 
-        public async Task<TResponse> PostAsJsonAsync<TRequest, TResponse>(TRequest request, HttpClientParameters parameters)
+        public async Task<TResponse> PostAsJsonAsync<TRequest, TResponse>(TRequest request, InternalComponentHttpClientParameters parameters)
         {
             var sw = Stopwatch.StartNew();
             var conf = await GetHttpClientInitArgs();
-            var baseUrl = parameters.BaseUrl ?? conf.BaseUrl;
-            var apiVersion = parameters is InternalComponentHttpClientParameters internalParameters ? internalParameters.ApiVersion : default;
+            var baseUrl = conf.BaseUrl;
+            var apiVersion = parameters.ApiVersion;
             var url = baseUrl.BuildUrl(parameters.UrlSegment, apiVersion, parameters.UrlParams);
             _logger.Info($"InternalHttpClient:{_clientName}", $@"Action {parameters.Action} started [Url = ""{url}"", Reference1=""{parameters.Reference1}""]");
             var signedUrl = _apiSignatureManager.AppendSignature(_clientParameters.ApiType, url);

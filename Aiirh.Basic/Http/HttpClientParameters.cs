@@ -5,22 +5,28 @@ namespace Aiirh.Basic.Http
 {
     public class HttpClientParameters
     {
-        public string BaseUrl { get; set; }
-        public string Action { get; set; }
-        public string Reference1 { get; set; }
+        public string Action { get; }
+        public string Reference1 { get; }
         public string Reference2 { get; set; }
-        public string UrlSegment { get; set; }
+        public string UrlSegment { get; }
 
         public Dictionary<string, string> UrlParams { get; set; }
         public AuthenticationHeaderValue AuthenticationHeader { get; set; }
         public Dictionary<string, string> RequestSpecificHeaders { get; set; }
+
+        public HttpClientParameters(string urlSegment, string action, string reference1)
+        {
+            UrlSegment = urlSegment;
+            Action = action;
+            Reference1 = reference1;
+        }
     }
 
     public class InternalComponentHttpClientParameters : HttpClientParameters
     {
         public ApiVersion ApiVersion { get; }
 
-        public InternalComponentHttpClientParameters(int apiVersion, bool force = false)
+        public InternalComponentHttpClientParameters(string urlSegment, string action, string reference1, int apiVersion, bool force = false) : base(urlSegment, action, reference1)
         {
             ApiVersion = new ApiVersion(apiVersion, force);
         }
@@ -45,5 +51,9 @@ namespace Aiirh.Basic.Http
     public class BasicAuthHttpClientParameters : HttpClientParameters
     {
         public string AuthToken { get; set; }
+
+        public BasicAuthHttpClientParameters(string urlSegment, string action, string reference1) : base(urlSegment, action, reference1)
+        {
+        }
     }
 }

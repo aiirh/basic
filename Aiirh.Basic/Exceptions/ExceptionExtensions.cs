@@ -14,5 +14,15 @@ namespace Aiirh.Basic.Exceptions
             }
             return message.ToString();
         }
+
+        public static string LogInnerExceptions(this Exception ex)
+        {
+            var message = new StringBuilder();
+            if (ex.InnerException != null)
+            {
+                message.Append($". INNER:{LogException(ex.InnerException)}");
+            }
+            return message.ToString();
+        }
     }
 }

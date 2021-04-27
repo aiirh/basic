@@ -5,19 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Aiirh.Basic.Security
 {
-    public interface IApiSignatureManager<in TApiType> where TApiType : Enum
+    public interface IApiSignatureManager
     {
-        string AppendSignature(TApiType apiType, string baseUrl, params string[] additionalArgs);
+        string AppendSignature(string apiType, string baseUrl, params string[] additionalArgs);
 
-        Task ValidateKey(TApiType apiType, string apiHash, string key, DateTime utcTime, params string[] additionalArgs);
+        void ValidateKey(string apiType, string apiHash, string key, DateTime utcTime, params string[] additionalArgs);
     }
 
-    internal class ApiSignatureManager
+    internal class ApiSignatureManager : IApiSignatureManager
     {
         protected static ApiSignatureOptions _apiSignatureOptions;
 
@@ -25,10 +24,7 @@ namespace Aiirh.Basic.Security
         {
             _apiSignatureOptions = apiSignatureOptions;
         }
-    }
 
-    internal class ApiSignatureManager<TApiType> : ApiSignatureManager, IApiSignatureManager<TApiType> where TApiType : Enum
-    {
         private readonly IConfiguration _configuration;
 
         public ApiSignatureManager(IConfiguration configuration)
@@ -36,7 +32,7 @@ namespace Aiirh.Basic.Security
             _configuration = configuration;
         }
 
-        public string AppendSignature(TApiType apiType, string baseUrl, params string[] additionalArgs)
+        public string AppendSignature(string apiType, string baseUrl, params string[] additionalArgs)
         {
             var prefixAdded = false;
             if (baseUrl.IndexOf("?", StringComparison.OrdinalIgnoreCase) == -1)
@@ -53,11 +49,11 @@ namespace Aiirh.Basic.Security
             return baseUrl;
         }
 
-        public Task ValidateKey(TApiType apiType, string apiHash, string key, DateTime utcTime, params string[] additionalArgs)
+        public void ValidateKey(string apiType, string apiHash, string key, DateTime utcTime, params string[] additionalArgs)
         {
             if (_apiSignatureOptions.Disabled)
             {
-                return Task.CompletedTask;
+                return;
             }
 
             var dateNow = SystemClock.Now;
@@ -80,7 +76,7 @@ namespace Aiirh.Basic.Security
                 throw new AccessViolationException("Api signature is invalid");
             }
 
-            return Task.CompletedTask;
+            return;
         }
 
         private static string GetHash(string publicKey, string privateKey, DateTime utcTime, params string[] additionalArgs)

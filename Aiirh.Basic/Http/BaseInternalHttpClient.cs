@@ -18,7 +18,7 @@ namespace Aiirh.Basic.Http
     public abstract class BaseInternalHttpClient<TClient, TApiType> : BaseHttpClient, IInternalHttpClient where TApiType : Enum
     {
         private readonly InternalHttpClientParameters<TApiType> _clientParameters;
-        private readonly IApiSignatureManager<TApiType> _apiSignatureManager;
+        private readonly IApiSignatureManager _apiSignatureManager;
         protected readonly ILogger _logger;
 
         protected string SettingName => "InternalComponentSettings";
@@ -27,7 +27,7 @@ namespace Aiirh.Basic.Http
             IHttpClientBuilder httpClientBuilder,
             InternalHttpClientParameters<TApiType> clientParameters,
             IMemoryCacheManager cacheManager,
-            IApiSignatureManager<TApiType> apiSignatureManager,
+            IApiSignatureManager apiSignatureManager,
             ILogger logger) : base(
             cacheManager,
             httpClientBuilder,
@@ -46,7 +46,7 @@ namespace Aiirh.Basic.Http
             var apiVersion = parameters.ApiVersion;
             var url = baseUrl.BuildUrl(parameters.UrlSegment, apiVersion, parameters.UrlParams);
             _logger.Info($"InternalHttpClient:{_clientName}", $@"Action {parameters.Action} started [Url=""{url}"", Reference1=""{parameters.Reference1}""]");
-            var signedUrl = _apiSignatureManager.AppendSignature(_clientParameters.ApiType, url);
+            var signedUrl = _apiSignatureManager.AppendSignature(_clientParameters.ApiType.ToString(), url);
             var description = new HttpRequestDescription
             {
                 FromSystem = _clientParameters.FromSystem,
@@ -79,7 +79,7 @@ namespace Aiirh.Basic.Http
             var apiVersion = parameters.ApiVersion;
             var url = baseUrl.BuildUrl(parameters.UrlSegment, apiVersion, parameters.UrlParams);
             _logger.Info($"InternalHttpClient:{_clientName}", $@"Action {parameters.Action} started [Url = ""{url}"", Reference1=""{parameters.Reference1}""]");
-            var signedUrl = _apiSignatureManager.AppendSignature(_clientParameters.ApiType, url);
+            var signedUrl = _apiSignatureManager.AppendSignature(_clientParameters.ApiType.ToString(), url);
             var description = new HttpRequestDescription
             {
                 FromSystem = _clientParameters.FromSystem,

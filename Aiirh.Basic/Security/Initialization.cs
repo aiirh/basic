@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Aiirh.Basic.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Aiirh.Basic.Security
 {
@@ -6,7 +7,8 @@ namespace Aiirh.Basic.Security
     {
         internal static void RegisterServices(IServiceCollection services)
         {
-            services.AddScoped(typeof(IApiSignatureManager<>), typeof(ApiSignatureManager<>));
+            services.AddScoped<ApiSignatureAuthorizationFilter>();
+            services.AddScoped<IApiSignatureManager, ApiSignatureManager>();
         }
     }
 }

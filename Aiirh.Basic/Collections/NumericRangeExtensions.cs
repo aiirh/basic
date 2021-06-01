@@ -165,18 +165,19 @@ namespace Aiirh.Basic.Collections
             return result;
         }
 
-        public static bool Intersects(this NumericRange current, NumericRange another, out NumericRange first, out NumericRange second)
+        public static bool Intersects(this NumericRange current, NumericRange another, out NumericRange first, out NumericRange second, bool borderIncluded = true)
         {
             var isCurrentGreater = current.CompareTo(another) > 0;
             first = isCurrentGreater ? another : current;
             second = isCurrentGreater ? current : another;
             var isEmbedded = first.Begin <= second.Begin && first.End >= second.End;
-            return isEmbedded || second.Begin < first.End + 1;
+            var borderShift = borderIncluded ? 1 : 0;
+            return isEmbedded || second.Begin < first.End + borderShift;
         }
 
-        public static bool Intersects<T>(this IEnumerable<NumericRange> ranges, NumericRange range)
+        public static bool Intersects(this IEnumerable<NumericRange> ranges, NumericRange range, bool borderIncluded = true)
         {
-            return ranges.Any(x => x.Intersects(range, out _, out _));
+            return ranges.Any(x => x.Intersects(range, out _, out _, borderIncluded));
         }
 
         public static bool IntersectsOrCommonBorder(this NumericRange current, NumericRange another, out NumericRange first, out NumericRange second)

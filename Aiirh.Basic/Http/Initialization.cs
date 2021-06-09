@@ -7,8 +7,8 @@ namespace Aiirh.Basic.Http
     {
         internal static void RegisterServices(IServiceCollection services)
         {
-            services.AddScoped<IHttpClientBuilder, HttpClientBuilder>();
-            services.AddScoped<IMemoryCacheManager, MemoryCacheManager>();
+            services.AddSingleton<IHttpClientBuilder, HttpClientBuilder>();
+            services.AddSingleton<IMemoryCacheManager, MemoryCacheManager>();
         }
     }
 }

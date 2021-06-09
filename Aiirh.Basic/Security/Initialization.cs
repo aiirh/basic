@@ -7,8 +7,8 @@ namespace Aiirh.Basic.Security
     {
         internal static void RegisterServices(IServiceCollection services)
         {
-            services.AddScoped<ApiSignatureAuthorizationFilter>();
-            services.AddScoped<IApiSignatureManager, ApiSignatureManager>();
+            services.AddSingleton<ApiSignatureAuthorizationFilter>();
+            services.AddSingleton<IApiSignatureManager, ApiSignatureManager>();
         }
     }
 }

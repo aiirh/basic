@@ -79,7 +79,7 @@ namespace Aiirh.Basic.Http
                         ElapsedTime = elapsedTime,
                         SkipIfSuccessful = skipMessageLog
                     };
-                    await _requestLogWriter.WriteMessageLog(description, messageLogData);
+                    await _requestLogWriter.WriteRequestLog(description, messageLogData);
                 }
             }
         }
@@ -127,7 +127,7 @@ namespace Aiirh.Basic.Http
                         ElapsedTime = elapsedTime,
                         SkipIfSuccessful = skipMessageLog
                     };
-                    await _requestLogWriter.WriteMessageLog(description, messageLogData);
+                    await _requestLogWriter.WriteRequestLog(description, messageLogData);
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace Aiirh.Basic.Http
                         ElapsedTime = elapsedTime,
                         SkipIfSuccessful = skipMessageLog
                     };
-                    await _requestLogWriter.WriteMessageLog(description, messageLogData);
+                    await _requestLogWriter.WriteRequestLog(description, messageLogData);
                 }
             }
         }

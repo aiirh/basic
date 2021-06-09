@@ -16,7 +16,7 @@ namespace Aiirh.Basic.Http.RequestLogging
     /// </summary>
     public interface IRequestLogSystemWriter
     {
-        Task WriteMessageLog(HttpRequestDescription description, IRequestLogSystemData data);
+        Task WriteRequestLog(HttpRequestDescription description, IRequestLogSystemData data);
     }
 
     public interface IRequestLogSystemData

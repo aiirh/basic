@@ -59,7 +59,7 @@ namespace Aiirh.Basic.Http
             };
 
             var client = CreateClient(conf);
-            var response = await client.SendAsJsonAsync(signedUrl, default(object), description, conf.SkipMessageLog).ConfigureAwait(false);
+            var response = await client.SendAsJsonAsync(signedUrl, default(object), description, conf.SkipRequestLog).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsJsonAsync<TResponse>().ConfigureAwait(false);
@@ -92,7 +92,7 @@ namespace Aiirh.Basic.Http
             };
 
             var client = CreateClient(conf);
-            var response = await client.SendAsJsonAsync(signedUrl, request, description, conf.SkipMessageLog).ConfigureAwait(false);
+            var response = await client.SendAsJsonAsync(signedUrl, request, description, conf.SkipRequestLog).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsJsonAsync<TResponse>().ConfigureAwait(false);

@@ -27,7 +27,7 @@ namespace Aiirh.Basic.Http
             var conf = await GetHttpClientInitArgsForSite(parameters);
             var description = GetHttpDescription(parameters, RequestMethod.Get, conf);
             var client = CreateClient(conf);
-            var response = await client.SendAsJsonAsync(description.Url, default(object), description, conf.SkipMessageLog || forceSkipMessageLog).ConfigureAwait(false);
+            var response = await client.SendAsJsonAsync(description.Url, default(object), description, conf.SkipRequestLog || forceSkipMessageLog).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var respResult = await response.Content.ReadAsSpecifiedFormatAsync<TResponse>(responseFormat).ConfigureAwait(false);
@@ -43,7 +43,7 @@ namespace Aiirh.Basic.Http
             var conf = await GetHttpClientInitArgsForSite(parameters);
             var description = GetHttpDescription(parameters, RequestMethod.Post, conf);
             var client = CreateClient(conf);
-            var response = await client.SendAsJsonAsync(description.Url, request, description, conf.SkipMessageLog).ConfigureAwait(false);
+            var response = await client.SendAsJsonAsync(description.Url, request, description, conf.SkipRequestLog).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return (await response.Content.ReadAsSpecifiedFormatAsync<TResponse>(responseFormat).ConfigureAwait(false), default);
@@ -57,7 +57,7 @@ namespace Aiirh.Basic.Http
             var conf = await GetHttpClientInitArgsForSite(parameters);
             var description = GetHttpDescription(parameters, RequestMethod.Post, conf);
             var client = CreateClient(conf);
-            var response = await client.SendAsFormAsync(description.Url, request, description, conf.SkipMessageLog).ConfigureAwait(false);
+            var response = await client.SendAsFormAsync(description.Url, request, description, conf.SkipRequestLog).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return (await response.Content.ReadAsSpecifiedFormatAsync<TResponse>(responseFormat).ConfigureAwait(false), default);
@@ -71,7 +71,7 @@ namespace Aiirh.Basic.Http
             var conf = await GetHttpClientInitArgsForSite(parameters);
             var description = GetHttpDescription(parameters, RequestMethod.Post, conf);
             var client = CreateClient(conf);
-            var response = await client.SendAsXmlAsync(description.Url, request, description, conf.SkipMessageLog).ConfigureAwait(false);
+            var response = await client.SendAsXmlAsync(description.Url, request, description, conf.SkipRequestLog).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return (await response.Content.ReadAsSpecifiedFormatAsync<TResponse>(responseFormat).ConfigureAwait(false), default);
@@ -86,7 +86,7 @@ namespace Aiirh.Basic.Http
             var description = GetHttpDescription(parameters, RequestMethod.Put, conf);
 
             var client = CreateClient(conf);
-            var response = await client.SendAsJsonAsync(description.Url, request, description, conf.SkipMessageLog).ConfigureAwait(false);
+            var response = await client.SendAsJsonAsync(description.Url, request, description, conf.SkipRequestLog).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return (await response.Content.ReadAsSpecifiedFormatAsync<TResponse>(responseFormat).ConfigureAwait(false), default);

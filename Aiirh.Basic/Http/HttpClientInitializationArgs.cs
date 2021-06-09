@@ -7,7 +7,7 @@ namespace Aiirh.Basic.Http
     public interface IClientInitializationArgs
     {
         string BaseUrl { get; set; }
-        bool SkipMessageLog { get; set; }
+        bool SkipRequestLog { get; set; }
         string ProxyUrl { get; set; }
         int? TimeoutInSeconds { get; set; }
     }
@@ -20,7 +20,7 @@ namespace Aiirh.Basic.Http
         }
 
         public string BaseUrl { get; set; }
-        public bool SkipMessageLog { get; set; }
+        public bool SkipRequestLog { get; set; }
         public string ProxyUrl { get; set; }
 
         public int? TimeoutInSeconds { get; set; }

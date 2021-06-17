@@ -9,7 +9,7 @@
     public enum Type
     {
         Simple = 0,
-        ValidationError = 10,
-        ValidationWarning = 20
+        Warning = 10,
+        Error = 20
     }
 }

@@ -61,7 +61,7 @@ namespace Aiirh.Basic.Messages
             {
                 StatusCode = (int)code,
                 Status = statusMessage,
-                Messages = SimpleMessage.Simple(message, null).MakeCollection(),
+                Messages = SimpleMessage.Error(message, null).MakeCollection(),
                 InternalReference = internalReference
             };
         }
@@ -72,7 +72,7 @@ namespace Aiirh.Basic.Messages
             {
                 StatusCode = (int)code,
                 Status = statusMessage,
-                Messages = messages.Select(x => SimpleMessage.Simple(x, null)),
+                Messages = messages.Select(x => SimpleMessage.Error(x, null)),
                 InternalReference = internalReference
             };
         }

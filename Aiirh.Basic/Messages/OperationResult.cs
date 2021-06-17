@@ -24,7 +24,7 @@ namespace Aiirh.Basic.Messages
     public class OperationResult : IOperationResult
     {
         public bool Success { get; set; }
-        public bool HasOnlyWarnings => Messages.Any() && Messages.All(x => x.IsValidationWarning);
+        public bool HasOnlyWarnings => Messages.Any() && Messages.All(x => x.IsWarning);
         public IEnumerable<SimpleMessage> Messages { get; set; }
 
         public static IOperationResult CreateSuccess()
@@ -47,7 +47,7 @@ namespace Aiirh.Basic.Messages
 
         public static IOperationResult CreateError(Exception e)
         {
-            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogInnerExceptions()).MakeCollection();
+            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Error(e.Message, e.LogInnerExceptions()).MakeCollection();
             return new OperationResult
             {
                 Messages = messages
@@ -58,7 +58,7 @@ namespace Aiirh.Basic.Messages
         {
             return new OperationResult
             {
-                Messages = messages.Select(x => SimpleMessage.Simple(x, null))
+                Messages = messages.Select(x => SimpleMessage.Error(x, null))
             };
         }
 
@@ -74,7 +74,7 @@ namespace Aiirh.Basic.Messages
         {
             return new OperationResult
             {
-                Messages = SimpleMessage.Simple(message, null).MakeCollection()
+                Messages = SimpleMessage.Error(message, null).MakeCollection()
             };
         }
 
@@ -82,7 +82,7 @@ namespace Aiirh.Basic.Messages
         {
             return new OperationResult
             {
-                Messages = SimpleMessage.Simple(header, description).MakeCollection()
+                Messages = SimpleMessage.Error(header, description).MakeCollection()
             };
         }
 
@@ -160,7 +160,7 @@ namespace Aiirh.Basic.Messages
 
         public static OperationResult<T> CreateError(Exception e, T data = default)
         {
-            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Simple(e.Message, e.LogInnerExceptions()).MakeCollection();
+            var messages = e is SimpleException se ? se.Messages : SimpleMessage.Error(e.Message, e.LogInnerExceptions()).MakeCollection();
             return new OperationResult<T>
             {
                 Messages = messages,
@@ -172,7 +172,7 @@ namespace Aiirh.Basic.Messages
         {
             return new OperationResult<T>
             {
-                Messages = SimpleMessage.Simple(header, e.Message).MakeCollection(),
+                Messages = SimpleMessage.Error(header, e.Message).MakeCollection(),
                 Data = default
             };
         }
@@ -181,7 +181,7 @@ namespace Aiirh.Basic.Messages
         {
             return new OperationResult<T>
             {
-                Messages = messages.Select(x => SimpleMessage.Simple(x, null)),
+                Messages = messages.Select(x => SimpleMessage.Error(x, null)),
                 Data = data
             };
         }
@@ -190,7 +190,7 @@ namespace Aiirh.Basic.Messages
         {
             return new OperationResult<T>
             {
-                Messages = SimpleMessage.Simple(message, null).MakeCollection(),
+                Messages = SimpleMessage.Error(message, null).MakeCollection(),
                 Data = data
             };
         }
@@ -199,7 +199,7 @@ namespace Aiirh.Basic.Messages
         {
             return new OperationResult<T>
             {
-                Messages = SimpleMessage.Simple(header, message).MakeCollection(),
+                Messages = SimpleMessage.Error(header, message).MakeCollection(),
                 Data = data
             };
         }

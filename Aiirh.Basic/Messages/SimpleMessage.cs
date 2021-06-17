@@ -4,9 +4,10 @@
     {
         public string Header { get; set; }
         public string Description { get; set; }
-        public bool IsSimpleError => Type == Type.Simple;
-        public bool IsValidationError => Type == Type.ValidationError;
-        public bool IsValidationWarning => Type == Type.ValidationWarning;
+        public bool IsSimpleMessage => Type == Type.Simple;
+        public bool IsError => Type == Type.Error;
+        public bool IsWarning => Type == Type.Warning;
+        public bool IsWarningOrSimpleMessage => IsSimpleMessage || IsWarning;
         public Type Type { get; set; }
 
         private SimpleMessage() { }
@@ -21,13 +22,23 @@
             };
         }
 
+        public static SimpleMessage Error(string header, string description)
+        {
+            return new SimpleMessage
+            {
+                Header = header,
+                Description = description,
+                Type = Type.Error
+            };
+        }
+
         public static SimpleMessage Validation(string header, string description, ValidationMessageSeverity severity)
         {
             return new SimpleMessage
             {
                 Header = header,
                 Description = description,
-                Type = severity == ValidationMessageSeverity.Warning ? Type.ValidationWarning : Type.ValidationError
+                Type = severity == ValidationMessageSeverity.Warning ? Type.Warning : Type.Error
             };
         }
 

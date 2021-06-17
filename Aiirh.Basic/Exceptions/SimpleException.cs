@@ -4,7 +4,6 @@ using System.Linq;
 using Aiirh.Basic.Messages;
 using Aiirh.Basic.Utilities;
 using Aiirh.Basic.Validation;
-using Type = Aiirh.Basic.Messages.Type;
 
 namespace Aiirh.Basic.Exceptions
 {
@@ -20,27 +19,14 @@ namespace Aiirh.Basic.Exceptions
 
         public SimpleException(ValidationMessages messages) : this(messages.AsEnumerable()) { }
 
-        private SimpleException(string header, string description, Type exceptionType, Exception innerException) : base(MessageBuilder.BuildMessage(header, description), innerException)
+        private SimpleException(string header, string description, Exception innerException) : base(MessageBuilder.BuildMessage(header, description), innerException)
         {
-            switch (exceptionType)
-            {
-                case Type.ValidationError:
-                    Messages = SimpleMessage.Validation(header, description, ValidationMessageSeverity.Error).MakeCollection();
-                    break;
-                case Type.ValidationWarning:
-                    Messages = SimpleMessage.Validation(header, description, ValidationMessageSeverity.Warning).MakeCollection();
-                    break;
-                case Type.Simple:
-                default:
-                    Messages = SimpleMessage.Simple(header, description).MakeCollection();
-                    break;
-            }
+            Messages = SimpleMessage.Error(header, description).MakeCollection();
         }
 
-        public SimpleException(string header, string description, Type exceptionType) : this(header, description, exceptionType, null) { }
-        public SimpleException(string header, string description) : this(header, description, Type.Simple) { }
+        public SimpleException(string header, string description) : this(header, description, null) { }
         public SimpleException(string header) : this(header, (string)null) { }
-        public SimpleException(string header, Exception innerException) : this(header, null, Type.Simple, innerException) { }
+        public SimpleException(string header, Exception innerException) : this(header, null, innerException) { }
 
         public SimpleException(IOperationResult operationResult) : base(string.Join(";", operationResult.Messages.Select(x => MessageBuilder.BuildMessage(x.Header, x.Description))))
         {

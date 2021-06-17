@@ -15,10 +15,10 @@ namespace Aiirh.Basic.Validation
             {
                 switch (Message.Type)
                 {
-                    case Type.ValidationWarning:
-                        return ValidationMessageSeverity.Warning;
-                    case Type.ValidationError:
                     case Type.Simple:
+                    case Type.Warning:
+                        return ValidationMessageSeverity.Warning;
+                    case Type.Error:
                     default:
                         return ValidationMessageSeverity.Error;
                 }

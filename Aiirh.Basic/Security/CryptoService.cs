@@ -24,14 +24,16 @@ namespace Aiirh.Basic.Security
 
         public static string MD5Hash(this string input)
         {
-            using var md5 = MD5.Create();
-            var result = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-            var sBuilder = new StringBuilder();
-            for (var i = 0; i < result.Length; i++)
+            var hash = new StringBuilder();
+            var md5Provider = new MD5CryptoServiceProvider();
+            var bytes = md5Provider.ComputeHash(new UTF8Encoding().GetBytes(input));
+
+            foreach (var @byte in bytes)
             {
-                sBuilder.Append(i.ToString("x2"));
+                hash.Append(@byte.ToString("x2"));
             }
-            return sBuilder.ToString();
+
+            return hash.ToString();
         }
 
         public static string MD5Base64Encoded(this string input)

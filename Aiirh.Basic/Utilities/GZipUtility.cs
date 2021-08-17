@@ -31,10 +31,8 @@ namespace Aiirh.Basic.Utilities
                 return data;
             }
             var newData = new MemoryStream();
-            await using (var stream = new GZipStream(newData, CompressionMode.Compress))
-            {
-                await stream.WriteAsync(data, 0, data.Length);
-            }
+            using var stream = new GZipStream(newData, CompressionMode.Compress);
+            await stream.WriteAsync(data, 0, data.Length);
             return newData.ToArray();
         }
 
@@ -46,10 +44,8 @@ namespace Aiirh.Basic.Utilities
             }
             var oldData = new MemoryStream(data);
             var newData = new MemoryStream();
-            await using (var stream = new GZipStream(oldData, CompressionMode.Decompress))
-            {
-                await stream.CopyToAsync(newData);
-            }
+            using var stream = new GZipStream(oldData, CompressionMode.Decompress);
+            await stream.CopyToAsync(newData);
             return newData.ToArray();
         }
     }

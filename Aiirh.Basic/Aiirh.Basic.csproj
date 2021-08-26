@@ -11,9 +11,9 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services that provide basic functionality of usual web application</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>1.2.8</Version>
-		<AssemblyVersion>1.2.8.0</AssemblyVersion>
-		<FileVersion>1.2.8.0</FileVersion>
+		<Version>1.2.10</Version>
+		<AssemblyVersion>1.2.10.0</AssemblyVersion>
+		<FileVersion>1.2.10.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -23,6 +23,7 @@
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="TimeZoneConverter" Version="3.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>

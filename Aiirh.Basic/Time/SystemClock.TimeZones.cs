@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Aiirh.Basic.Time
 {
@@ -30,6 +29,7 @@ namespace Aiirh.Basic.Time
         MidAtlanticStandardTime = 075, // (GMT-02:00) Mid-Atlantic
         AzoresStandardTime = 080, // (GMT-01:00) Azores
         CapeVerdeStandardTime = 083, // (GMT-01:00) Cape Verde Islands
+        UTC = 084,
         GMTStandardTime = 085, // (GMT) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London
         GreenwichStandardTime = 090, // (GMT) Casablanca, Monrovia
         CentralEuropeStandardTime = 095, // (GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague
@@ -110,6 +110,7 @@ namespace Aiirh.Basic.Time
             { TimeZones.MidAtlanticStandardTime, "Mid-Atlantic Standard Time" },
             { TimeZones.AzoresStandardTime, "Azores Standard Time" },
             { TimeZones.CapeVerdeStandardTime, "Cape Verde Standard Time" },
+            { TimeZones.UTC, "UTC" },
             { TimeZones.GMTStandardTime, "GMT Standard Time" },
             { TimeZones.GreenwichStandardTime, "Greenwich Standard Time" },
             { TimeZones.CentralEuropeStandardTime, "Central Europe Standard Time" },
@@ -160,84 +161,6 @@ namespace Aiirh.Basic.Time
             { TimeZones.FijiIslandsStandardTime, "Fiji Islands Standard Time" },
             { TimeZones.NewZealandStandardTime, "New Zealand Standard Time" },
             { TimeZones.TongaStandardTime, "Tonga Standard Time" }
-        };
-
-        internal static Dictionary<TimeZones, TimeSpan> TimeZoneToTimeSpan => new Dictionary<TimeZones, TimeSpan> {
-            { TimeZones.DatelineStandardTime, new TimeSpan(-12, 0, 0) },
-            { TimeZones.SamoaStandardTime, new TimeSpan(-11, 0, 0) },
-            { TimeZones.HawaiianStandardTime, new TimeSpan(-10, 0, 0) },
-            { TimeZones.AlaskanStandardTime, new TimeSpan(-9, 0, 0) },
-            { TimeZones.PacificStandardTime, new TimeSpan(-8, 0, 0) },
-            { TimeZones.MountainStandardTime, new TimeSpan(-7, 0, 0) },
-            { TimeZones.MexicoStandardTime2, new TimeSpan(-7, 0, 0) },
-            { TimeZones.USMountainStandardTime, new TimeSpan(-7, 0, 0) },
-            { TimeZones.CentralStandardTime, new TimeSpan(-6, 0, 0) },
-            { TimeZones.CanadaCentralStandardTime, new TimeSpan(-6, 0, 0) },
-            { TimeZones.MexicoStandardTime, new TimeSpan(-6, 0, 0) },
-            { TimeZones.CentralAmericaStandardTime, new TimeSpan(-6, 0, 0) },
-            { TimeZones.EasternStandardTime, new TimeSpan(-5, 0, 0) },
-            { TimeZones.USEasternStandardTime, new TimeSpan(-5, 0, 0) },
-            { TimeZones.SAPacificStandardTime, new TimeSpan(-5, 0, 0) },
-            { TimeZones.AtlanticStandardTime, new TimeSpan(-4, 0, 0) },
-            { TimeZones.SAWesternStandardTime, new TimeSpan(-4, 0, 0) },
-            { TimeZones.PacificSAStandardTime, new TimeSpan(-4, 0, 0) },
-            { TimeZones.NewfoundlandandLabradorStandardTime, new TimeSpan(0, 0, 0) },
-            { TimeZones.ESouthAmericaStandardTime, new TimeSpan(-3, 0, 0) },
-            { TimeZones.SAEasternStandardTime, new TimeSpan(-3, 0, 0) },
-            { TimeZones.GreenlandStandardTime, new TimeSpan(-3, 0, 0) },
-            { TimeZones.MidAtlanticStandardTime, new TimeSpan(-2, 0, 0) },
-            { TimeZones.AzoresStandardTime, new TimeSpan(-1, 0, 0) },
-            { TimeZones.CapeVerdeStandardTime, new TimeSpan(-1, 0, 0) },
-            { TimeZones.GMTStandardTime, new TimeSpan(0, 0, 0) },
-            { TimeZones.GreenwichStandardTime, new TimeSpan(0, 0, 0) },
-            { TimeZones.CentralEuropeStandardTime, new TimeSpan(1, 0, 0) },
-            { TimeZones.CentralEuropeanStandardTime, new TimeSpan(1, 0, 0) },
-            { TimeZones.RomanceStandardTime, new TimeSpan(1, 0, 0) },
-            { TimeZones.WEuropeStandardTime, new TimeSpan(1, 0, 0) },
-            { TimeZones.WCentralAfricaStandardTime, new TimeSpan(1, 0, 0) },
-            { TimeZones.EEuropeStandardTime, new TimeSpan(2, 0, 0) },
-            { TimeZones.EgyptStandardTime, new TimeSpan(2, 0, 0) },
-            { TimeZones.FLEStandardTime, new TimeSpan(2, 0, 0) },
-            { TimeZones.GTBStandardTime, new TimeSpan(2, 0, 0) },
-            { TimeZones.IsraelStandardTime, new TimeSpan(2, 0, 0) },
-            { TimeZones.SouthAfricaStandardTime, new TimeSpan(2, 0, 0) },
-            { TimeZones.RussianStandardTime, new TimeSpan(3, 0, 0) },
-            { TimeZones.ArabStandardTime, new TimeSpan(3, 0, 0) },
-            { TimeZones.EAfricaStandardTime, new TimeSpan(3, 0, 0) },
-            { TimeZones.ArabicStandardTime, new TimeSpan(3, 0, 0) },
-            { TimeZones.IranStandardTime, new TimeSpan(3, 30, 0) },
-            { TimeZones.ArabianStandardTime, new TimeSpan(4, 0, 0) },
-            { TimeZones.CaucasusStandardTime, new TimeSpan(4, 0, 0) },
-            { TimeZones.TransitionalIslamicStateofAfghanistanStandardTime, new TimeSpan(4, 30, 0) },
-            { TimeZones.EkaterinburgStandardTime, new TimeSpan(5, 0, 0) },
-            { TimeZones.WestAsiaStandardTime, new TimeSpan(5, 0, 0) },
-            { TimeZones.IndiaStandardTime, new TimeSpan(5, 30, 0) },
-            { TimeZones.NepalStandardTime, new TimeSpan(5, 45, 0) },
-            { TimeZones.CentralAsiaStandardTime, new TimeSpan(6, 0, 0) },
-            { TimeZones.SriLankaStandardTime, new TimeSpan(6, 0, 0) },
-            { TimeZones.NCentralAsiaStandardTime, new TimeSpan(6, 0, 0) },
-            { TimeZones.MyanmarStandardTime, new TimeSpan(6, 30, 0) },
-            { TimeZones.SEAsiaStandardTime, new TimeSpan(7, 0, 0) },
-            { TimeZones.NorthAsiaStandardTime, new TimeSpan(7, 0, 0) },
-            { TimeZones.ChinaStandardTime, new TimeSpan(8, 0, 0) },
-            { TimeZones.SingaporeStandardTime, new TimeSpan(8, 0, 0) },
-            { TimeZones.TaipeiStandardTime, new TimeSpan(8, 0, 0) },
-            { TimeZones.WAustraliaStandardTime, new TimeSpan(8, 0, 0) },
-            { TimeZones.NorthAsiaEastStandardTime, new TimeSpan(8, 0, 0) },
-            { TimeZones.KoreaStandardTime, new TimeSpan(9, 0, 0) },
-            { TimeZones.TokyoStandardTime, new TimeSpan(9, 0, 0) },
-            { TimeZones.YakutskStandardTime, new TimeSpan(9, 0, 0) },
-            { TimeZones.AUSCentralStandardTime, new TimeSpan(9, 30, 0) },
-            { TimeZones.CenAustraliaStandardTime, new TimeSpan(9, 30, 0) },
-            { TimeZones.AUSEasternStandardTime, new TimeSpan(10, 0, 0) },
-            { TimeZones.EAustraliaStandardTime, new TimeSpan(10, 0, 0) },
-            { TimeZones.TasmaniaStandardTime, new TimeSpan(10, 0, 0) },
-            { TimeZones.VladivostokStandardTime, new TimeSpan(10, 0, 0) },
-            { TimeZones.WestPacificStandardTime, new TimeSpan(10, 0, 0) },
-            { TimeZones.CentralPacificStandardTime, new TimeSpan(11, 0, 0) },
-            { TimeZones.FijiIslandsStandardTime, new TimeSpan(12, 0, 0) },
-            { TimeZones.NewZealandStandardTime, new TimeSpan(12, 0, 0) },
-            { TimeZones.TongaStandardTime, new TimeSpan(13, 0, 0) }
         };
     }
 }

@@ -1,17 +1,25 @@
-﻿using System;
+﻿using Aiirh.Basic.Exceptions;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using TimeZoneConverter;
 
 namespace Aiirh.Basic.Time
 {
     public static class SystemClock
     {
-        public static DateTime Today => DateTime.Today;
+        public static DateTime Today => DateTime.UtcNow.Date;
 
         public static DateTime Now => DateTime.UtcNow;
 
         public static DateTime NowAtTimezone(TimeZones timeZone)
         {
             return TimeZoneInfo.ConvertTime(Now, FindTimeZone(timeZone));
+        }
+
+        public static DateTime TodayAtTimezone(TimeZones timeZone)
+        {
+            return NowAtTimezone(timeZone).Date;
         }
 
         /// <summary>
@@ -41,27 +49,29 @@ namespace Aiirh.Basic.Time
             return new DateTimeOffset(dateTime, offset);
         }
 
+        public static TimeZones GetTimeZoneByCurrentOffset(int offsetInMinutes, IEnumerable<TimeZones> preferredTimeZones = null)
+        {
+            var nowUtc = DateTime.UtcNow;
+            var allTimeZonesCurrentOffsets = TimeZoneInfo.GetSystemTimeZones();
+            var timeZonesThatMatch = allTimeZonesCurrentOffsets.Where(x => x.GetUtcOffset(nowUtc).TotalMinutes.Equals(offsetInMinutes)).Select(x => x.StandardName);
+            var timeZones = TimeZoneMapping.TimeZoneToName.Where(x => timeZonesThatMatch.Contains(x.Value, StringComparer.InvariantCultureIgnoreCase)).Select(x => x.Key);
+            var preferredTimeZonesList = preferredTimeZones?.ToList();
+            var targetTimeZones = preferredTimeZones == null || !preferredTimeZonesList.Any() ? timeZones : timeZones.Intersect(preferredTimeZonesList);
+            return targetTimeZones.FirstOrDefault();
+        }
+
         private static TimeZoneInfo FindTimeZone(TimeZones timeZone)
         {
             var timeZoneCode = TimeZoneMapping.TimeZoneToName[timeZone];
             try
             {
-                return TimeZoneInfo.FindSystemTimeZoneById(timeZoneCode);
+                var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneCode);
+                return timeZoneInfo;
             }
             catch
             {
-                var allTimeZones = TimeZoneInfo.GetSystemTimeZones();
-                var timeZoneSpanAgainstGmt = TimeZoneMapping.TimeZoneToTimeSpan[timeZone];
-                var gmtOffsetAgainstUtc = allTimeZones.First(x => x.Id == "GMT Standard Time").BaseUtcOffset;
-                var timeZoneOffsetAgainstUtc = timeZoneSpanAgainstGmt + gmtOffsetAgainstUtc;
-                var nearestTimezone = allTimeZones.FirstOrDefault(x => !x.SupportsDaylightSavingTime && x.BaseUtcOffset.Equals(timeZoneOffsetAgainstUtc));
-                return nearestTimezone;
+                throw new SimpleException($"Timezone {timeZone} is not supported by the system");
             }
-        }
-
-        public static string GetTimeZoneCode(TimeZones timeZone)
-        {
-            return TimeZoneMapping.TimeZoneToName.TryGetValue(timeZone, out var timeZoneCode) ? timeZoneCode : null;
         }
     }
 }

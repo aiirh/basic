@@ -92,6 +92,22 @@ namespace Aiirh.CommonLibraries.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        [TestCaseSource(nameof(GetTestEmbedded))]
+        public void IsEmbedded(NumericRange currentRange, NumericRange anotherRange, bool expected, string testId)
+        {
+            var actual = NumericRangeExtensions.IsEmbedded(currentRange, anotherRange);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetTestEmbeddedMultiple))]
+        public void IsEmbeddedMultiple(IEnumerable<NumericRange> currentRanges, NumericRange anotherRange, bool expected, string testId)
+        {
+            var actual = currentRanges.IsEmbedded(anotherRange);
+            Assert.AreEqual(expected, actual);
+        }
+
         private static IEnumerable<TestCaseData> GetTestDataForGroups()
         {
             var input1 = new[] { new NumericRange(10, 15), new NumericRange(1, 4), new NumericRange(1, 6), new NumericRange(9, 10) };
@@ -288,6 +304,29 @@ namespace Aiirh.CommonLibraries.Tests
             yield return new TestCaseData(new NumericRange(1, 10), new NumericRange(11, 20), true, "8DC4A605-28C5-42B8-9B06-D258E2EC58FF");
             yield return new TestCaseData(new NumericRange(1, 10), new NumericRange(12, 20), false, "2C8C85FC-1779-4FFE-B624-C3B5BFA9C8A4");
             yield return new TestCaseData(new NumericRange(1, 10), new NumericRange(-10, -1), false, "5BABC9D4-5FE0-4CBA-BE11-2B3802F11829");
+        }
+
+        private static IEnumerable<TestCaseData> GetTestEmbedded()
+        {
+            yield return new TestCaseData(new NumericRange(1, 10), new NumericRange(1, 10), true, "06F9C9DB-5637-4B3D-B941-A64BA8F1D071");
+            yield return new TestCaseData(new NumericRange(1, 10), new NumericRange(0, 11), false, "CD5752F4-5132-4B95-A3C3-41ACC7B9229A");
+            yield return new TestCaseData(new NumericRange(0, 11), new NumericRange(1, 10), true, "CD5752F4-5132-4B95-A3C3-41ACC7B9229A");
+        }
+
+        private static IEnumerable<TestCaseData> GetTestEmbeddedMultiple()
+        {
+            var current = new NumericRange(3, 7);
+            var testSet1 = new[] { new NumericRange(1, 3), new NumericRange(4, 5), new NumericRange(7, 10) };
+            var testSet2 = new[] { new NumericRange(1, 2), new NumericRange(3, 7), new NumericRange(9, 10) };
+            var testSet3 = new[] { new NumericRange(0, 1), new NumericRange(2, 8), new NumericRange(10, 11) };
+            var testSet4 = new[] { new NumericRange(-10, -5), new NumericRange(0, 2), new NumericRange(3, 11) };
+            var testSet5 = new[] { new NumericRange(-10, -5), new NumericRange(0, 6), new NumericRange(8, 11) };
+
+            yield return new TestCaseData(testSet1, current, false, "94F6AAB7-463F-4699-A7A7-77675CEDFA22");
+            yield return new TestCaseData(testSet2, current, true, "AC88CFBB-E56D-47B3-AA4B-EE60A28CAC9E");
+            yield return new TestCaseData(testSet3, current, true, "0B497E22-36C4-47B0-991A-115D112C1E65");
+            yield return new TestCaseData(testSet4, current, true, "4F07702F-BFA0-4D8D-80A9-4805D381799C");
+            yield return new TestCaseData(testSet5, current, false, "3116C509-19A6-4E29-A99F-97A2F3992AC7");
         }
     }
 }

@@ -165,12 +165,28 @@ namespace Aiirh.Basic.Collections
             return result;
         }
 
+        /// <summary>
+        /// Checks if another range is embedded to current.
+        /// </summary>
+        /// <param name="current">Range, that is checked to be "wider" then another.</param>
+        /// <param name="another">Range, that is checked to be "inside" current.</param>
+        /// <returns>True if another range is embedded to current.</returns>
+        public static bool IsEmbedded(NumericRange current, NumericRange another)
+        {
+            return current.Begin <= another.Begin && current.End >= another.End;
+        }
+
+        public static bool IsEmbedded(this IEnumerable<NumericRange> ranges, NumericRange range)
+        {
+            return ranges.Any(x => IsEmbedded(x, range));
+        }
+
         public static bool Intersects(this NumericRange current, NumericRange another, out NumericRange first, out NumericRange second, bool borderIncluded = true)
         {
             var isCurrentGreater = current.CompareTo(another) > 0;
             first = isCurrentGreater ? another : current;
             second = isCurrentGreater ? current : another;
-            var isEmbedded = first.Begin <= second.Begin && first.End >= second.End;
+            var isEmbedded = IsEmbedded(first, second);
             var borderShift = borderIncluded ? 1 : 0;
             return isEmbedded || second.Begin < first.End + borderShift;
         }

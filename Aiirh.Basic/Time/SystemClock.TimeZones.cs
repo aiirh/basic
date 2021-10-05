@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Aiirh.Basic.Time
 {
+    [Obsolete("Use Aiirh.DateAndTime package")]
     public enum TimeZones
     {
         DatelineStandardTime = 000, // (GMT-12:00) International Date Line West
@@ -82,8 +84,10 @@ namespace Aiirh.Basic.Time
         TongaStandardTime = 300 // (GMT+13:00) Nuku'alofa
     }
 
+    [Obsolete("Use Aiirh.DateAndTime package")]
     internal static class TimeZoneMapping
     {
+        [Obsolete("Use Aiirh.DateAndTime package")]
         internal static Dictionary<TimeZones, string> TimeZoneToName => new Dictionary<TimeZones, string> {
             { TimeZones.DatelineStandardTime, "Dateline Standard Time" },
             { TimeZones.SamoaStandardTime, "Samoa Standard Time" },

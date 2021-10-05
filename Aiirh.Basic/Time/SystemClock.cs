@@ -6,6 +6,7 @@ using TimeZoneConverter;
 
 namespace Aiirh.Basic.Time
 {
+    [Obsolete("Use Aiirh.DateAndTime package")]
     public static class SystemClock
     {
         public static DateTime Today => DateTime.UtcNow.Date;

@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<LangVersion>8.0</LangVersion>
-		<Product>Aiirh Common Libraries</Product>
+		<Product>Aiirh Web Tools</Product>
 		<Company />
 		<Authors>Evgenii Baleevskii</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

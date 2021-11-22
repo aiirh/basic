@@ -16,6 +16,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.DateAndTime", "Aiirh.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.WebTools", "Aiirh.WebTools\Aiirh.WebTools.csproj", "{0AE06455-FB74-47C0-8FEF-AFD9435D941A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.DatabaseTools", "Aiirh.DatabaseTools\Aiirh.DatabaseTools.csproj", "{34935BCD-5625-4205-BF83-644CF8616E7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{0AE06455-FB74-47C0-8FEF-AFD9435D941A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AE06455-FB74-47C0-8FEF-AFD9435D941A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AE06455-FB74-47C0-8FEF-AFD9435D941A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34935BCD-5625-4205-BF83-644CF8616E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34935BCD-5625-4205-BF83-644CF8616E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34935BCD-5625-4205-BF83-644CF8616E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34935BCD-5625-4205-BF83-644CF8616E7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

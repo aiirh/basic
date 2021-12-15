@@ -33,6 +33,9 @@ namespace Aiirh.CommonLibraries.Tests
 
         private static IEnumerable<TestCaseData> GetTestCasesTimeCreate()
         {
+            yield return new TestCaseData("00", new Time(0, 0, 0));
+            yield return new TestCaseData("06", new Time(6, 0, 0));
+            yield return new TestCaseData("1210", new Time(12, 10, 0));
             yield return new TestCaseData("00:01:02", new Time(0, 1, 2));
             yield return new TestCaseData("23:59:59", new Time(23, 59, 59));
             yield return new TestCaseData("12:00:34", new Time(12, 0, 34));

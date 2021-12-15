@@ -17,13 +17,23 @@ namespace Aiirh.DateAndTime
         {
             string numericTime = new string(time.Where(char.IsDigit).ToArray());
             Hours = byte.Parse(numericTime[..2]);
-            Minutes = byte.Parse(numericTime.Substring(2, 2));
-            Seconds = numericTime.Length switch
+
+            switch (numericTime.Length)
             {
-                4 => 0,
-                6 => byte.Parse(numericTime.Substring(4, 2)),
-                _ => throw new SimpleException($@"Value ""{time}"" can't be parsed as a Time struct")
-            };
+                case 2:
+                    Minutes = 0;
+                    Seconds = 0;
+                    return;
+                default:
+                    Minutes = byte.Parse(numericTime.Substring(2, 2));
+                    Seconds = numericTime.Length switch
+                    {
+                        4 => 0,
+                        6 => byte.Parse(numericTime.Substring(4, 2)),
+                        _ => throw new SimpleException($@"Value ""{time}"" can't be parsed as a Time struct")
+                    };
+                    return;
+            }
         }
 
         public Time(DateTime dateTime) : this(dateTime.Hour, dateTime.Minute, dateTime.Second)
@@ -137,10 +147,9 @@ namespace Aiirh.DateAndTime
             return a > b || a == b;
         }
 
-        [Obsolete("Use .Format(string) method instead", true)]
         public override string ToString()
         {
-            return $"{Hours:D2}{Minutes:D2}";
+            return $"{Hours:D2}:{Minutes:D2}:{Seconds:D2}";
         }
 
         /// <summary>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Aiirh.Basic.Exceptions;
+using System;
+using System.Linq;
+using System.Text;
 
 namespace Aiirh.DateAndTime
 {
@@ -6,47 +9,58 @@ namespace Aiirh.DateAndTime
     {
         public byte Hours { get; }
         public byte Minutes { get; }
+        public byte Seconds { get; }
 
-        private int TotalSeconds => (Hours * 3600) + (Minutes * 60);
+        private int TotalSeconds => (Hours * 3600) + (Minutes * 60) + Seconds;
 
-        public Time(string time) : this(int.Parse(time[..2]), time.Length <= 3 ? 0 : int.Parse(time.Substring(time.Length - 2, 2)))
+        public Time(string time)
+        {
+            string numericTime = new string(time.Where(char.IsDigit).ToArray());
+            Hours = byte.Parse(numericTime[..2]);
+            Minutes = byte.Parse(numericTime.Substring(2, 2));
+            Seconds = numericTime.Length switch
+            {
+                4 => 0,
+                6 => byte.Parse(numericTime.Substring(4, 2)),
+                _ => throw new SimpleException($@"Value ""{time}"" can't be parsed as a Time struct")
+            };
+        }
+
+        public Time(DateTime dateTime) : this(dateTime.Hour, dateTime.Minute, dateTime.Second)
         {
         }
 
-        public Time(DateTime dateTime) : this(dateTime.Hour, dateTime.Minute)
-        {
-        }
-
-        public Time(int hours, int minutes)
+        public Time(int hours, int minutes, int seconds)
         {
             Hours = (byte)hours;
             Minutes = (byte)minutes;
+            Seconds = (byte)seconds;
         }
 
         public DateTime ToDateTime(Date date)
         {
             var dateTime = date.ToDateTime();
-            return dateTime.AddHours(Hours).AddMinutes(Minutes);
+            return dateTime.AddHours(Hours).AddMinutes(Minutes).AddSeconds(Seconds);
         }
 
-        public Time AddMinutes(byte minutes)
+        public Time AddMinutes(int minutes)
         {
-            var hoursToAdd = (byte)((Minutes + minutes) / 60);
-            var hoursToSet = CalculateNewHours(hoursToAdd);
-            var minutesToSet = CalculateNewMinutes(minutes);
-            return new Time(hoursToSet, minutesToSet);
+            var dateTime = new DateTime(1970, 1, 1, Hours, Minutes, Seconds, DateTimeKind.Utc);
+            var result = dateTime.AddMinutes(minutes);
+            return new Time(result.Hour, result.Minute, result.Second);
         }
 
-        public Time AddHours(byte hours)
+        public Time AddHours(int hours)
         {
-            var newHours = (Hours + hours) % 24;
-            return new Time(newHours, Minutes);
+            var dateTime = new DateTime(1970, 1, 1, Hours, Minutes, Seconds, DateTimeKind.Utc);
+            var result = dateTime.AddHours(hours);
+            return new Time(result.Hour, result.Minute, result.Second);
         }
 
         public Time Floor(byte precisionInMinutes)
         {
             var adjustedMinutes = (int)(Math.Floor(Minutes / (float)precisionInMinutes) * precisionInMinutes);
-            return new Time(Hours, adjustedMinutes);
+            return new Time(Hours, adjustedMinutes, 0);
         }
 
         public Time Ceiling(byte precisionInMinutes)
@@ -65,17 +79,12 @@ namespace Aiirh.DateAndTime
                 minutesToSet = adjustedMinutes;
             }
 
-            return new Time(hoursToSet, minutesToSet);
+            return new Time(hoursToSet, minutesToSet, 0);
         }
 
         private int CalculateNewHours(byte hours)
         {
             return (Hours + hours) % 24;
-        }
-
-        private int CalculateNewMinutes(byte minutes)
-        {
-            return (Minutes + minutes) % 60;
         }
 
         public override bool Equals(object obj)
@@ -90,12 +99,12 @@ namespace Aiirh.DateAndTime
 
         public bool Equals(Time other)
         {
-            return Hours == other.Hours && Minutes == other.Minutes;
+            return Hours == other.Hours && Minutes == other.Minutes && Seconds == other.Seconds;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Hours, Minutes);
+            return HashCode.Combine(Hours, Minutes, Seconds);
         }
 
         public static bool operator ==(Time a, Time b)
@@ -128,9 +137,24 @@ namespace Aiirh.DateAndTime
             return a > b || a == b;
         }
 
+        [Obsolete("Use .Format(string) method instead", true)]
         public override string ToString()
         {
             return $"{Hours:D2}{Minutes:D2}";
+        }
+
+        /// <summary>
+        /// Returns string representation of a Time struct. Default value is HH:mm:ss
+        /// </summary>
+        /// <param name="format">Possible placeholders: HH - hours, mm - minutes, ss - seconds.</param>
+        /// <returns></returns>
+        public string Format(string format = "HH:mm:ss")
+        {
+            var result = new StringBuilder(format);
+            result = result.Replace("HH", $"{Hours:D2}");
+            result = result.Replace("mm", $"{Minutes:D2}");
+            result = result.Replace("ss", $"{Seconds:D2}");
+            return result.ToString();
         }
 
         public int CompareTo(Time other)

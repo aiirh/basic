@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,22 +8,7 @@ namespace Aiirh.Basic.Utilities
 {
     public static class GZipUtility
     {
-        public static byte[] _gZipHeaderBytes = { 0x1f, 0x8b };
-
-        public static bool IsPossiblyGZippedBytes(byte[] a)
-        {
-            if (a == null || a.Length < 11)
-            {
-                return false;
-            }
-
-            return !_gZipHeaderBytes.Where((t, i) => t != a[i]).Any();
-        }
-
-        public static bool IsCompressNeeded(this byte[] data)
-        {
-            return data != null && data.Length > 360 && !IsPossiblyGZippedBytes(data);
-        }
+        private static readonly byte[] GZipHeaderBytes = { 0x1f, 0x8b };
 
         public static async Task<byte[]> CompressAsync(this byte[] data)
         {
@@ -30,7 +16,8 @@ namespace Aiirh.Basic.Utilities
             {
                 return data;
             }
-            var newData = new MemoryStream();
+
+            using var newData = new MemoryStream();
             using var stream = new GZipStream(newData, CompressionMode.Compress);
             await stream.WriteAsync(data, 0, data.Length);
             return newData.ToArray();
@@ -42,11 +29,27 @@ namespace Aiirh.Basic.Utilities
             {
                 return data;
             }
-            var oldData = new MemoryStream(data);
-            var newData = new MemoryStream();
+
+            using var oldData = new MemoryStream(data);
+            using var newData = new MemoryStream();
             using var stream = new GZipStream(oldData, CompressionMode.Decompress);
             await stream.CopyToAsync(newData);
             return newData.ToArray();
+        }
+
+        private static bool IsCompressNeeded(this IReadOnlyList<byte> data)
+        {
+            return data != null && data.Count > 360 && !IsPossiblyGZippedBytes(data);
+        }
+
+        private static bool IsPossiblyGZippedBytes(IReadOnlyList<byte> a)
+        {
+            if (a == null || a.Count < 11)
+            {
+                return false;
+            }
+
+            return !GZipHeaderBytes.Where((t, i) => t != a[i]).Any();
         }
     }
 }

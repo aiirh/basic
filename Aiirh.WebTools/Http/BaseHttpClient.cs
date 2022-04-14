@@ -2,7 +2,6 @@
 
 namespace Aiirh.WebTools.Http
 {
-
     public abstract class BaseHttpClient
     {
         private readonly IHttpClientBuilder _httpClientBuilder;

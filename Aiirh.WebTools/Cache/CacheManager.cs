@@ -1,5 +1,4 @@
 ﻿using Aiirh.Basic.Utilities;
-using Aiirh.DateAndTime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +95,7 @@ namespace Aiirh.WebTools.Cache
 
         private bool IsEntryValid(CacheValueEntry ret)
         {
-            return SystemClock.Now - ret.LastWrite < CacheDuration;
+            return DateTime.UtcNow - ret.LastWrite < CacheDuration;
         }
 
         public void Add(TKey key, TResult data)
@@ -106,12 +105,12 @@ namespace Aiirh.WebTools.Cache
                 // seems like you must remove key from dictionary before you can readd it
                 // internalCache.Remove(key);
                 var val = _internalCache[key];
-                val.LastWrite = SystemClock.Now;
+                val.LastWrite = DateTime.UtcNow;
                 val.Value = data;
             }
             else
             {
-                _internalCache.Add(key, new CacheValueEntry { LastWrite = SystemClock.Now, Value = data });
+                _internalCache.Add(key, new CacheValueEntry { LastWrite = DateTime.UtcNow, Value = data });
             }
 
             if (_internalCache.Count > MaxKeysInCache)
@@ -130,7 +129,7 @@ namespace Aiirh.WebTools.Cache
                     }
 
                     // Remove also expired keys
-                    var now = SystemClock.Now;
+                    var now = DateTime.UtcNow;
                     foreach (var keyValue in _internalCache.Where(w => now - w.Value.LastWrite >= CacheDuration).ToList())
                     {
                         _internalCache.Remove(keyValue.Key);
@@ -174,7 +173,7 @@ namespace Aiirh.WebTools.Cache
 
         public bool ContainsExpiredEntries(TimeSpan timeToExpiration = default(TimeSpan))
         {
-            return _internalCache.Count == 0 || _internalCache.Any(w => (SystemClock.Now - w.Value.LastWrite).Add(timeToExpiration) >= CacheDuration);
+            return _internalCache.Count == 0 || _internalCache.Any(w => (DateTime.UtcNow - w.Value.LastWrite).Add(timeToExpiration) >= CacheDuration);
         }
 
         public DateTime GetItemLastWrite(TKey key)

@@ -20,10 +20,6 @@ namespace Aiirh.WebTools
             var optionsToUse = new AiirhRegistrationOptions();
             options.Invoke(optionsToUse);
 
-            if (!string.IsNullOrWhiteSpace(optionsToUse.CryptoServicePassPhrase))
-            {
-                CryptoService.Init(optionsToUse.CryptoServicePassPhrase);
-            }
             ApiSignatureManager.Init(optionsToUse.ApiSignatureOptions);
             MemoryCacheManager.Init(optionsToUse.DisableCache);
         }
@@ -31,8 +27,6 @@ namespace Aiirh.WebTools
 
     public class AiirhRegistrationOptions
     {
-        public string CryptoServicePassPhrase { get; set; }
-
         public bool DisableCache { get; set; } = false;
 
         public ApiSignatureOptions ApiSignatureOptions { get; set; } = new ApiSignatureOptions();

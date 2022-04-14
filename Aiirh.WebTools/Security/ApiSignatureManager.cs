@@ -1,5 +1,4 @@
-﻿using Aiirh.DateAndTime;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +44,7 @@ namespace Aiirh.WebTools.Security
 
             var privateKey = _configuration[$"ApiSecurityKeys:{apiType}ApiPrivateKey"] ?? string.Empty;
             var publicKey = _configuration[$"ApiSecurityKeys:{apiType}ApiPublicKey"] ?? string.Empty;
-            var utcNow = SystemClock.Now;
+            var utcNow = DateTime.UtcNow;
             baseUrl += (prefixAdded ? string.Empty : "&") + "key=" + HttpUtility.UrlEncode(publicKey) + "&utcDate=" + HttpUtility.UrlEncode(utcNow.ToString("s")) + "&hash=" + HttpUtility.UrlEncode(GetHash(publicKey, privateKey, utcNow, additionalArgs));
 
             return baseUrl;
@@ -58,7 +57,7 @@ namespace Aiirh.WebTools.Security
                 return;
             }
 
-            var dateNow = SystemClock.Now;
+            var dateNow = DateTime.UtcNow;
             var privateKey = _configuration[$"ApiSecurityKeys:{apiType}ApiPrivateKey"] ?? string.Empty;
             var publicKey = _configuration[$"ApiSecurityKeys:{apiType}ApiPublicKey"] ?? string.Empty;
 

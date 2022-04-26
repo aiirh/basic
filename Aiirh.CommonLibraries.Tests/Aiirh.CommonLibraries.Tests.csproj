@@ -17,6 +17,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Aiirh.Basic\Aiirh.Basic.csproj" />
+		<ProjectReference Include="..\Aiirh.Crypto\Aiirh.Crypto.csproj" />
 		<ProjectReference Include="..\Aiirh.DateAndTime\Aiirh.DateAndTime.csproj" />
 	</ItemGroup>
 

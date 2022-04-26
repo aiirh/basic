@@ -59,7 +59,7 @@ namespace Aiirh.Crypto
                 using var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes);
                 using var memoryStream = new MemoryStream();
                 using var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
-                memoryStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+
                 cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
                 cryptoStream.FlushFinalBlock();
 
@@ -101,7 +101,8 @@ namespace Aiirh.Crypto
                 var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
                 var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(SecretKeySize / 8).ToArray();
                 var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(SecretKeySize / 8).Take(SecretKeySize / 8).ToArray();
-                var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(SecretKeySize / 8 * 2)
+                var cipherTextBytes = cipherTextBytesWithSaltAndIv
+                    .Skip(SecretKeySize / 8 * 2)
                     .Take(cipherTextBytesWithSaltAndIv.Length - (SecretKeySize / 8 * 2)).ToArray();
 
                 using var password = new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations);
@@ -117,13 +118,8 @@ namespace Aiirh.Crypto
                 using var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes);
                 using var memoryStream = new MemoryStream(cipherTextBytes);
                 using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
-                var plainTextBytes = new byte[cipherTextBytes.Length];
-                var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-
-                memoryStream.Close();
-                cryptoStream.Close();
-
-                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                using var plainTextReader = new StreamReader(cryptoStream);
+                return plainTextReader.ReadToEnd();
             }
             catch (Exception e)
             {

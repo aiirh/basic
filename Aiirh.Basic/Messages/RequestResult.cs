@@ -15,9 +15,6 @@ namespace Aiirh.Basic.Messages
 
         public IEnumerable<SimpleMessage> Messages { get; protected set; }
 
-        /// <summary>
-        /// Used in frontend
-        /// </summary>
         public bool SuccessOrOnlyWarnings => IsExplicitSuccess ?? Messages?.All(x => x.IsWarningOrSimpleMessage) ?? true;
 
         public static RequestResult CreateFromOperationResult(IOperationResult operationResult)

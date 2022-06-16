@@ -5,6 +5,7 @@ namespace Aiirh.Basic.Validation
     public class ValidationCheck
     {
         public bool IsValid { get; private set; }
+
         public ValidationMessage Message { get; private set; }
 
         private ValidationCheck() { }

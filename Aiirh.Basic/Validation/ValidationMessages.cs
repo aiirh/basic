@@ -10,6 +10,7 @@ namespace Aiirh.Basic.Validation
         private readonly List<ValidationMessage> _messages = new List<ValidationMessage>();
 
         public bool IsValid => !_messages.Any();
+
         public bool IsValidOrOnlyWarnings => IsValid || _messages.All(x => x.Severity == ValidationMessageSeverity.Warning);
 
         public ValidationMessage this[int index]
@@ -56,7 +57,7 @@ namespace Aiirh.Basic.Validation
             _messages.AddRange(messages);
         }
 
-        public string GetApiMessages()
+        public string GetMessagesAsString()
         {
             return string.Join("; ", _messages.Select(x => x.ToString()));
         }
@@ -72,7 +73,7 @@ namespace Aiirh.Basic.Validation
                     : string.Join("|", errors, warnings);
         }
 
-        public IEnumerable<SimpleMessage> GetWebMessages()
+        public IEnumerable<SimpleMessage> GetMessages()
         {
             return _messages.Select(x => x.Message);
         }

@@ -1,4 +1,4 @@
-﻿using Aiirh.Basic.Entities;
+﻿using Aiirh.DatabaseTools.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

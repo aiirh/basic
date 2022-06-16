@@ -1,5 +1,4 @@
-﻿using Aiirh.Basic.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TimeZoneConverter;
@@ -70,9 +69,8 @@ namespace Aiirh.DateAndTime
             }
             catch
             {
-                throw new SimpleException($"Timezone {timeZone} is not supported by the system");
+                throw new InvalidTimeZoneException($"Timezone {timeZone} is not supported by the system");
             }
         }
-
     }
 }

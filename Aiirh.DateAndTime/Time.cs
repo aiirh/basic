@@ -1,4 +1,4 @@
-﻿using Aiirh.Basic.Exceptions;
+﻿using Aiirh.DateAndTime.Exceptions;
 using System;
 using System.Linq;
 using System.Text;
@@ -30,7 +30,7 @@ namespace Aiirh.DateAndTime
                     {
                         4 => 0,
                         6 => byte.Parse(numericTime.Substring(4, 2)),
-                        _ => throw new SimpleException($@"Value ""{time}"" can't be parsed as a Time struct")
+                        _ => throw new InvalidTimeFormatException($@"Value ""{time}"" can't be parsed as a Time struct")
                     };
                     return;
             }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Aiirh.Basic.Entities
+namespace Aiirh.DatabaseTools.Entities
 {
     public interface IHasGuidId
     {

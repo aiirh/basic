@@ -24,7 +24,9 @@ namespace Aiirh.Basic.Messages
     public class OperationResult : IOperationResult
     {
         public bool Success { get; set; }
+
         public bool HasOnlyWarnings => Messages.Any() && Messages.All(x => x.IsWarning);
+
         public IEnumerable<SimpleMessage> Messages { get; set; }
 
         public static IOperationResult CreateSuccess()
@@ -62,7 +64,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult CreateError(IEnumerable<SimpleMessage> messages)
+        public static IOperationResult CreateError(IEnumerable<SimpleMessage> messages)
         {
             return new OperationResult
             {
@@ -102,7 +104,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult CreateErrorFromOperationResult(IOperationResult result)
+        public static IOperationResult CreateErrorFromOperationResult(IOperationResult result)
         {
             var operationResult = result as OperationResult;
             return new OperationResult
@@ -117,7 +119,7 @@ namespace Aiirh.Basic.Messages
     {
         public T Data { get; set; }
 
-        public static OperationResult<T> CreateFromOperationResult(IOperationResult result, T data)
+        public static IOperationResult<T> CreateFromOperationResult(IOperationResult result, T data)
         {
             var operationResult = result as OperationResult;
             return new OperationResult<T>
@@ -128,7 +130,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public new static OperationResult<T> CreateErrorFromOperationResult(IOperationResult result)
+        public new static IOperationResult<T> CreateErrorFromOperationResult(IOperationResult result)
         {
             var operationResult = result as OperationResult;
             return new OperationResult<T>
@@ -139,7 +141,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public new static OperationResult<T> CreateError(IEnumerable<SimpleMessage> messages)
+        public new static IOperationResult<T> CreateError(IEnumerable<SimpleMessage> messages)
         {
             return new OperationResult<T>
             {
@@ -148,7 +150,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateErrorFromOperationResults(params IOperationResult[] results)
+        public static IOperationResult<T> CreateErrorFromOperationResults(params IOperationResult[] results)
         {
             return new OperationResult<T>
             {
@@ -158,7 +160,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateError(Exception e, T data = default)
+        public static IOperationResult<T> CreateError(Exception e, T data = default)
         {
             var messages = e is SimpleException se ? se.Messages : SimpleMessage.Error(e.Message, e.LogInnerExceptions()).MakeCollection();
             return new OperationResult<T>
@@ -168,7 +170,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateError(Exception e, string header)
+        public static IOperationResult<T> CreateError(Exception e, string header)
         {
             return new OperationResult<T>
             {
@@ -177,7 +179,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateError(IEnumerable<string> messages, T data = default)
+        public static IOperationResult<T> CreateError(IEnumerable<string> messages, T data = default)
         {
             return new OperationResult<T>
             {
@@ -186,7 +188,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateError(string message, T data = default)
+        public static IOperationResult<T> CreateError(string message, T data = default)
         {
             return new OperationResult<T>
             {
@@ -195,7 +197,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateError(string header, string message, T data = default)
+        public static IOperationResult<T> CreateError(string header, string message, T data = default)
         {
             return new OperationResult<T>
             {
@@ -204,7 +206,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateSuccess(T data, string message = null)
+        public static IOperationResult<T> CreateSuccess(T data, string message = null)
         {
             return new OperationResult<T>
             {
@@ -214,7 +216,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateSuccess(T data, IEnumerable<SimpleMessage> messages)
+        public static IOperationResult<T> CreateSuccess(T data, IEnumerable<SimpleMessage> messages)
         {
             return new OperationResult<T>
             {
@@ -224,7 +226,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateValidationErrors(ValidationMessages messages, T data = default)
+        public static IOperationResult<T> CreateValidationErrors(ValidationMessages messages, T data = default)
         {
             return new OperationResult<T>
             {
@@ -233,7 +235,7 @@ namespace Aiirh.Basic.Messages
             };
         }
 
-        public static OperationResult<T> CreateValidationErrors(string header, string description, ValidationMessageSeverity severity, T data = default)
+        public static IOperationResult<T> CreateValidationErrors(string header, string description, ValidationMessageSeverity severity, T data = default)
         {
             return new OperationResult<T>
             {

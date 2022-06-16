@@ -1,5 +1,5 @@
-﻿using Aiirh.Basic.Entities;
-using Aiirh.Basic.Utilities;
+﻿using Aiirh.Basic.Utilities;
+using Aiirh.DatabaseTools.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

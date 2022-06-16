@@ -1,4 +1,4 @@
-﻿using Aiirh.Basic.Exceptions;
+﻿using Aiirh.DatabaseTools.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -46,7 +46,7 @@ namespace Aiirh.DatabaseTools
 
         protected TContext CreateContext()
         {
-            var context = (TContext)Activator.CreateInstance(typeof(TContext), Options) ?? throw new SimpleException("DbContext can't be open");
+            var context = (TContext)Activator.CreateInstance(typeof(TContext), Options) ?? throw new DatabaseAccessException("DbContext can't be open");
             context.Database.SetCommandTimeout(Timeout);
             return context;
         }

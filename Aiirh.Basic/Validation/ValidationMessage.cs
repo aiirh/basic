@@ -2,7 +2,7 @@
 
 namespace Aiirh.Basic.Validation
 {
-    public class ValidationMessage
+    public class ValidationMessage : IMessage
     {
         public string Header => Message.Header;
         public string Description => Message.Description;
@@ -27,7 +27,7 @@ namespace Aiirh.Basic.Validation
 
         private ValidationMessage() { }
 
-        public ValidationMessage(IMessage webMessage, ValidationMessageSeverity severity) : this(webMessage.Header, webMessage.Description, severity) { }
+        public ValidationMessage(IMessage message, ValidationMessageSeverity severity) : this(message.Header, message.Description, severity) { }
 
         public ValidationMessage(string message, string description, ValidationMessageSeverity severity)
         {

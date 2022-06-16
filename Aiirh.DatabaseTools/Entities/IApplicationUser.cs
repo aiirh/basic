@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
-namespace Aiirh.Basic.Entities
+namespace Aiirh.DatabaseTools.Entities
 {
     public interface IApplicationUser
     {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Aiirh.Basic.Utilities
 {
@@ -13,7 +14,7 @@ namespace Aiirh.Basic.Utilities
             return Enum.IsDefined(type, val);
         }
 
-        public static string ToString(this Enum val, EnumToStringOption option)
+        public static string ToString<T>(this T val, EnumToStringOption option) where T : Enum
         {
             switch (option)
             {
@@ -22,6 +23,8 @@ namespace Aiirh.Basic.Utilities
                     return numericValue.ToString();
                 case EnumToStringOption.UseName:
                     return val.ToString();
+                case EnumToStringOption.UseEnumMemberAttributeValue:
+                    return val.ToEnumMemberAttributeValue();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);
             }
@@ -90,11 +93,31 @@ namespace Aiirh.Basic.Utilities
         {
             return Enum.GetValues(typeof(T)).Cast<T>();
         }
+
+        private static string ToEnumMemberAttributeValue<T>(this T value) where T : Enum
+        {
+            var enumType = typeof(T);
+            var name = Enum.GetName(enumType, value);
+            var fieldInfo = enumType.GetField(name);
+            if (fieldInfo == null)
+            {
+                return value.ToString();
+            }
+
+            var attribute = fieldInfo.GetCustomAttributes(typeof(EnumMemberAttribute), true).FirstOrDefault();
+            if (!(attribute is EnumMemberAttribute enumMemberAttribute))
+            {
+                return value.ToString();
+            }
+
+            return enumMemberAttribute.Value;
+        }
     }
 
     public enum EnumToStringOption
     {
         UseNumericValue,
-        UseName
+        UseName,
+        UseEnumMemberAttributeValue
     }
 }

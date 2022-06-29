@@ -43,6 +43,11 @@ namespace Aiirh.Basic.Validation
             _messages.Add(new ValidationMessage(header, description, severity));
         }
 
+        public void Add(string message, ValidationMessageSeverity severity)
+        {
+            _messages.Add(new ValidationMessage(message, null, severity));
+        }
+
         public void AddRange(ValidationMessages messages)
         {
             _messages.AddRange(messages);

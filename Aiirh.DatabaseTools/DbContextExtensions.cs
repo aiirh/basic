@@ -1,9 +1,7 @@
-﻿using Aiirh.Basic.Utilities;
-using Aiirh.DatabaseTools.Entities;
+﻿using Aiirh.DatabaseTools.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -16,7 +14,7 @@ namespace Aiirh.DatabaseTools
     {
         public static async Task<List<T>> FromRawSqlAsync<T>(this DbContext context, string query, Func<DbDataReader, T> map)
         {
-            await using var command = context.Database.GetDbConnection().CreateCommand();
+            using var command = context.Database.GetDbConnection().CreateCommand();
             command.CommandText = query;
             command.CommandType = CommandType.Text;
             await context.Database.OpenConnectionAsync();
@@ -32,13 +30,13 @@ namespace Aiirh.DatabaseTools
 
         public static async Task<DataTable> FromRawSqlAsync(this DbContext context, string sql)
         {
-            await using var command = context.Database.GetDbConnection().CreateCommand();
+            using var command = context.Database.GetDbConnection().CreateCommand();
             command.CommandText = sql;
             command.CommandType = CommandType.Text;
 
             context.Database.OpenConnection();
 
-            await using var reader = command.ExecuteReader();
+            using var reader = command.ExecuteReader();
 
             var headers = new List<string>();
             for (var i = 0; i < reader.FieldCount; i++)
@@ -108,13 +106,6 @@ namespace Aiirh.DatabaseTools
                     context.Entry(entity).Property(x => x.Id).IsModified = false;
                 }
             }
-        }
-
-        public static void Truncate<T>(this DbContext context)
-        {
-            var type = typeof(T);
-            var tableName = type.GetAttributeValue<TableAttribute>()?.Name ?? type.Name;
-            context.Database.ExecuteSqlRaw($"TRUNCATE TABLE \"{tableName}\"");
         }
     }
 }

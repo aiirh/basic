@@ -18,7 +18,7 @@ namespace Aiirh.DatabaseTools
 
         protected async Task<TEntity> AddAsync<TEntity>(TEntity entity) where TEntity : class
         {
-            await using var context = CreateContext();
+            using var context = CreateContext();
             var added = await context.Set<TEntity>().AddAsync(entity);
             await context.SaveChangesAsync();
             return added.Entity;
@@ -40,7 +40,7 @@ namespace Aiirh.DatabaseTools
 
         protected virtual async Task<IList<TEntity>> GetAllAsync<TEntity>() where TEntity : class
         {
-            await using var context = CreateContext();
+            using var context = CreateContext();
             return await context.Set<TEntity>().ToListAsync();
         }
 

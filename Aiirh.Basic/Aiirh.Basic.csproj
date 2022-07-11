@@ -11,14 +11,22 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services that provide basic classes of usual application</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>2.0.8</Version>
-		<AssemblyVersion>2.0.8.0</AssemblyVersion>
-		<FileVersion>2.0.8.0</FileVersion>
+		<Version>2.0.9</Version>
+		<AssemblyVersion>2.0.9.0</AssemblyVersion>
+		<FileVersion>2.0.9.0</FileVersion>
+		<PackageIcon>AiirhLogo128.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Include="..\AiirhLogo128.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
 	</ItemGroup>
 
 </Project>

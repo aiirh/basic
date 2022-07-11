@@ -1,5 +1,4 @@
-﻿using Aiirh.Basic.Exceptions;
-using Aiirh.Basic.Utilities;
+﻿using Aiirh.Basic.Utilities;
 using Aiirh.DatabaseTools.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +17,12 @@ namespace Aiirh.DatabaseTools
         protected BaseRepository(DbContextOptions options)
         {
             Options = options;
-            var serviceScope = ServiceActivator.GetScope();
-            _httpContextAccessor = (IHttpContextAccessor)serviceScope.ServiceProvider.GetService(typeof(IHttpContextAccessor));
+            _httpContextAccessor = ServiceLocator.GetService<IHttpContextAccessor>();
         }
 
         protected async Task<TEntity> AddAsync<TEntity>(TEntity entity) where TEntity : class
         {
-            await using var context = CreateContext();
+            using var context = CreateContext();
             var added = await context.Set<TEntity>().AddAsync(entity);
             await context.SaveChangesAsync();
             return added.Entity;
@@ -46,7 +44,7 @@ namespace Aiirh.DatabaseTools
 
         protected virtual async Task<IList<TEntity>> GetAllAsync<TEntity>() where TEntity : class
         {
-            await using var context = CreateContext();
+            using var context = CreateContext();
             return await context.Set<TEntity>().ToListAsync();
         }
 

@@ -1,22 +1,25 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Aiirh.Basic.Utilities
 {
-    public static class ServiceActivator
+    public static class ServiceLocator
     {
         private static IServiceProvider _serviceProvider;
 
-        public static void AddServiceActivator(this IApplicationBuilder app)
+        public static void AddServiceLocator(this IServiceCollection serviceCollection)
         {
-            _serviceProvider ??= app.ApplicationServices;
+            _serviceProvider ??= serviceCollection.BuildServiceProvider();
         }
 
-        public static IServiceScope GetScope(IServiceProvider serviceProvider = null)
+        public static TService GetService<TService>()
         {
-            var provider = serviceProvider ?? _serviceProvider;
-            return provider?.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            if (_serviceProvider == null)
+            {
+                throw new Exception("ServiceLocator is not initialized");
+            }
+
+            return (TService)_serviceProvider.GetService(typeof(TService));
         }
     }
 }

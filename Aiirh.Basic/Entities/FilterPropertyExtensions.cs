@@ -16,7 +16,7 @@ namespace Aiirh.Basic.Entities
                 return true;
             }
 
-            if (property.Value.IsNullOrDefault())
+            if (property.Value == null)
             {
                 return false;
             }

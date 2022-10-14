@@ -9,6 +9,7 @@ namespace Aiirh.Basic.Files
 {
     public class TxtFileParser
     {
+        [Obsolete("This method internally tries to decompress GZip. Logic will be removed in future")]
         public static async Task<IEnumerable<T>> Parse<T>(byte[] data, FileParseOptions<T> options)
         {
             var unzipped = await data.DecompressIfGZipAsync();

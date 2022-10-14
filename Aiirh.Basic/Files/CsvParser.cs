@@ -1,4 +1,5 @@
 ﻿using Aiirh.Basic.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Aiirh.Basic.Files
         /// <param name="data">Input file data as byte array.</param>
         /// <param name="options">Options.</param>
         /// <returns>Collection of parsed T objects.</returns>
+        [Obsolete("This method internally tries to decompress GZip. Logic will be removed in future")]
         public static async Task<IEnumerable<T>> Parse<T>(byte[] data, FileParseOptions<T> options)
         {
             var unzipped = await data.DecompressIfGZipAsync();

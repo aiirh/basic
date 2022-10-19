@@ -11,17 +11,17 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services that provide basic classes of usual application</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>2.0.14</Version>
-		<AssemblyVersion>2.0.14.0</AssemblyVersion>
-		<FileVersion>2.0.14.0</FileVersion>
+		<Version>2.0.15</Version>
+		<AssemblyVersion>2.0.15.0</AssemblyVersion>
+		<FileVersion>2.0.15.0</FileVersion>
 		<PackageIcon>AiirhLogo128.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\AiirhLogo128.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\AiirhLogo128.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>

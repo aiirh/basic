@@ -76,8 +76,7 @@ namespace Aiirh.Basic.Files
                 columns.RemoveAt(columns.Count - 1);
             }
 
-            var skipRowsCount = options.HasHeader ? 1 : 0;
-            return columns.Skip(skipRowsCount).Select(options.Mapper);
+            return columns.Skip(options.SkipRows).Select(options.Mapper);
         }
     }
 }

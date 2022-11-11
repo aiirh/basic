@@ -16,7 +16,7 @@ namespace Aiirh.Basic.Files
             var fileAsString = Encoding.UTF8.GetString(unzipped);
             var fileLines = fileAsString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            var minRowsCount = options.HasHeader ? 1 : 0;
+            var minRowsCount = options.SkipRows;
             if (fileLines.Length <= minRowsCount)
             {
                 return Enumerable.Empty<T>();

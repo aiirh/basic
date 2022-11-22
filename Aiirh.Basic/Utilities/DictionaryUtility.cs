@@ -20,6 +20,26 @@ namespace Aiirh.Basic.Utilities
             return ret;
         }
 
+        /// <summary>
+        /// Gets value from dictionary, if key is not found, inserts defaultValue to dictionary for the provided key and returns it
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dict"></param>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static TValue GetValueOrAddDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue)
+        {
+            if (dict.TryGetValue(key, out var existing))
+            {
+                return existing;
+            }
+
+            dict.Add(key, defaultValue);
+            return defaultValue;
+        }
+
         public static void RenameKey<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey fromKey, TKey toKey)
         {
             var value = dic[fromKey];
@@ -64,33 +84,6 @@ namespace Aiirh.Basic.Utilities
         public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dict, KeyValuePair<TKey, TValue> pair)
         {
             return dict.TryAdd(pair.Key, pair.Value);
-        }
-
-        public static List<KeyValuePair<string, string>> GetWeekdaysKeyValuePairs()
-        {
-            return new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("Mo", "Monday"),
-                new KeyValuePair<string, string>("Tu", "Tuesday"),
-                new KeyValuePair<string, string>("We", "Wednesday"),
-                new KeyValuePair<string, string>("Th", "Thursday"),
-                new KeyValuePair<string, string>("Fr", "Friday")
-            };
-        }
-
-        public static Dictionary<string, string> GetWeekdaysDict()
-        {
-            return GetWeekdaysKeyValuePairs().ToDictionary(k => k.Key, k => k.Value);
-        }
-
-        public static T3 DictLevel2Get<T1, T2, T3>(this Dictionary<T1, Dictionary<T2, T3>> data, T1 dcCode, T2 stockCode)
-        {
-            var level3 = default(T3);
-            if (data.TryGetValue(dcCode, out var byStock))
-            {
-                byStock.TryGetValue(stockCode, out level3);
-            }
-            return level3;
         }
 
         public static IDictionary<T1, T2> Merge<T1, T2>(this IDictionary<T1, T2> first, IDictionary<T1, T2> second)

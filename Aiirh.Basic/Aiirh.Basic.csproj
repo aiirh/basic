@@ -11,9 +11,9 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services that provide basic classes of usual application</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>2.0.17</Version>
-		<AssemblyVersion>2.0.17.0</AssemblyVersion>
-		<FileVersion>2.0.17.0</FileVersion>
+		<Version>2.0.18</Version>
+		<AssemblyVersion>2.0.18.0</AssemblyVersion>
+		<FileVersion>2.0.18.0</FileVersion>
 		<PackageIcon>AiirhLogo128.png</PackageIcon>
 	</PropertyGroup>
 
@@ -26,7 +26,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
 </Project>

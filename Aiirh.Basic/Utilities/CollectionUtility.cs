@@ -140,5 +140,10 @@ namespace Aiirh.Basic.Utilities
         {
             return source.OrderBy(keySelector).LastOrDefault();
         }
+
+        public static bool ContainsAny<T>(this IEnumerable<T> source, IEnumerable<T> other)
+        {
+            return source.Intersect(other).Any();
+        }
     }
 }

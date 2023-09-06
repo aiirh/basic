@@ -28,6 +28,37 @@ namespace Aiirh.Basic.Utilities
             return (T)DeepCopy((object)original);
         }
 
+        /// <summary>
+        /// Copies the properties from one object to another of the same class while preserving the reference to the target object.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to copy.</typeparam>
+        /// <param name="target">The target object to which properties will be copied.</param>
+        /// <param name="source">The source object from which properties will be copied.</param>
+        public static void SetPropertiesFrom<T>(this T target, T source)
+        {
+            if (target is null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
+
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            var type = typeof(T);
+            foreach (var propertyInfo in type.GetProperties())
+            {
+                if (!propertyInfo.CanRead || !propertyInfo.CanWrite)
+                {
+                    continue;
+                }
+
+                var value = propertyInfo.GetValue(source);
+                propertyInfo.SetValue(target, value);
+            }
+        }
+
         private static object InternalCopy(object originalObject, IDictionary<object, object> visited)
         {
             if (originalObject == null)
@@ -41,9 +72,9 @@ namespace Aiirh.Basic.Utilities
                 return originalObject;
             }
 
-            if (visited.ContainsKey(originalObject))
+            if (visited.TryGetValue(originalObject, out object internalCopy))
             {
-                return visited[originalObject];
+                return internalCopy;
             }
 
             if (typeof(Delegate).IsAssignableFrom(typeToReflect))

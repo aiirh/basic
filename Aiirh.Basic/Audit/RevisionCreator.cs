@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Reflection;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,7 +12,7 @@ namespace Aiirh.Basic.Audit
         public static string CreateRevision<T>(T obj)
         {
             var type = typeof(T);
-            var attributes = type.GetPropertyAttributes<AuditableAttribute>();
+            var attributes = type.GetPropertyAttributesDeep<AuditableAttribute>();
             if (attributes.IsNullOrEmpty())
             {
                 return null;
@@ -29,19 +28,19 @@ namespace Aiirh.Basic.Audit
 
         public RevisionsContractResolver(Dictionary<PropertyInfo, AuditableAttribute> attributes)
         {
-            _attributesToCreate = attributes.ToDictionary(x => x.Key.Name, x => x.Value.PropertyName);
+            _attributesToCreate = attributes.Where(x => x.Key.ReflectedType != null).ToDictionary(x => $"{x.Key.ReflectedType.FullName}.{x.Key.Name}", x => x.Value.PropertyName);
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
-            if (string.IsNullOrWhiteSpace(property.PropertyName))
+            if (string.IsNullOrWhiteSpace(property.PropertyName) || property.DeclaringType == null)
             {
                 property.ShouldSerialize = _ => false;
                 return property;
             }
 
-            if (!_attributesToCreate.TryGetValue(property.PropertyName, out var newName))
+            if (!_attributesToCreate.TryGetValue($"{property.DeclaringType.FullName}.{property.PropertyName}", out var newName))
             {
                 property.ShouldSerialize = _ => false;
                 return property;

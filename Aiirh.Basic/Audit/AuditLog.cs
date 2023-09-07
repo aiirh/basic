@@ -1,30 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Aiirh.Basic.Audit.Contract;
+using System;
+using System.Collections.Generic;
 
 namespace Aiirh.Basic.Audit
 {
-    public enum ChangeType
-    {
-        Edit,
-        Add,
-        Remove
-    }
-
-    public interface IAuditLogEntry
-    {
-        string PropertyName { get; }
-
-        string OldValue { get; }
-
-        string NewValue { get; }
-
-        ChangeType ChangeType { get; }
-    }
-
-    public interface IAuditLog
-    {
-        IEnumerable<IAuditLogEntry> Entries { get; }
-    }
-
     internal class AuditLogEntry : IAuditLogEntry
     {
         private AuditLogEntry(ChangeType changeType, string propertyName, string newValue, string oldValue)
@@ -64,6 +43,16 @@ namespace Aiirh.Basic.Audit
         private readonly List<AuditLogEntry> _entries = new List<AuditLogEntry>();
 
         public IEnumerable<IAuditLogEntry> Entries => _entries;
+
+        public string Author { get; }
+
+        public DateTime CreatedDate { get; }
+
+        public AuditLog(DateTime createdDate, string author)
+        {
+            CreatedDate = createdDate;
+            Author = author;
+        }
 
         public void AddEntry(AuditLogEntry entry)
         {

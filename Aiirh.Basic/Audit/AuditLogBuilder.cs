@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Aiirh.Basic.Audit.Contract;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,16 +10,16 @@ namespace Aiirh.Basic.Audit
 {
     internal static class AuditLogBuilder
     {
-        public static IAuditLog Build(string oldJson, string newJson)
+        public static IAuditLog Build(string oldJson, string newJson, DateTime createdDate, string author)
         {
             var oldObject = JsonConvert.DeserializeObject<JObject>(oldJson);
             var newObject = JsonConvert.DeserializeObject<JObject>(newJson);
-            return CompareJsonObjects(oldObject, newObject);
+            return CompareJsonObjects(oldObject, newObject, createdDate, author);
         }
 
-        static AuditLog CompareJsonObjects(JToken oldToken, JToken newToken)
+        private static AuditLog CompareJsonObjects(JToken oldToken, JToken newToken, DateTime createdDate, string author)
         {
-            var auditLog = new AuditLog();
+            var auditLog = new AuditLog(createdDate, author);
             if (oldToken == null || newToken == null)
             {
                 return auditLog;
@@ -42,7 +44,7 @@ namespace Aiirh.Basic.Audit
                             var oldValue = property.Value;
                             var newValue = newObj[propertyName];
 
-                            var subAuditLog = CompareJsonObjects(oldValue, newValue);
+                            var subAuditLog = CompareJsonObjects(oldValue, newValue, createdDate, author);
                             auditLog.AddEntriesFromAnotherAuditLog(subAuditLog);
                         }
 
@@ -57,7 +59,7 @@ namespace Aiirh.Basic.Audit
                         {
                             if (i < oldArray.Count && i < newArray.Count)
                             {
-                                var subAuditLog = CompareJsonObjects(oldArray[i], newArray[i]);
+                                var subAuditLog = CompareJsonObjects(oldArray[i], newArray[i], createdDate, author);
                                 auditLog.AddEntriesFromAnotherAuditLog(subAuditLog);
                             }
                             else if (i < oldArray.Count)
@@ -113,12 +115,10 @@ namespace Aiirh.Basic.Audit
 
         private static string RemoveIndexer(this string pathWithIndex)
         {
-            const string replacement1 = "->";
-            const string replacement2 = "";
-
-            var regex1 = new Regex(@"\[\d+\]\.", RegexOptions.Compiled);
-            var regex2 = new Regex(@"\[\d+\]", RegexOptions.Compiled);
-
+            const string replacement1 = "";
+            const string replacement2 = "->";
+            var regex1 = new Regex(@"\[\d+\]", RegexOptions.Compiled);
+            var regex2 = new Regex(@"\.", RegexOptions.Compiled);
             string outputString = regex1.Replace(pathWithIndex, replacement1);
             return regex2.Replace(outputString, replacement2);
         }

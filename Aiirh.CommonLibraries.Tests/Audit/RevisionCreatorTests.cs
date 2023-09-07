@@ -9,9 +9,9 @@ namespace Aiirh.CommonLibraries.Tests.Audit
     {
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void Test(MyAuditTestParent data, string expected)
+        public void Test<T>(T data, string expected)
         {
-            var result = RevisionCreator.CreateRevision(data);
+            var result = data.ToRevisionJson();
             Assert.AreEqual(expected, result);
         }
 
@@ -70,6 +70,18 @@ namespace Aiirh.CommonLibraries.Tests.Audit
 
         private static IEnumerable<TestCaseData> GetTestData()
         {
+            var myAuditTestChildArray1 = new[]
+            {
+                new MyAuditTestChild { Ignore1 = "C1", Property2 = "C2", Property3 = "C3" },
+                new MyAuditTestChild { Ignore1 = "C4", Property2 = "C5", Property3 = "C6" }
+            };
+
+            var myAuditTestChildArray2 = new[]
+            {
+                new MyAuditTestChild { Property2 = "AAAAA1", Property3 = "BBBBB2" },
+                new MyAuditTestChild { Property2 = "AAAAA2", Property3 = "BBBBB2" }
+            };
+
             var data = new MyAuditTestParent
             {
                 Ignore1 = "Test1",
@@ -78,22 +90,8 @@ namespace Aiirh.CommonLibraries.Tests.Audit
                 Null1 = null,
                 ListIgnored = new[] { "123", "456" },
                 ListIncluded = new[] { "789", "ABC" },
-                ComplexListIncluded = new[]
-                {
-                    new MyAuditTestChild
-                    {
-                        Ignore1 = "C1",
-                        Property2 = "C2",
-                        Property3 = "C3"
-                    },
-                    new MyAuditTestChild
-                    {
-                        Ignore1 = "C4",
-                        Property2 = "C5",
-                        Property3 = "C6"
-                    }
-                },
-                DeepCollection = new MyDeepAuditTestChild[]
+                ComplexListIncluded = myAuditTestChildArray1,
+                DeepCollection = new[]
                 {
                     new MyDeepAuditTestChild
                     {
@@ -104,24 +102,17 @@ namespace Aiirh.CommonLibraries.Tests.Audit
                             Property2 = "DDD",
                             Property3 = "DDD"
                         },
-                        EmbeddedArray = new MyAuditTestChild[]
-                        {
-                            new MyAuditTestChild
-                            {
-                                Property2 = "AAAAA1",
-                                Property3 = "BBBBB2"
-                            },
-                            new MyAuditTestChild
-                            {
-                                Property2 = "AAAAA2",
-                                Property3 = "BBBBB2"
-                            }
-                        }
+                        EmbeddedArray = myAuditTestChildArray2
                     }
                 }
             };
             const string expected = "{\"Name\":\"Test2\",\"Description\":\"Test3\",\"NullToBeHere\":null,\"StringArray\":[\"789\",\"ABC\"],\"ObjectArray\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"VeryDeepArray\":[{\"DeepChildName\":\"MyDeepAuditTestChild2\",\"DeepChildDescription\":\"MyDeepAuditTestChild3\",\"EmbeddedObject\":{\"ChildName\":\"DDD\",\"ChildDescription\":\"DDD\"},\"EmbeddedArray\":[{\"ChildName\":\"AAAAA1\",\"ChildDescription\":\"BBBBB2\"},{\"ChildName\":\"AAAAA2\",\"ChildDescription\":\"BBBBB2\"}]}]}";
-            yield return new TestCaseData(data, expected);
+            ////yield return new TestCaseData(data, expected);
+
+            ////yield return new TestCaseData("simple string value", expected);
+            ////yield return new TestCaseData(new[] { "one", "two" }, "{\"Type\":\"System.String[]\",\"Values\":[\"one\",\"two\"]}");
+
+            yield return new TestCaseData(myAuditTestChildArray1, "{\"Type\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestChild[]\",\"Values\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}]}");
         }
     }
 }

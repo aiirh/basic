@@ -2,6 +2,13 @@
 
 namespace Aiirh.Basic.Audit
 {
+    public enum ChangeType
+    {
+        Edit,
+        Add,
+        Remove
+    }
+
     public interface IAuditLogEntry
     {
         string PropertyName { get; }
@@ -9,6 +16,8 @@ namespace Aiirh.Basic.Audit
         string OldValue { get; }
 
         string NewValue { get; }
+
+        ChangeType ChangeType { get; }
     }
 
     public interface IAuditLog
@@ -18,11 +27,36 @@ namespace Aiirh.Basic.Audit
 
     internal class AuditLogEntry : IAuditLogEntry
     {
-        public string PropertyName { get; set; }
+        private AuditLogEntry(ChangeType changeType, string propertyName, string newValue, string oldValue)
+        {
+            ChangeType = changeType;
+            PropertyName = propertyName;
+            NewValue = newValue;
+            OldValue = oldValue;
+        }
 
-        public string OldValue { get; set; }
+        public static AuditLogEntry Edit(string propertyName, string newValue, string oldValue)
+        {
+            return new AuditLogEntry(ChangeType.Edit, propertyName, newValue, oldValue);
+        }
 
-        public string NewValue { get; set; }
+        public static AuditLogEntry Remove(string propertyName, string oldValue)
+        {
+            return new AuditLogEntry(ChangeType.Remove, propertyName, null, oldValue);
+        }
+
+        public static AuditLogEntry Add(string propertyName, string newValue)
+        {
+            return new AuditLogEntry(ChangeType.Add, propertyName, newValue, null);
+        }
+
+        public string PropertyName { get; }
+
+        public string OldValue { get; }
+
+        public string NewValue { get; }
+
+        public ChangeType ChangeType { get; }
     }
 
     internal class AuditLog : IAuditLog

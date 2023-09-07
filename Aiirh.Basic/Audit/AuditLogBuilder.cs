@@ -8,10 +8,10 @@ namespace Aiirh.Basic.Audit
 {
     internal static class AuditLogBuilder
     {
-        public static IAuditLog Build(string json1, string json2)
+        public static IAuditLog Build(string oldJson, string newJson)
         {
-            var oldObject = JsonConvert.DeserializeObject<JObject>(json1);
-            var newObject = JsonConvert.DeserializeObject<JObject>(json2);
+            var oldObject = JsonConvert.DeserializeObject<JObject>(oldJson);
+            var newObject = JsonConvert.DeserializeObject<JObject>(newJson);
             return CompareJsonObjects(oldObject, newObject);
         }
 
@@ -26,12 +26,7 @@ namespace Aiirh.Basic.Audit
             if (oldToken.Type != newToken.Type)
             {
                 // Type has changed, add to the audit log
-                auditLog.AddEntry(new AuditLogEntry
-                {
-                    PropertyName = oldToken.Path,
-                    OldValue = oldToken.ToString(),
-                    NewValue = newToken.ToString()
-                });
+                auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemoveIndexer(), newToken.ToString(), oldToken.ToString()));
             }
             else
             {
@@ -68,31 +63,14 @@ namespace Aiirh.Basic.Audit
                             else if (i < oldArray.Count)
                             {
                                 var oldObject = oldArray[i];
-                                var oldAuditLogEntries = oldObject.ToAuditLogsShort().Select(x => new AuditLogEntry
-                                {
-                                    PropertyName = $"{oldArray.Path.RemoveIndexer()}->{x.PropertyName}",
-                                    NewValue = null,
-                                    OldValue = x.Value
-                                });
+                                var oldAuditLogEntries = oldObject.ToAuditLogsShort().Select(x => AuditLogEntry.Remove($"{oldArray.Path.RemoveIndexer()}->{x.PropertyName}", x.Value));
                                 auditLog.AddEntries(oldAuditLogEntries);
                             }
                             else
                             {
                                 var newObject = newArray[i];
-                                var newAuditLogEntries = newObject.ToAuditLogsShort().Select(x => new AuditLogEntry
-                                {
-                                    PropertyName = $"{newArray.Path.RemoveIndexer()}->{x.PropertyName}",
-                                    NewValue = x.Value,
-                                    OldValue = null
-                                });
+                                var newAuditLogEntries = newObject.ToAuditLogsShort().Select(x => AuditLogEntry.Add($"{newArray.Path.RemoveIndexer()}->{x.PropertyName}", x.Value));
                                 auditLog.AddEntries(newAuditLogEntries);
-
-                                ////auditLog.AddEntry(new AuditLogEntry
-                                ////{
-                                ////    PropertyName = newArray.Path.RemoveIndexer(),
-                                ////    OldValue = null,
-                                ////    NewValue = newArray[i].ToString()
-                                ////});
                             }
                         }
 
@@ -100,12 +78,7 @@ namespace Aiirh.Basic.Audit
                     default:
                         if (!JToken.DeepEquals(oldToken, newToken))
                         {
-                            auditLog.AddEntry(new AuditLogEntry
-                            {
-                                PropertyName = oldToken.Path.RemoveIndexer(),
-                                OldValue = oldToken.ToString(),
-                                NewValue = newToken.ToString()
-                            });
+                            auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemoveIndexer(), newToken.ToString(), oldToken.ToString()));
                         }
                         break;
                 }
@@ -140,13 +113,12 @@ namespace Aiirh.Basic.Audit
 
         private static string RemoveIndexer(this string pathWithIndex)
         {
-            string pattern1 = @"\[\d+\]\.";
-            var pattern2 = @"\[\d+\]";
-            string replacement1 = "->";
-            string replacement2 = "";
+            const string replacement1 = "->";
+            const string replacement2 = "";
 
-            Regex regex1 = new Regex(pattern1);
-            Regex regex2 = new Regex(pattern2);
+            var regex1 = new Regex(@"\[\d+\]\.", RegexOptions.Compiled);
+            var regex2 = new Regex(@"\[\d+\]", RegexOptions.Compiled);
+
             string outputString = regex1.Replace(pathWithIndex, replacement1);
             return regex2.Replace(outputString, replacement2);
         }

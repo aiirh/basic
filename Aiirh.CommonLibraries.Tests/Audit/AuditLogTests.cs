@@ -18,7 +18,6 @@ namespace Aiirh.CommonLibraries.Tests.Audit
             var json4 = "{\"Name\":\"Test2\",\"Description\":\"Test4\",\"NullToBeHere\":null,\"SimpleCollection\":[\"789\",\"ABC\", \"XXX\"],\"ComplexCollection\":[{\"Name\":\"C0\",\"Description\":\"D0\"},{\"Name\":\"YY\",\"Description\":\"Yyyy\"},{\"Name\":\"C2\",\"Description\":\"C9\"},{\"Name\":\"C5\",\"Description\":\"C6\"}]}";
             var result2 = AuditLogBuilder.Build(json3, json4);
             var result3 = AuditLogBuilder.Build(json4, json3);
-
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Aiirh.Basic.Audit
+namespace Aiirh.Audit
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class AuditableAttribute : Attribute

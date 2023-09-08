@@ -1,8 +1,7 @@
-﻿using Aiirh.Basic.Audit.Contract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Aiirh.Basic.Audit
+namespace Aiirh.Audit.Internal
 {
     internal class AuditLogEntry : IAuditLogEntry
     {

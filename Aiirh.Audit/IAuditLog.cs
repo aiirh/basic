@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Aiirh.Basic.Audit.Contract
+namespace Aiirh.Audit
 {
     public interface IAuditLogEntry
     {

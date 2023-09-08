@@ -1,11 +1,10 @@
-﻿using Aiirh.Basic.Audit.Contract;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Aiirh.Basic.Audit
+namespace Aiirh.Audit.Internal
 {
     internal static class AuditLogBuilder
     {

@@ -1,5 +1,4 @@
-﻿using Aiirh.Basic.Audit;
-using Aiirh.Basic.Audit.Contract;
+﻿using Aiirh.Audit;
 using Aiirh.Basic.Exceptions;
 using Aiirh.Basic.Utilities;
 using NUnit.Framework;

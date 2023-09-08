@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Aiirh.Basic.Audit
+namespace Aiirh.Audit.Internal
 {
     internal static class JTokenExtensions
     {

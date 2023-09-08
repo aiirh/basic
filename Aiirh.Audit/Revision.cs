@@ -3,7 +3,7 @@ using Aiirh.Basic.Utilities;
 using Newtonsoft.Json;
 using System;
 
-namespace Aiirh.Basic.Audit.Contract
+namespace Aiirh.Audit
 {
     public class Revision
     {

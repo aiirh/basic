@@ -1,11 +1,11 @@
-﻿using Aiirh.Basic.Audit.Contract;
+﻿using Aiirh.Audit.Internal;
 using Aiirh.Basic.Exceptions;
 using Aiirh.Basic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Aiirh.Basic.Audit
+namespace Aiirh.Audit
 {
     public static class AuditLogHelper
     {

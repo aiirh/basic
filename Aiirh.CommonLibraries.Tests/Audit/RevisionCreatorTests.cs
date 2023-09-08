@@ -1,4 +1,5 @@
-﻿using Aiirh.Basic.Audit;
+﻿using Aiirh.Audit;
+using Aiirh.Audit.Internal;
 using NUnit.Framework;
 using System.Collections.Generic;
 

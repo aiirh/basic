@@ -57,6 +57,15 @@ namespace Aiirh.Basic.Audit
             jsonObject[propertyName] = propertyValue;
         }
 
+        public static JObject AddJsonToJson(this JObject existingObject, JObject newObject)
+        {
+            existingObject.Merge(newObject, new JsonMergeSettings
+            {
+                MergeArrayHandling = MergeArrayHandling.Union
+            });
+            return existingObject;
+        }
+
         public static string AddJsonToJson(string existingJson, string newJson)
         {
             // Deserialize the existing JSON into a JObject

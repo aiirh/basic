@@ -13,7 +13,7 @@ namespace Aiirh.Basic.Audit
         public static string ToRevisionJson<T>(this T obj)
         {
             var type = typeof(T);
-            var jObject = JsonUtility.CreateJObjectWithProperty("Type", new JValue(type.FullName));
+            var jObject = JsonUtility.CreateJObjectWithProperty("RevisionType", new JValue(type.FullName));
             if (type.IsStandardType())
             {
                 jObject.AddPropertyToJson("Value", new JValue(obj.ToString()));
@@ -45,6 +45,10 @@ namespace Aiirh.Basic.Audit
                 {
                     return null;
                 }
+                var serializer = JsonSerializer.Create(new JsonSerializerSettings { ContractResolver = new RevisionsContractResolver(attributes) });
+                var mainData = JObject.FromObject(obj, serializer);
+                jObject.AddJsonToJson(mainData);
+                return jObject.ToString(Formatting.None);
                 var jsonString = JsonConvert.SerializeObject(obj, new JsonSerializerSettings { ContractResolver = new RevisionsContractResolver(attributes) });
                 return jsonString;
             }

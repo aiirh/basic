@@ -9,7 +9,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
     {
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void Test<T>(T data, string expected)
+        public void ToRevisionJson_ShouldReturnCorrectValue<T>(T data, string expected)
         {
             var result = data.ToRevisionJson();
             Assert.AreEqual(expected, result);
@@ -106,13 +106,13 @@ namespace Aiirh.CommonLibraries.Tests.Audit
                     }
                 }
             };
-            const string expected = "{\"Name\":\"Test2\",\"Description\":\"Test3\",\"NullToBeHere\":null,\"StringArray\":[\"789\",\"ABC\"],\"ObjectArray\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"VeryDeepArray\":[{\"DeepChildName\":\"MyDeepAuditTestChild2\",\"DeepChildDescription\":\"MyDeepAuditTestChild3\",\"EmbeddedObject\":{\"ChildName\":\"DDD\",\"ChildDescription\":\"DDD\"},\"EmbeddedArray\":[{\"ChildName\":\"AAAAA1\",\"ChildDescription\":\"BBBBB2\"},{\"ChildName\":\"AAAAA2\",\"ChildDescription\":\"BBBBB2\"}]}]}";
-            ////yield return new TestCaseData(data, expected);
+            const string expected = "{\"RevisionType\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestParent\",\"Name\":\"Test2\",\"Description\":\"Test3\",\"NullToBeHere\":null,\"StringArray\":[\"789\",\"ABC\"],\"ObjectArray\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"VeryDeepArray\":[{\"DeepChildName\":\"MyDeepAuditTestChild2\",\"DeepChildDescription\":\"MyDeepAuditTestChild3\",\"EmbeddedObject\":{\"ChildName\":\"DDD\",\"ChildDescription\":\"DDD\"},\"EmbeddedArray\":[{\"ChildName\":\"AAAAA1\",\"ChildDescription\":\"BBBBB2\"},{\"ChildName\":\"AAAAA2\",\"ChildDescription\":\"BBBBB2\"}]}]}";
+            yield return new TestCaseData(data, expected);
 
-            ////yield return new TestCaseData("simple string value", expected);
-            ////yield return new TestCaseData(new[] { "one", "two" }, "{\"Type\":\"System.String[]\",\"Values\":[\"one\",\"two\"]}");
+            yield return new TestCaseData("simple string value", "{\"RevisionType\":\"System.String\",\"Value\":\"simple string value\"}");
+            yield return new TestCaseData(new[] { "one", "two" }, "{\"RevisionType\":\"System.String[]\",\"Values\":[\"one\",\"two\"]}");
 
-            yield return new TestCaseData(myAuditTestChildArray1, "{\"Type\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestChild[]\",\"Values\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}]}");
+            yield return new TestCaseData(myAuditTestChildArray1, "{\"RevisionType\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestChild[]\",\"Values\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}]}");
         }
     }
 }

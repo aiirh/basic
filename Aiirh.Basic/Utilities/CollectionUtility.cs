@@ -145,5 +145,24 @@ namespace Aiirh.Basic.Utilities
         {
             return source.Intersect(other).Any();
         }
+
+        public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> source)
+        {
+            return source.Select((item, index) => (item, index));
+        }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        {
+            var rng = new Random();
+            var sourceList = source.ToList();
+            int count = sourceList.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                int randomIndex = rng.Next(0, sourceList.Count);
+                yield return sourceList[randomIndex];
+                sourceList.RemoveAt(randomIndex);
+            }
+        }
     }
 }

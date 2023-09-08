@@ -20,7 +20,7 @@ namespace Aiirh.Basic.Audit.Contract
 
         DateTime CreatedDate { get; }
 
-        IEnumerable<IAuditLogEntry> Entries { get; }
+        IEnumerable<IAuditLogEntry> Changes { get; }
     }
 
     public enum ChangeType

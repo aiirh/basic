@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Aiirh.Basic.Audit
 {
@@ -28,7 +27,7 @@ namespace Aiirh.Basic.Audit
             if (oldToken.Type != newToken.Type)
             {
                 // Type has changed, add to the audit log
-                auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemoveIndexer(), newToken.ToString(), oldToken.ToString()));
+                auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemovePathIndexer(), newToken.ToString(), oldToken.ToString()));
             }
             else
             {
@@ -65,13 +64,13 @@ namespace Aiirh.Basic.Audit
                             else if (i < oldArray.Count)
                             {
                                 var oldObject = oldArray[i];
-                                var oldAuditLogEntries = oldObject.ToAuditLogsShort().Select(x => AuditLogEntry.Remove($"{oldArray.Path.RemoveIndexer()}->{x.PropertyName}", x.Value));
+                                var oldAuditLogEntries = oldObject.ToAuditLogsShort().Select(x => AuditLogEntry.Remove(oldArray.Path.RemovePathIndexer().PathConcat(x.PropertyName), x.Value));
                                 auditLog.AddEntries(oldAuditLogEntries);
                             }
                             else
                             {
                                 var newObject = newArray[i];
-                                var newAuditLogEntries = newObject.ToAuditLogsShort().Select(x => AuditLogEntry.Add($"{newArray.Path.RemoveIndexer()}->{x.PropertyName}", x.Value));
+                                var newAuditLogEntries = newObject.ToAuditLogsShort().Select(x => AuditLogEntry.Add(newArray.Path.RemovePathIndexer().PathConcat(x.PropertyName), x.Value));
                                 auditLog.AddEntries(newAuditLogEntries);
                             }
                         }
@@ -80,7 +79,7 @@ namespace Aiirh.Basic.Audit
                     default:
                         if (!JToken.DeepEquals(oldToken, newToken))
                         {
-                            auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemoveIndexer(), newToken.ToString(), oldToken.ToString()));
+                            auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemovePathIndexer(), newToken.ToString(), oldToken.ToString()));
                         }
                         break;
                 }
@@ -111,16 +110,6 @@ namespace Aiirh.Basic.Audit
                     }
                 }
             }
-        }
-
-        private static string RemoveIndexer(this string pathWithIndex)
-        {
-            const string replacement1 = "";
-            const string replacement2 = "->";
-            var regex1 = new Regex(@"\[\d+\]", RegexOptions.Compiled);
-            var regex2 = new Regex(@"\.", RegexOptions.Compiled);
-            string outputString = regex1.Replace(pathWithIndex, replacement1);
-            return regex2.Replace(outputString, replacement2);
         }
     }
 }

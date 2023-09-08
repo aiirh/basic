@@ -42,7 +42,7 @@ namespace Aiirh.Basic.Audit
     {
         private readonly List<AuditLogEntry> _entries = new List<AuditLogEntry>();
 
-        public IEnumerable<IAuditLogEntry> Entries => _entries;
+        public IEnumerable<IAuditLogEntry> Changes => _entries;
 
         public string Author { get; }
 

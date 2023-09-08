@@ -49,8 +49,6 @@ namespace Aiirh.Basic.Audit
                 var mainData = JObject.FromObject(obj, serializer);
                 jObject.AddJsonToJson(mainData);
                 return jObject.ToString(Formatting.None);
-                var jsonString = JsonConvert.SerializeObject(obj, new JsonSerializerSettings { ContractResolver = new RevisionsContractResolver(attributes) });
-                return jsonString;
             }
         }
     }

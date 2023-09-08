@@ -7,14 +7,23 @@
 		<Company />
 		<Authors>Evgenii Baleevskii</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services that provide basic classes of usual application</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>2.0.19</Version>
-		<AssemblyVersion>2.0.19.0</AssemblyVersion>
-		<FileVersion>2.0.19.0</FileVersion>
+		<Version>2.0.20</Version>
+		<AssemblyVersion>2.0.20.0</AssemblyVersion>
+		<FileVersion>2.0.20.0</FileVersion>
 		<PackageIcon>AiirhLogo128.png</PackageIcon>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

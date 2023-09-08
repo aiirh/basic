@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.DatabaseTools", "Aiir
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.Crypto", "Aiirh.Crypto\Aiirh.Crypto.csproj", "{93BC570D-C7F2-47DF-9F60-C738066FA5F8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aiirh.Audit", "Aiirh.Audit\Aiirh.Audit.csproj", "{73FD7386-10D5-4152-8E4B-8D79DA3FEB0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{93BC570D-C7F2-47DF-9F60-C738066FA5F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93BC570D-C7F2-47DF-9F60-C738066FA5F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93BC570D-C7F2-47DF-9F60-C738066FA5F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73FD7386-10D5-4152-8E4B-8D79DA3FEB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73FD7386-10D5-4152-8E4B-8D79DA3FEB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73FD7386-10D5-4152-8E4B-8D79DA3FEB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73FD7386-10D5-4152-8E4B-8D79DA3FEB0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,6 +17,11 @@ namespace Aiirh.Audit
             }
 
             var json = data.ToRevisionJson();
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+
             return new Revision(author, json, createdDate);
         }
 

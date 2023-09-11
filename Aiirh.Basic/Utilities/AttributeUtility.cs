@@ -60,7 +60,7 @@ namespace Aiirh.Basic.Utilities
                 }
 
                 // Check if the property is a reference type and not a primitive type or a string
-                if (!prop.PropertyType.IsPrimitive && prop.PropertyType != typeof(string))
+                if (!prop.PropertyType.IsStandardType())
                 {
                     // If it's a collection type, get the element type and check attributes on its properties
                     if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))

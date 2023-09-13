@@ -28,7 +28,20 @@ namespace Aiirh.Basic.Utilities
         public static JToken GetJsonPropertyByName(this string jsonString, string propertyName)
         {
             var jsonObject = JObject.Parse(jsonString);
+            return jsonObject.GetJsonPropertyByName(propertyName);
+        }
+
+        public static JToken GetJsonPropertyByName(this JObject jsonObject, string propertyName)
+        {
             return jsonObject.TryGetValue(propertyName, StringComparison.OrdinalIgnoreCase, out JToken propertyValue) ? propertyValue : null;
+        }
+
+        public static void RemoveJsonPropertyByName(this JObject jsonObject, string propertyName)
+        {
+            if (jsonObject?[propertyName] != null)
+            {
+                jsonObject.Remove(propertyName);
+            }
         }
 
         public static bool EqualsAsJson(this string one, string other)

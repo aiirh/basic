@@ -8,6 +8,18 @@ namespace Aiirh.Audit.Internal
     {
         private const string PathSeparator = "->";
 
+        public static string RemoveDotsAndPluses(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return str;
+            }
+
+            var removeDotRegex = new Regex(@"[.+]", RegexOptions.Compiled);
+            var result = removeDotRegex.Replace(str, string.Empty);
+            return result;
+        }
+
         public static string RemovePathIndexer(this string pathWithIndex)
         {
             var removeIndexInBracketsRegex = new Regex(@"\[\d+\]", RegexOptions.Compiled);

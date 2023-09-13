@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Aiirh.Basic.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aiirh.Audit.Internal
 {
@@ -28,7 +30,7 @@ namespace Aiirh.Audit.Internal
             return new AuditLogEntry(ChangeType.Add, propertyName, newValue, null);
         }
 
-        public string PropertyName { get; }
+        public string PropertyName { get; internal set; }
 
         public string OldValue { get; }
 
@@ -53,19 +55,31 @@ namespace Aiirh.Audit.Internal
             Author = author;
         }
 
-        public void AddEntry(AuditLogEntry entry)
+        public void AddEntries(IEnumerable<AuditLogEntry> entries, IDictionary<string, string> propertyNamesMapping)
         {
-            _entries.Add(entry);
+            var auditLogEntries = entries.ToList();
+            auditLogEntries.ForEach(x =>
+            {
+                foreach (KeyValuePair<string, string> pair in propertyNamesMapping)
+                {
+                    if (x.PropertyName.Contains(pair.Key))
+                    {
+                        x.PropertyName = x.PropertyName.Replace(pair.Key, pair.Value);
+                    }
+                }
+            });
+
+            _entries.AddRange(auditLogEntries);
         }
 
-        public void AddEntries(IEnumerable<AuditLogEntry> entries)
+        public void AddEntriesFromAnotherAuditLog(AuditLog auditLog, IDictionary<string, string> propertyNamesMapping)
         {
-            _entries.AddRange(entries);
+            AddEntries(auditLog._entries, propertyNamesMapping);
         }
 
-        public void AddEntriesFromAnotherAuditLog(AuditLog auditLog)
+        public void AddEntry(AuditLogEntry entry, IDictionary<string, string> propertyNamesMapping)
         {
-            _entries.AddRange(auditLog._entries);
+            AddEntries(entry.MakeCollection(), propertyNamesMapping);
         }
     }
 }

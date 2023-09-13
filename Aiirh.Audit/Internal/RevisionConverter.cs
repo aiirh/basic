@@ -14,7 +14,7 @@ namespace Aiirh.Audit.Internal
         public static string ToRevisionJson<T>(this T obj)
         {
             var type = typeof(T);
-            var jObject = JsonUtility.CreateJObjectWithProperty("RevisionType", new JValue(type.FullName));
+            var jObject = JsonUtility.CreateJObjectWithProperty("RevisionType", new JValue(type.FullName.RemoveDotsAndPluses()));
             if (type.IsStandardType())
             {
                 jObject.AddPropertyToJson("Value", new JValue(obj.ToString()));
@@ -66,7 +66,7 @@ namespace Aiirh.Audit.Internal
             {
                 var propertyNameFromAttribute = x.Value.PropertyName;
                 var displayNameFromAttribute = x.Value.DisplayName;
-                var fullPropertyNameFromPropertyInfo = $"{x.Key.ReflectedType.FullName}.{x.Key.Name}";
+                var fullPropertyNameFromPropertyInfo = $"{x.Key.ReflectedType.FullName.RemoveDotsAndPluses()}{x.Key.Name}";
                 var propertyNameFromPropertyInfo = x.Key.Name;
                 var finalPropertyNameForDisplay = string.IsNullOrWhiteSpace(propertyNameFromAttribute)
                     ? propertyNameFromPropertyInfo
@@ -86,11 +86,11 @@ namespace Aiirh.Audit.Internal
         {
             _attributesToCreate = attributes
                 .Where(x => x.Key.ReflectedType != null)
-                .ToDictionary(x => $"{x.Key.ReflectedType.FullName}.{x.Key.Name}", x =>
+                .ToDictionary(x => $"{x.Key.ReflectedType.FullName.RemoveDotsAndPluses()}{x.Key.Name}", x =>
                 {
                     Debug.Assert(x.Key.ReflectedType != null, "x.Key.ReflectedType != null");
                     return string.IsNullOrWhiteSpace(x.Value.PropertyName)
-                        ? $"{x.Key.ReflectedType.FullName}.{x.Key.Name}"
+                        ? $"{x.Key.ReflectedType.FullName.RemoveDotsAndPluses()}{x.Key.Name}"
                         : x.Value.PropertyName;
                 });
         }
@@ -104,7 +104,7 @@ namespace Aiirh.Audit.Internal
                 return property;
             }
 
-            if (!_attributesToCreate.TryGetValue($"{property.DeclaringType.FullName}.{property.PropertyName}", out var newName))
+            if (!_attributesToCreate.TryGetValue($"{property.DeclaringType.FullName.RemoveDotsAndPluses()}{property.PropertyName}", out var newName))
             {
                 property.ShouldSerialize = _ => false;
                 return property;

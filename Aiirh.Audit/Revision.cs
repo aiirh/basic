@@ -2,6 +2,7 @@
 using Aiirh.Basic.Utilities;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Aiirh.Audit
 {
@@ -15,6 +16,12 @@ namespace Aiirh.Audit
             if (string.IsNullOrWhiteSpace(revisionType))
             {
                 throw new SimpleException("Revision type is not defined in data JSON");
+            }
+
+            var propertyNamesMapping = dataJson.GetJsonPropertyByName("PropertyNamesMapping").ToString(Formatting.None).Convert<Dictionary<string, string>>();
+            if (propertyNamesMapping == null)
+            {
+                throw new SimpleException("PropertyNamesMapping is not defined in data JSON");
             }
 
             _revisionType = revisionType;

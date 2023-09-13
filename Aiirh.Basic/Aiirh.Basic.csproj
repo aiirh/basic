@@ -12,9 +12,9 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services that provide basic classes of usual application</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>2.0.21</Version>
-		<AssemblyVersion>2.0.21.0</AssemblyVersion>
-		<FileVersion>2.0.21.0</FileVersion>
+		<Version>2.0.22</Version>
+		<AssemblyVersion>2.0.22.0</AssemblyVersion>
+		<FileVersion>2.0.22.0</FileVersion>
 		<PackageIcon>AiirhLogo128.png</PackageIcon>
 	</PropertyGroup>
 

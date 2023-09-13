@@ -20,24 +20,24 @@ namespace Aiirh.CommonLibraries.Tests.Audit
         {
             public string Ignore1 { get; set; }
 
-            [Auditable("Name")]
+            [Auditable(PropertyName = "Name", DisplayName = "Some name for Property2")]
             public string Property2 { get; set; }
 
-            [Auditable("Description")]
+            [Auditable(DisplayName = "Description")]
             public string Property3 { get; set; }
 
-            [Auditable("NullToBeHere")]
+            [Auditable(PropertyName = "NullToBeHere")]
             public string Null1 { get; set; }
 
             public string[] ListIgnored { get; set; }
 
-            [Auditable("StringArray")]
+            [Auditable(PropertyName = "StringArray")]
             public string[] ListIncluded { get; set; }
 
-            [Auditable("ObjectArray")]
+            [Auditable(PropertyName = "ObjectArray")]
             public MyAuditTestChild[] ComplexListIncluded { get; set; }
 
-            [Auditable("VeryDeepArray")]
+            [Auditable(PropertyName = "VeryDeepArray")]
             public MyDeepAuditTestChild[] DeepCollection { get; set; }
         }
 
@@ -45,10 +45,10 @@ namespace Aiirh.CommonLibraries.Tests.Audit
         {
             public string Ignore1 { get; set; }
 
-            [Auditable("ChildName")]
+            [Auditable(PropertyName = "ChildName")]
             public string Property2 { get; set; }
 
-            [Auditable("ChildDescription")]
+            [Auditable(PropertyName = "ChildDescription")]
             public string Property3 { get; set; }
         }
 
@@ -56,16 +56,16 @@ namespace Aiirh.CommonLibraries.Tests.Audit
         {
             public string Ignore1 { get; set; }
 
-            [Auditable("DeepChildName")]
+            [Auditable(PropertyName = "DeepChildName")]
             public string Property2 { get; set; }
 
-            [Auditable("DeepChildDescription")]
+            [Auditable(PropertyName = "DeepChildDescription")]
             public string Property3 { get; set; }
 
-            [Auditable("EmbeddedObject")]
+            [Auditable]
             public MyAuditTestChild EmbeddedObject { get; set; }
 
-            [Auditable("EmbeddedArray")]
+            [Auditable]
             public MyAuditTestChild[] EmbeddedArray { get; set; }
         }
 
@@ -107,13 +107,13 @@ namespace Aiirh.CommonLibraries.Tests.Audit
                     }
                 }
             };
-            const string expected = "{\"RevisionType\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestParent\",\"Name\":\"Test2\",\"Description\":\"Test3\",\"NullToBeHere\":null,\"StringArray\":[\"789\",\"ABC\"],\"ObjectArray\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"VeryDeepArray\":[{\"DeepChildName\":\"MyDeepAuditTestChild2\",\"DeepChildDescription\":\"MyDeepAuditTestChild3\",\"EmbeddedObject\":{\"ChildName\":\"DDD\",\"ChildDescription\":\"DDD\"},\"EmbeddedArray\":[{\"ChildName\":\"AAAAA1\",\"ChildDescription\":\"BBBBB2\"},{\"ChildName\":\"AAAAA2\",\"ChildDescription\":\"BBBBB2\"}]}]}";
+            const string expected = "{\"RevisionType\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestParent\",\"Name\":\"Test2\",\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestParent.Property3\":\"Test3\",\"NullToBeHere\":null,\"StringArray\":[\"789\",\"ABC\"],\"ObjectArray\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"VeryDeepArray\":[{\"DeepChildName\":\"MyDeepAuditTestChild2\",\"DeepChildDescription\":\"MyDeepAuditTestChild3\",\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyDeepAuditTestChild.EmbeddedObject\":{\"ChildName\":\"DDD\",\"ChildDescription\":\"DDD\"},\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyDeepAuditTestChild.EmbeddedArray\":[{\"ChildName\":\"AAAAA1\",\"ChildDescription\":\"BBBBB2\"},{\"ChildName\":\"AAAAA2\",\"ChildDescription\":\"BBBBB2\"}]}],\"PropertyNamesMapping\":{\"Name\":\"Some name for Property2\",\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestParent.Property3\":\"Description\",\"NullToBeHere\":\"NullToBeHere\",\"StringArray\":\"StringArray\",\"ObjectArray\":\"ObjectArray\",\"ChildName\":\"ChildName\",\"ChildDescription\":\"ChildDescription\",\"VeryDeepArray\":\"VeryDeepArray\",\"DeepChildName\":\"DeepChildName\",\"DeepChildDescription\":\"DeepChildDescription\",\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyDeepAuditTestChild.EmbeddedObject\":\"EmbeddedObject\",\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyDeepAuditTestChild.EmbeddedArray\":\"EmbeddedArray\"}}";
             yield return new TestCaseData(data, expected);
 
-            yield return new TestCaseData("simple string value", "{\"RevisionType\":\"System.String\",\"Value\":\"simple string value\"}");
-            yield return new TestCaseData(new[] { "one", "two" }, "{\"RevisionType\":\"System.String[]\",\"Values\":[\"one\",\"two\"]}");
+            yield return new TestCaseData("simple string value", "{\"RevisionType\":\"System.String\",\"Value\":\"simple string value\",\"PropertyNamesMapping\":{}}");
+            yield return new TestCaseData(new[] { "one", "two" }, "{\"RevisionType\":\"System.String[]\",\"Values\":[\"one\",\"two\"],\"PropertyNamesMapping\":{}}");
 
-            yield return new TestCaseData(myAuditTestChildArray1, "{\"RevisionType\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestChild[]\",\"Values\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}]}");
+            yield return new TestCaseData(myAuditTestChildArray1, "{\"RevisionType\":\"Aiirh.CommonLibraries.Tests.Audit.RevisionCreatorTests+MyAuditTestChild[]\",\"Values\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"PropertyNamesMapping\":{\"ChildName\":\"ChildName\",\"ChildDescription\":\"ChildDescription\"}}");
         }
     }
 }

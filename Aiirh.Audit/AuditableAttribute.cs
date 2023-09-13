@@ -5,11 +5,8 @@ namespace Aiirh.Audit
     [AttributeUsage(AttributeTargets.Property)]
     public class AuditableAttribute : Attribute
     {
-        public AuditableAttribute(string propertyName)
-        {
-            PropertyName = propertyName;
-        }
+        public string PropertyName { get; set; }
 
-        public string PropertyName { get; }
+        public string DisplayName { get; set; }
     }
 }

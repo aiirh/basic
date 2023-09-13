@@ -25,7 +25,7 @@ namespace Aiirh.Audit
             return new Revision(author, json, createdDate);
         }
 
-        public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions)
+        public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->")
         {
             var sortedRevisions = revisions.OrderBy(x => x.CreatedDate).ToArray();
             if (sortedRevisions.Length < 2)
@@ -44,7 +44,7 @@ namespace Aiirh.Audit
                     continue;
                 }
 
-                var auditLog = AuditLogBuilder.Build(earlier.DataJson, later.DataJson, later.CreatedDate, later.Author);
+                var auditLog = AuditLogBuilder.Build(earlier.DataJson, later.DataJson, later.CreatedDate, later.Author, pathSeparator);
                 if (auditLog.Changes.Any())
                 {
                     yield return auditLog;

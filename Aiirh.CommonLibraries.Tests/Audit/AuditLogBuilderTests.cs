@@ -13,7 +13,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
         [TestCaseSource(nameof(GetTestData))]
         public void AuditLogBuild_ShouldReturnCorrectValue(string json1, string json2, int countOfResults)
         {
-            var result = AuditLogBuilder.Build(json1, json2, DateTime.Today, "Test author");
+            var result = AuditLogBuilder.Build(json1, json2, DateTime.Today, "Test author", "->");
             Assert.AreEqual(countOfResults, result.Changes.Count());
         }
 

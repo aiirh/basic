@@ -6,8 +6,6 @@ namespace Aiirh.Audit.Internal
 {
     internal static class JTokenExtensions
     {
-        private const string PathSeparator = "->";
-
         public static string RemoveDotsAndPluses(this string str)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -20,16 +18,16 @@ namespace Aiirh.Audit.Internal
             return result;
         }
 
-        public static string RemovePathIndexer(this string pathWithIndex)
+        public static string RemovePathIndexer(this string pathWithIndex, string pathSeparator)
         {
             var removeIndexInBracketsRegex = new Regex(@"\[\d+\]", RegexOptions.Compiled);
             var removeDotRegex = new Regex(@"\.", RegexOptions.Compiled);
             var outputString = removeIndexInBracketsRegex.Replace(pathWithIndex, string.Empty);
-            var result = removeDotRegex.Replace(outputString, PathSeparator);
+            var result = removeDotRegex.Replace(outputString, pathSeparator);
             return result;
         }
 
-        public static string PathConcat(this string path, string nextSegment)
+        public static string PathConcat(this string path, string nextSegment, string pathSeparator)
         {
             if (string.IsNullOrWhiteSpace(path) && string.IsNullOrWhiteSpace(nextSegment))
             {
@@ -46,7 +44,7 @@ namespace Aiirh.Audit.Internal
                 return nextSegment;
             }
 
-            return $"{path}{PathSeparator}{nextSegment}";
+            return $"{path}{pathSeparator}{nextSegment}";
         }
 
         public static IEnumerable<AuditLogShort> ToAuditLogsShort(this JToken added)

@@ -33,7 +33,7 @@ namespace Aiirh.Audit
                 yield break;
             }
 
-            sortedRevisions.ValidateRevisions();
+            sortedRevisions.ValidateRevisions(pathSeparator);
 
             for (var i = 0; i < sortedRevisions.Length - 1; i++)
             {
@@ -52,11 +52,16 @@ namespace Aiirh.Audit
             }
         }
 
-        private static void ValidateRevisions(this IEnumerable<Revision> revisions)
+        private static void ValidateRevisions(this ICollection<Revision> revisions, string pathSeparator)
         {
             if (!revisions.AllHaveTheSameValue(x => x.GetRevisionType()))
             {
                 throw new SimpleException("Revisions must have same revision type");
+            }
+
+            if (revisions.Select(x => x.DataJson).Any(x => x.Contains(pathSeparator)))
+            {
+                throw new SimpleException("This separator can't be used because it participates in some property names. Choose another separator");
             }
         }
     }

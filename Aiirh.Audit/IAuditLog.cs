@@ -5,7 +5,11 @@ namespace Aiirh.Audit
 {
     public interface IAuditLogEntry
     {
+        string FullPath { get; }
+
         string PropertyName { get; }
+
+        public string[] PathSegments { get; }
 
         string OldValue { get; }
 

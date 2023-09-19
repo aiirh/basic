@@ -2,35 +2,53 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Aiirh.Audit.Internal
 {
     internal class AuditLogEntry : IAuditLogEntry
     {
-        private AuditLogEntry(ChangeType changeType, string propertyName, string newValue, string oldValue)
+        private AuditLogEntry(ChangeType changeType, string fullPath, string newValue, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
         {
+            var resultFullPathStringBuilder = new StringBuilder(fullPath);
+            foreach (var pair in propertyNamesMapping)
+            {
+                if (fullPath.Contains(pair.Key))
+                {
+                    resultFullPathStringBuilder = resultFullPathStringBuilder.Replace(pair.Key, pair.Value);
+                }
+            }
+            var resultFullPath = resultFullPathStringBuilder.ToString();
+            var segments = resultFullPath.Split(new[] { pathSeparator }, StringSplitOptions.RemoveEmptyEntries).Reverse().ToArray();
+
             ChangeType = changeType;
-            PropertyName = propertyName;
             NewValue = newValue;
             OldValue = oldValue;
+            FullPath = resultFullPath;
+            PathSegments = segments;
+            PropertyName = segments.FirstOrDefault();
         }
 
-        public static AuditLogEntry Edit(string propertyName, string newValue, string oldValue)
+        public static AuditLogEntry Edit(string fullPath, string newValue, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
         {
-            return new AuditLogEntry(ChangeType.Edit, propertyName, newValue, oldValue);
+            return new AuditLogEntry(ChangeType.Edit, fullPath, newValue, oldValue, propertyNamesMapping, pathSeparator);
         }
 
-        public static AuditLogEntry Remove(string propertyName, string oldValue)
+        public static AuditLogEntry Remove(string fullPath, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
         {
-            return new AuditLogEntry(ChangeType.Remove, propertyName, null, oldValue);
+            return new AuditLogEntry(ChangeType.Remove, fullPath, null, oldValue, propertyNamesMapping, pathSeparator);
         }
 
-        public static AuditLogEntry Add(string propertyName, string newValue)
+        public static AuditLogEntry Add(string fullPath, string newValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
         {
-            return new AuditLogEntry(ChangeType.Add, propertyName, newValue, null);
+            return new AuditLogEntry(ChangeType.Add, fullPath, newValue, null, propertyNamesMapping, pathSeparator);
         }
 
-        public string PropertyName { get; internal set; }
+        public string PropertyName { get; }
+
+        public string FullPath { get; }
+
+        public string[] PathSegments { get; }
 
         public string OldValue { get; }
 
@@ -55,31 +73,19 @@ namespace Aiirh.Audit.Internal
             Author = author;
         }
 
-        public void AddEntries(IEnumerable<AuditLogEntry> entries, IDictionary<string, string> propertyNamesMapping)
+        public void AddEntries(IEnumerable<AuditLogEntry> entries)
         {
-            var auditLogEntries = entries.ToList();
-            auditLogEntries.ForEach(x =>
-            {
-                foreach (KeyValuePair<string, string> pair in propertyNamesMapping)
-                {
-                    if (x.PropertyName.Contains(pair.Key))
-                    {
-                        x.PropertyName = x.PropertyName.Replace(pair.Key, pair.Value);
-                    }
-                }
-            });
-
-            _entries.AddRange(auditLogEntries);
+            _entries.AddRange(entries);
         }
 
-        public void AddEntriesFromAnotherAuditLog(AuditLog auditLog, IDictionary<string, string> propertyNamesMapping)
+        public void AddEntriesFromAnotherAuditLog(AuditLog auditLog)
         {
-            AddEntries(auditLog._entries, propertyNamesMapping);
+            AddEntries(auditLog._entries);
         }
 
-        public void AddEntry(AuditLogEntry entry, IDictionary<string, string> propertyNamesMapping)
+        public void AddEntry(AuditLogEntry entry)
         {
-            AddEntries(entry.MakeCollection(), propertyNamesMapping);
+            AddEntries(entry.MakeCollection());
         }
     }
 }

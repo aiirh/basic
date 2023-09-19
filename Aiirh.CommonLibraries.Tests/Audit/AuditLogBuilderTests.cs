@@ -15,6 +15,12 @@ namespace Aiirh.CommonLibraries.Tests.Audit
         {
             var result = AuditLogBuilder.Build(json1, json2, DateTime.Today, "Test author", "->");
             Assert.AreEqual(countOfResults, result.Changes.Count());
+            foreach (var change in result.Changes)
+            {
+                Assert.IsNotNull(change.PropertyName);
+                Assert.IsNotNull(change.PathSegments);
+                Assert.IsNotEmpty(change.PathSegments);
+            }
         }
 
         private static IEnumerable<TestCaseData> GetTestData()

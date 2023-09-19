@@ -37,7 +37,7 @@ namespace Aiirh.Audit.Internal
             if (oldToken.Type != newToken.Type)
             {
                 // Type has changed, add to the audit log
-                auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemovePathIndexer(pathSeparator), newToken.ToString(), oldToken.ToString()), propertyNamesMapping);
+                auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemovePathIndexer(pathSeparator), newToken.ToString(), oldToken.ToString(), propertyNamesMapping, pathSeparator));
             }
             else
             {
@@ -54,7 +54,7 @@ namespace Aiirh.Audit.Internal
                             var newValue = newObj[propertyName];
 
                             var subAuditLog = CompareJsonObjects(oldValue, newValue, createdDate, author, propertyNamesMapping, pathSeparator);
-                            auditLog.AddEntriesFromAnotherAuditLog(subAuditLog, propertyNamesMapping);
+                            auditLog.AddEntriesFromAnotherAuditLog(subAuditLog);
                         }
 
                         break;
@@ -69,19 +69,19 @@ namespace Aiirh.Audit.Internal
                             if (i < oldArray.Count && i < newArray.Count)
                             {
                                 var subAuditLog = CompareJsonObjects(oldArray[i], newArray[i], createdDate, author, propertyNamesMapping, pathSeparator);
-                                auditLog.AddEntriesFromAnotherAuditLog(subAuditLog, propertyNamesMapping);
+                                auditLog.AddEntriesFromAnotherAuditLog(subAuditLog);
                             }
                             else if (i < oldArray.Count)
                             {
                                 var oldObject = oldArray[i];
-                                var oldAuditLogEntries = oldObject.ToAuditLogsShort().Select(x => AuditLogEntry.Remove(oldArray.Path.RemovePathIndexer(pathSeparator).PathConcat(x.PropertyName, pathSeparator), x.Value));
-                                auditLog.AddEntries(oldAuditLogEntries, propertyNamesMapping);
+                                var oldAuditLogEntries = oldObject.ToAuditLogsShort().Select(x => AuditLogEntry.Remove(oldArray.Path.RemovePathIndexer(pathSeparator).PathConcat(x.PropertyName, pathSeparator), x.Value, propertyNamesMapping, pathSeparator));
+                                auditLog.AddEntries(oldAuditLogEntries);
                             }
                             else
                             {
                                 var newObject = newArray[i];
-                                var newAuditLogEntries = newObject.ToAuditLogsShort().Select(x => AuditLogEntry.Add(newArray.Path.RemovePathIndexer(pathSeparator).PathConcat(x.PropertyName, pathSeparator), x.Value));
-                                auditLog.AddEntries(newAuditLogEntries, propertyNamesMapping);
+                                var newAuditLogEntries = newObject.ToAuditLogsShort().Select(x => AuditLogEntry.Add(newArray.Path.RemovePathIndexer(pathSeparator).PathConcat(x.PropertyName, pathSeparator), x.Value, propertyNamesMapping, pathSeparator));
+                                auditLog.AddEntries(newAuditLogEntries);
                             }
                         }
 
@@ -89,7 +89,7 @@ namespace Aiirh.Audit.Internal
                     default:
                         if (!JToken.DeepEquals(oldToken, newToken))
                         {
-                            auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemovePathIndexer(pathSeparator), newToken.ToString(), oldToken.ToString()), propertyNamesMapping);
+                            auditLog.AddEntry(AuditLogEntry.Edit(oldToken.Path.RemovePathIndexer(pathSeparator), newToken.ToString(), oldToken.ToString(), propertyNamesMapping, pathSeparator));
                         }
 
                         break;

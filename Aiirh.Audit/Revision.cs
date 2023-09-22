@@ -10,7 +10,7 @@ namespace Aiirh.Audit
     {
         private readonly string _revisionType;
 
-        public Revision(string author, string dataJson, DateTime createdDate)
+        public Revision(string author, string dataJson, DateTime createdDate, string comment)
         {
             var revisionType = dataJson.GetJsonPropertyByName("RevisionType").ToString(Formatting.None);
             if (string.IsNullOrWhiteSpace(revisionType))
@@ -28,6 +28,7 @@ namespace Aiirh.Audit
             Author = author;
             DataJson = dataJson;
             CreatedDate = createdDate;
+            Comment = comment;
         }
 
         public string Author { get; }
@@ -35,6 +36,8 @@ namespace Aiirh.Audit
         public string DataJson { get; }
 
         public DateTime CreatedDate { get; }
+
+        public string Comment { get; }
 
         public string GetRevisionType() => _revisionType;
 

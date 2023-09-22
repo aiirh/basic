@@ -9,7 +9,7 @@ namespace Aiirh.Audit
 {
     public static class AuditLogHelper
     {
-        public static Revision CreateRevision<T>(this T data, DateTime createdDate, string author)
+        public static Revision CreateRevision<T>(this T data, DateTime createdDate, string author, string comment)
         {
             if (data is null)
             {
@@ -22,7 +22,7 @@ namespace Aiirh.Audit
                 return null;
             }
 
-            return new Revision(author, json, createdDate);
+            return new Revision(author, json, createdDate, comment);
         }
 
         public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->")
@@ -44,7 +44,7 @@ namespace Aiirh.Audit
                     continue;
                 }
 
-                var auditLog = AuditLogBuilder.Build(earlier.DataJson, later.DataJson, later.CreatedDate, later.Author, pathSeparator);
+                var auditLog = AuditLogBuilder.Build(earlier.DataJson, later.DataJson, later.CreatedDate, later.Author, later.Comment, pathSeparator);
                 if (auditLog.Changes.Any())
                 {
                     yield return auditLog;

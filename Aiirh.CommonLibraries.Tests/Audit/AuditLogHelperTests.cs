@@ -79,7 +79,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
             var revisions = new List<Revision>();
             foreach (var (json, index) in jsonArray.WithIndex())
             {
-                revisions.Add(new Revision(Names[index], json, date.AddDays(index)));
+                revisions.Add(new Revision(Names[index], json, date.AddDays(index), "Comment"));
             }
 
             yield return new TestCaseData(revisions.Shuffle());
@@ -98,7 +98,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
             var revisions = new List<Revision>();
             foreach (var (json, index) in jsonArray.WithIndex())
             {
-                revisions.Add(new Revision(Names[index], json, date.AddDays(index)));
+                revisions.Add(new Revision(Names[index], json, date.AddDays(index), "Comment"));
             }
 
             yield return new TestCaseData(revisions.Shuffle(), 4);
@@ -117,7 +117,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
             var revisions = new List<Revision>();
             foreach (var (json, index) in jsonArray.WithIndex())
             {
-                revisions.Add(new Revision(Names[index], json, date.AddDays(index)));
+                revisions.Add(new Revision(Names[index], json, date.AddDays(index), "Comment"));
             }
 
             yield return new TestCaseData(revisions.Shuffle());
@@ -135,7 +135,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
             var revisions123 = new List<Revision>();
             foreach (var (json, index) in jsonArray123.WithIndex())
             {
-                revisions123.Add(new Revision(Names[index], json, date.AddDays(index)));
+                revisions123.Add(new Revision(Names[index], json, date.AddDays(index), "Comment"));
             }
 
             const string json4 = "{\"RevisionType\":\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyAuditTestParent\",\"Name\":\"Test2\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyAuditTestParentProperty3\":\"Test3\",\"NullToBeHere\":null,\"StringArray\":[\"789\",\"ABC\"],\"ObjectArray\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"VeryDeepArray\":[{\"DeepChildName\":\"MyDeepAuditTestChild2\",\"DeepChildDescription\":\"MyDeepAuditTestChild3\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedObject\":{\"ChildName\":\"DDD\",\"ChildDescription\":\"DDD\"},\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedArray\":[{\"ChildName\":\"AAAAA1\",\"ChildDescription\":\"BBBBB2\"},{\"ChildName\":\"AAAAA2\",\"ChildDescription\":\"BBBBB2\"}]}],\"PropertyNamesMapping\":{\"Name\":\"Some name for Property2\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyAuditTestParentProperty3\":\"Description\",\"NullToBeHere\":\"NullToBeHere\",\"StringArray\":\"StringArray\",\"ObjectArray\":\"ObjectArray\",\"ChildName\":\"ChildName\",\"ChildDescription\":\"ChildDescription\",\"VeryDeepArray\":\"VeryDeepArray\",\"DeepChildName\":\"DeepChildName\",\"DeepChildDescription\":\"DeepChildDescription\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedObject\":\"EmbeddedObject\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedArray\":\"EmbeddedArray\"}}";
@@ -146,7 +146,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
             var revisions456 = new List<Revision>();
             foreach (var (json, index) in jsonArray456.WithIndex())
             {
-                revisions456.Add(new Revision(Names[index], json, date.AddDays(index)));
+                revisions456.Add(new Revision(Names[index], json, date.AddDays(index), "Comment"));
             }
 
             yield return new TestCaseData(revisions123.Shuffle(), "|");

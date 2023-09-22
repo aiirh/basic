@@ -8,7 +8,7 @@ namespace Aiirh.Audit.Internal
 {
     internal class AuditLogEntry : IAuditLogEntry
     {
-        private AuditLogEntry(ChangeType changeType, string fullPath, string newValue, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
+        private AuditLogEntry(ChangeType changeType, string fullPath, string newValue, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator, string comment)
         {
             var resultFullPathStringBuilder = new StringBuilder(fullPath);
             foreach (var pair in propertyNamesMapping)
@@ -24,24 +24,25 @@ namespace Aiirh.Audit.Internal
             ChangeType = changeType;
             NewValue = newValue;
             OldValue = oldValue;
+            Comment = comment;
             FullPath = resultFullPath;
             PathSegments = segments;
             PropertyName = segments.FirstOrDefault();
         }
 
-        public static AuditLogEntry Edit(string fullPath, string newValue, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
+        public static AuditLogEntry Edit(string fullPath, string newValue, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator, string comment)
         {
-            return new AuditLogEntry(ChangeType.Edit, fullPath, newValue, oldValue, propertyNamesMapping, pathSeparator);
+            return new AuditLogEntry(ChangeType.Edit, fullPath, newValue, oldValue, propertyNamesMapping, pathSeparator, comment);
         }
 
-        public static AuditLogEntry Remove(string fullPath, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
+        public static AuditLogEntry Remove(string fullPath, string oldValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator, string comment)
         {
-            return new AuditLogEntry(ChangeType.Remove, fullPath, null, oldValue, propertyNamesMapping, pathSeparator);
+            return new AuditLogEntry(ChangeType.Remove, fullPath, null, oldValue, propertyNamesMapping, pathSeparator, comment);
         }
 
-        public static AuditLogEntry Add(string fullPath, string newValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator)
+        public static AuditLogEntry Add(string fullPath, string newValue, IDictionary<string, string> propertyNamesMapping, string pathSeparator, string comment)
         {
-            return new AuditLogEntry(ChangeType.Add, fullPath, newValue, null, propertyNamesMapping, pathSeparator);
+            return new AuditLogEntry(ChangeType.Add, fullPath, newValue, null, propertyNamesMapping, pathSeparator, comment);
         }
 
         public string PropertyName { get; }
@@ -55,6 +56,8 @@ namespace Aiirh.Audit.Internal
         public string NewValue { get; }
 
         public ChangeType ChangeType { get; }
+
+        public string Comment { get; }
     }
 
     internal class AuditLog : IAuditLog

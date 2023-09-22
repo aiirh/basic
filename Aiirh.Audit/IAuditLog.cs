@@ -16,6 +16,8 @@ namespace Aiirh.Audit
         string NewValue { get; }
 
         ChangeType ChangeType { get; }
+
+        string Comment { get; }
     }
 
     public interface IAuditLog

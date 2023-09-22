@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -86,13 +85,9 @@ namespace Aiirh.Audit.Internal
         {
             _attributesToCreate = attributes
                 .Where(x => x.Key.ReflectedType != null)
-                .ToDictionary(x => $"{x.Key.ReflectedType.FullName.RemoveDotsAndPluses()}{x.Key.Name}", x =>
-                {
-                    Debug.Assert(x.Key.ReflectedType != null, "x.Key.ReflectedType != null");
-                    return string.IsNullOrWhiteSpace(x.Value.PropertyName)
-                        ? $"{x.Key.ReflectedType.FullName.RemoveDotsAndPluses()}{x.Key.Name}"
-                        : x.Value.PropertyName;
-                });
+                .ToDictionary(x => $"{x.Key.ReflectedType.FullName.RemoveDotsAndPluses()}{x.Key.Name}", x => string.IsNullOrWhiteSpace(x.Value.PropertyName)
+                    ? $"{x.Key.ReflectedType!.FullName.RemoveDotsAndPluses()}{x.Key.Name}"
+                    : x.Value.PropertyName);
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)

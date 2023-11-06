@@ -46,13 +46,10 @@ namespace Aiirh.CommonLibraries.Tests.Audit
 
         [Test]
         [TestCaseSource(nameof(GetTestDataDifferentTypes))]
-        public void ToAuditLogs_DifferentRevisionTypes_ShouldThrowException(IEnumerable<Revision> revisions)
+        public void ToAuditLogs_DifferentRevisionTypes_ShouldTakeLatestType(IEnumerable<Revision> revisions, int countOfAuditLogs)
         {
-            var exception = Assert.Throws<SimpleException>(() =>
-            {
-                var _ = revisions.ToAuditLogs().ToList();
-            });
-            Assert.AreEqual("Revisions must have same revision type", exception.Message);
+            var result = revisions.ToAuditLogs().ToList();
+            Assert.AreEqual(countOfAuditLogs, result.Count);
         }
 
         [Test]
@@ -120,7 +117,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit
                 revisions.Add(new Revision(Names[index], json, date.AddDays(index), "Comment"));
             }
 
-            yield return new TestCaseData(revisions.Shuffle());
+            yield return new TestCaseData(revisions.Shuffle(), 2);
         }
 
         private static IEnumerable<TestCaseData> GetTestDataWrongSeparator()

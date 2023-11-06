@@ -27,13 +27,17 @@ namespace Aiirh.Audit
 
         public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->")
         {
-            var sortedRevisions = revisions.OrderBy(x => x.CreatedDate).ToArray();
-            if (sortedRevisions.Length < 2)
+            var revisionsAsArray = revisions.ToArray();
+            if (revisionsAsArray.Length < 2)
             {
                 yield break;
             }
 
-            sortedRevisions.ValidateRevisions(pathSeparator);
+            var sortedRevisions = revisionsAsArray.ValidateRevisions(pathSeparator).TakeLastRevisionType().OrderBy(x => x.CreatedDate).ToArray();
+            if (sortedRevisions.Length < 2)
+            {
+                yield break;
+            }
 
             for (var i = 0; i < sortedRevisions.Length - 1; i++)
             {
@@ -52,17 +56,20 @@ namespace Aiirh.Audit
             }
         }
 
-        private static void ValidateRevisions(this ICollection<Revision> revisions, string pathSeparator)
+        private static ICollection<Revision> ValidateRevisions(this ICollection<Revision> revisions, string pathSeparator)
         {
-            if (!revisions.AllHaveTheSameValue(x => x.GetRevisionType()))
-            {
-                throw new SimpleException("Revisions must have same revision type");
-            }
-
             if (revisions.Select(x => x.DataJson).Any(x => x.Contains(pathSeparator)))
             {
                 throw new SimpleException("This separator can't be used because it participates in some property names. Choose another separator");
             }
+
+            return revisions;
+        }
+
+        private static IEnumerable<Revision> TakeLastRevisionType(this ICollection<Revision> revisions)
+        {
+            var latestRevisionType = revisions.MaxBy(x => x.CreatedDate).GetRevisionType();
+            return revisions.Where(x => x.GetRevisionType().Equals(latestRevisionType, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

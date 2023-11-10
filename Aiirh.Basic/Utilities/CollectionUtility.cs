@@ -119,18 +119,6 @@ namespace Aiirh.Basic.Utilities
             return element;
         }
 
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            var seenKeys = new HashSet<TKey>();
-            foreach (var element in source)
-            {
-                if (seenKeys.Add(keySelector(element)))
-                {
-                    yield return element;
-                }
-            }
-        }
-
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             return source.OrderBy(keySelector).FirstOrDefault();

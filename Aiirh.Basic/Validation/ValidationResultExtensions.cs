@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Aiirh.Basic.Utilities;
 
 namespace Aiirh.Basic.Validation
 {
@@ -20,5 +20,18 @@ namespace Aiirh.Basic.Validation
                 Messages = g.SelectMany(x => x.Messages).DistinctBy(x => x.Message.ToString())
             });
         }
+
+        private static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            var seenKeys = new HashSet<TKey>();
+            foreach (var element in source)
+            {
+                if (seenKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
+        }
+
     }
 }

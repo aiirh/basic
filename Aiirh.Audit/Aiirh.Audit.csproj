@@ -12,9 +12,9 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services for tracking changes in data objects</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>1.0.6</Version>
-		<AssemblyVersion>1.0.6.0</AssemblyVersion>
-		<FileVersion>1.0.6.0</FileVersion>
+		<Version>1.0.7</Version>
+		<AssemblyVersion>1.0.7.0</AssemblyVersion>
+		<FileVersion>1.0.7.0</FileVersion>
 		<PackageIcon>AiirhLogo128.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>

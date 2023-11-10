@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -74,6 +75,18 @@ namespace Aiirh.Audit.Internal
                 var displayName = string.IsNullOrWhiteSpace(displayNameFromAttribute) ? finalPropertyNameForDisplay : displayNameFromAttribute;
                 return new KeyValuePair<string, string>(key, displayName);
             }).DistinctBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        private static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            var seenKeys = new HashSet<TKey>();
+            foreach (var element in source)
+            {
+                if (seenKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
         }
     }
 

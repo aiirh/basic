@@ -10,6 +10,16 @@ namespace Aiirh.Basic.Utilities
             return !string.IsNullOrEmpty(str);
         }
 
+        public static bool IsNullOrWhiteSpace(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
+        }
+
+        public static bool IsNotNullOrWhiteSpace(this string str)
+        {
+            return !string.IsNullOrWhiteSpace(str);
+        }
+
         public static bool ContainsCaseInsensitive(this string str, string strToCompare)
         {
             return str.ToLower().Contains(strToCompare.ToLower());

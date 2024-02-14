@@ -11,17 +11,17 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>Services that provide basic database functionality</Description>
 		<Copyright>Evgenii Baleevskii</Copyright>
-		<Version>1.1.0</Version>
-		<AssemblyVersion>1.1.0.0</AssemblyVersion>
-		<FileVersion>1.1.0.0</FileVersion>
+		<Version>1.1.1</Version>
+		<AssemblyVersion>1.1.1.0</AssemblyVersion>
+		<FileVersion>1.1.1.0</FileVersion>
 		<PackageIcon>AiirhLogo128.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\AiirhLogo128.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\AiirhLogo128.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Aiirh.Basic\Aiirh.Basic.csproj" />
+		<ProjectReference Include="..\Aiirh.Basic\Aiirh.Basic.csproj" />
 	</ItemGroup>
 
 </Project>

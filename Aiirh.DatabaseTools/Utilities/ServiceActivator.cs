@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Aiirh.Basic.Utilities
+namespace Aiirh.DatabaseTools.Utilities
 {
     public static class ServiceLocator
     {

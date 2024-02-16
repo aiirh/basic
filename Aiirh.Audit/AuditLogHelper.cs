@@ -1,6 +1,5 @@
 ﻿using Aiirh.Audit.Internal;
 using Aiirh.Basic.Exceptions;
-using Aiirh.Basic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +69,11 @@ namespace Aiirh.Audit
         {
             var latestRevisionType = revisions.MaxBy(x => x.CreatedDate).GetRevisionType();
             return revisions.Where(x => x.GetRevisionType().Equals(latestRevisionType, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return source.OrderBy(keySelector).LastOrDefault();
         }
     }
 }

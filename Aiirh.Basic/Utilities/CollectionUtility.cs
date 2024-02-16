@@ -119,16 +119,6 @@ namespace Aiirh.Basic.Utilities
             return element;
         }
 
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            return source.OrderBy(keySelector).FirstOrDefault();
-        }
-
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            return source.OrderBy(keySelector).LastOrDefault();
-        }
-
         public static bool ContainsAny<T>(this IEnumerable<T> source, IEnumerable<T> other)
         {
             return source.Intersect(other).Any();

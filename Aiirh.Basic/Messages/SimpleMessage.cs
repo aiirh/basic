@@ -3,11 +3,17 @@
     public class SimpleMessage : IMessage
     {
         public string Header { get; set; }
+
         public string Description { get; set; }
+
         public bool IsSimpleMessage => Type == Type.Simple;
+
         public bool IsError => Type == Type.Error;
+
         public bool IsWarning => Type == Type.Warning;
+
         public bool IsWarningOrSimpleMessage => IsSimpleMessage || IsWarning;
+
         public Type Type { get; set; }
 
         private SimpleMessage() { }
@@ -63,7 +69,7 @@
         }
     }
 
-    public static class MessageBuilder
+    internal static class MessageBuilder
     {
         public static string BuildMessage(string header, string description)
         {

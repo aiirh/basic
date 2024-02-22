@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>8.0</LangVersion>
-        <Product>Aiirh Audit</Product>
+        <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0</TargetFrameworks>
+        <LangVersion>12</LangVersion>
+        <Product>Aiirh Ranges</Product>
         <Company />
         <Authors>Evgenii Baleevskii</Authors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Description>Services for tracking changes in data objects</Description>
+        <Description>Tools for creating and working with ranges of values, defined as begin and end of range</Description>
         <Copyright>Evgenii Baleevskii</Copyright>
-        <Version>1.2.0</Version>
-        <AssemblyVersion>1.2.0.0</AssemblyVersion>
-        <FileVersion>1.2.0.0</FileVersion>
+        <Version>1.0.0</Version>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
         <PackageIcon>AiirhLogo128.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
@@ -28,11 +28,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Aiirh.Basic\Aiirh.Basic.csproj" />
+        <PackageReference Include="Newtonsoft.Json" Version="[13.0.1, 14.0.0)" />
     </ItemGroup>
 
     <ItemGroup>

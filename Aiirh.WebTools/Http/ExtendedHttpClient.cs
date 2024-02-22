@@ -1,5 +1,4 @@
 ﻿using Aiirh.Basic.Exceptions;
-using Aiirh.Basic.Logging;
 using Aiirh.Basic.Utilities;
 using Aiirh.WebTools.Http.Extensions;
 using Aiirh.WebTools.Http.RequestLogging;
@@ -14,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Aiirh.WebTools.Logging;
 
 namespace Aiirh.WebTools.Http
 {

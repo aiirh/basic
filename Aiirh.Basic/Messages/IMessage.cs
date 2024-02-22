@@ -3,6 +3,7 @@
     public interface IMessage
     {
         string Header { get; }
+
         string Description { get; }
     }
 }

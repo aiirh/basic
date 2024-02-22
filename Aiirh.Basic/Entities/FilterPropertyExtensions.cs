@@ -1,6 +1,4 @@
-﻿using Aiirh.Basic.Utilities;
-
-namespace Aiirh.Basic.Entities
+﻿namespace Aiirh.Basic.Entities
 {
     public static class FilterPropertyExtensions
     {

@@ -9,7 +9,6 @@ namespace Aiirh.Basic.Exceptions
 {
     public class SimpleException : Exception
     {
-
         public IEnumerable<SimpleMessage> Messages { get; }
 
         public SimpleException(IEnumerable<ValidationMessage> messages)
@@ -25,7 +24,9 @@ namespace Aiirh.Basic.Exceptions
         }
 
         public SimpleException(string header, string description) : this(header, description, null) { }
+
         public SimpleException(string header) : this(header, (string)null) { }
+
         public SimpleException(string header, Exception innerException) : this(header, null, innerException) { }
 
         public SimpleException(IOperationResult operationResult) : base(string.Join(";", operationResult.Messages.Select(x => MessageBuilder.BuildMessage(x.Header, x.Description))))

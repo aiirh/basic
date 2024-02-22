@@ -1,5 +1,4 @@
-﻿using Aiirh.Basic.Logging;
-using Aiirh.Basic.Utilities;
+﻿using Aiirh.Basic.Utilities;
 using Aiirh.WebTools.Cache;
 using Aiirh.WebTools.Http.Extensions;
 using Aiirh.WebTools.Security;
@@ -7,6 +6,7 @@ using Aiirh.WebTools.Utilities;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Aiirh.WebTools.Logging;
 
 namespace Aiirh.WebTools.Http
 {

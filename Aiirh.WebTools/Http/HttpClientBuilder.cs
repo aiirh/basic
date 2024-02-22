@@ -1,10 +1,10 @@
-﻿using Aiirh.Basic.Logging;
-using Aiirh.WebTools.Http.RequestLogging;
+﻿using Aiirh.WebTools.Http.RequestLogging;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Aiirh.WebTools.Logging;
 
 namespace Aiirh.WebTools.Http
 {

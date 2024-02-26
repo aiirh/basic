@@ -4,76 +4,75 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Aiirh.Audit
+namespace Aiirh.Audit;
+
+public static class AuditLogHelper
 {
-    public static class AuditLogHelper
+    public static Revision CreateRevision<T>(this T data, DateTime createdDate, string author, string comment)
     {
-        public static Revision CreateRevision<T>(this T data, DateTime createdDate, string author, string comment)
+        if (data is null)
         {
-            if (data is null)
-            {
-                return null;
-            }
-
-            var json = data.ToRevisionJson();
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return null;
-            }
-
-            return new Revision(author, json, createdDate, comment);
+            return null;
         }
 
-        public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->")
+        var json = data.ToRevisionJson();
+        if (string.IsNullOrWhiteSpace(json))
         {
-            var revisionsAsArray = revisions.ToArray();
-            if (revisionsAsArray.Length < 2)
-            {
-                yield break;
-            }
-
-            var sortedRevisions = revisionsAsArray.ValidateRevisions(pathSeparator).TakeLastRevisionType().OrderBy(x => x.CreatedDate).ToArray();
-            if (sortedRevisions.Length < 2)
-            {
-                yield break;
-            }
-
-            for (var i = 0; i < sortedRevisions.Length - 1; i++)
-            {
-                var earlier = sortedRevisions[i];
-                var later = sortedRevisions[i + 1];
-                if (later.EqualsAsDataJson(earlier))
-                {
-                    continue;
-                }
-
-                var auditLog = AuditLogBuilder.Build(earlier.DataJson, later.DataJson, later.CreatedDate, later.Author, later.Comment, pathSeparator);
-                if (auditLog.Changes.Any())
-                {
-                    yield return auditLog;
-                }
-            }
+            return null;
         }
 
-        private static ICollection<Revision> ValidateRevisions(this ICollection<Revision> revisions, string pathSeparator)
+        return new Revision(author, json, createdDate, comment);
+    }
+
+    public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->")
+    {
+        var revisionsAsArray = revisions.ToArray();
+        if (revisionsAsArray.Length < 2)
         {
-            if (revisions.Select(x => x.DataJson).Any(x => x.Contains(pathSeparator)))
+            yield break;
+        }
+
+        var sortedRevisions = revisionsAsArray.ValidateRevisions(pathSeparator).TakeLastRevisionType().OrderBy(x => x.CreatedDate).ToArray();
+        if (sortedRevisions.Length < 2)
+        {
+            yield break;
+        }
+
+        for (var i = 0; i < sortedRevisions.Length - 1; i++)
+        {
+            var earlier = sortedRevisions[i];
+            var later = sortedRevisions[i + 1];
+            if (later.EqualsAsDataJson(earlier))
             {
-                throw new SimpleException("This separator can't be used because it participates in some property names. Choose another separator");
+                continue;
             }
 
-            return revisions;
+            var auditLog = AuditLogBuilder.Build(earlier.DataJson, later.DataJson, later.CreatedDate, later.Author, later.Comment, pathSeparator);
+            if (auditLog.Changes.Any())
+            {
+                yield return auditLog;
+            }
+        }
+    }
+
+    private static ICollection<Revision> ValidateRevisions(this ICollection<Revision> revisions, string pathSeparator)
+    {
+        if (revisions.Select(x => x.DataJson).Any(x => x.Contains(pathSeparator)))
+        {
+            throw new SimpleException("This separator can't be used because it participates in some property names. Choose another separator");
         }
 
-        private static IEnumerable<Revision> TakeLastRevisionType(this ICollection<Revision> revisions)
-        {
-            var latestRevisionType = revisions.MaxBy(x => x.CreatedDate).GetRevisionType();
-            return revisions.Where(x => x.GetRevisionType().Equals(latestRevisionType, StringComparison.InvariantCultureIgnoreCase));
-        }
+        return revisions;
+    }
 
-        private static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            return source.OrderBy(keySelector).LastOrDefault();
-        }
+    private static IEnumerable<Revision> TakeLastRevisionType(this ICollection<Revision> revisions)
+    {
+        var latestRevisionType = revisions.MaxBy(x => x.CreatedDate).GetRevisionType();
+        return revisions.Where(x => x.GetRevisionType().Equals(latestRevisionType, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+    {
+        return source.OrderBy(keySelector).LastOrDefault();
     }
 }

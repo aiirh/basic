@@ -15,7 +15,7 @@ namespace Aiirh.DateAndTime
 
         public Time(string time)
         {
-            string numericTime = new string(time.Where(char.IsDigit).ToArray());
+            var numericTime = new string(time.Where(char.IsDigit).ToArray());
             Hours = byte.Parse(numericTime[..2]);
 
             switch (numericTime.Length)

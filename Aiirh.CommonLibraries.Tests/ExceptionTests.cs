@@ -41,56 +41,20 @@ public class ExceptionTests
     }
 }
 
-internal class TargetException : Exception
-{
-}
+internal class TargetException : Exception;
 
-internal class AnotherException : Exception
-{
-}
+internal class AnotherException : Exception;
 
-internal class DerivedException : TargetException
-{
-}
+internal class DerivedException : TargetException;
 
-internal class DeepExceptionPositive : Exception
-{
-    public DeepExceptionPositive() : base("DeepExceptionPositive", new TargetException())
-    {
-    }
-}
+internal class DeepExceptionPositive() : Exception("DeepExceptionPositive", new TargetException());
 
-internal class DeepDerivedExceptionPositive : Exception
-{
-    public DeepDerivedExceptionPositive() : base("DeepDerivedExceptionPositive", new DerivedException())
-    {
-    }
-}
+internal class DeepDerivedExceptionPositive() : Exception("DeepDerivedExceptionPositive", new DerivedException());
 
-internal class DeepExceptionNegative : Exception
-{
-    public DeepExceptionNegative() : base("DeepExceptionNegative", new AnotherException())
-    {
-    }
-}
+internal class DeepExceptionNegative() : Exception("DeepExceptionNegative", new AnotherException());
 
-internal class VeryDeepExceptionPositive : Exception
-{
-    public VeryDeepExceptionPositive() : base("VeryDeepExceptionPositive", new DeepExceptionPositive())
-    {
-    }
-}
+internal class VeryDeepExceptionPositive() : Exception("VeryDeepExceptionPositive", new DeepExceptionPositive());
 
-internal class VeryDeepDerivedExceptionPositive : Exception
-{
-    public VeryDeepDerivedExceptionPositive() : base("VeryDeepDerivedExceptionPositive", new DeepDerivedExceptionPositive())
-    {
-    }
-}
+internal class VeryDeepDerivedExceptionPositive() : Exception("VeryDeepDerivedExceptionPositive", new DeepDerivedExceptionPositive());
 
-internal class VeryDeepExceptionNegative : Exception
-{
-    public VeryDeepExceptionNegative() : base("VeryDeepExceptionNegative", new DeepExceptionNegative())
-    {
-    }
-}
+internal class VeryDeepExceptionNegative() : Exception("VeryDeepExceptionNegative", new DeepExceptionNegative());

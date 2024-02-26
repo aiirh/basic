@@ -9,7 +9,7 @@ namespace Aiirh.Basic.Utilities;
 
 public static class GZipUtility
 {
-    private static readonly byte[] GZipHeaderBytes = { 0x1f, 0x8b };
+    private static readonly byte[] GZipHeaderBytes = [0x1f, 0x8b];
 
     [Obsolete("Don't use this method. Consider using GZipCompress instead")]
     public static async Task<byte[]> CompressAsync(this byte[] data)

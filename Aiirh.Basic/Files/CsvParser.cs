@@ -44,7 +44,7 @@ public static class CsvParser
                     row.Add(buf.ToString());
                     buf.Clear();
                     columns.Add(row.ToArray());
-                    row = new List<string>();
+                    row = [];
                 }
                 else if (quoteStarted && (nextChar == separator || nextChar == '\n'))
                 {
@@ -61,7 +61,7 @@ public static class CsvParser
                     row.Add(buf.ToString());
                     buf.Clear();
                     columns.Add(row.ToArray());
-                    row = new List<string>();
+                    row = [];
                 }
                 else
                 {

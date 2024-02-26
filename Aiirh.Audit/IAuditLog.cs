@@ -1,38 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Aiirh.Audit
+namespace Aiirh.Audit;
+
+public interface IAuditLogEntry
 {
-    public interface IAuditLogEntry
-    {
-        string FullPath { get; }
+    string FullPath { get; }
 
-        string PropertyName { get; }
+    string PropertyName { get; }
 
-        public string[] PathSegments { get; }
+    public string[] PathSegments { get; }
 
-        string OldValue { get; }
+    string OldValue { get; }
 
-        string NewValue { get; }
+    string NewValue { get; }
 
-        ChangeType ChangeType { get; }
+    ChangeType ChangeType { get; }
 
-        string Comment { get; }
-    }
+    string Comment { get; }
+}
 
-    public interface IAuditLog
-    {
-        string Author { get; }
+public interface IAuditLog
+{
+    string Author { get; }
 
-        DateTime CreatedDate { get; }
+    DateTime CreatedDate { get; }
 
-        IEnumerable<IAuditLogEntry> Changes { get; }
-    }
+    IEnumerable<IAuditLogEntry> Changes { get; }
+}
 
-    public enum ChangeType
-    {
-        Edit,
-        Add,
-        Remove
-    }
+public enum ChangeType
+{
+    Edit,
+    Add,
+    Remove
 }

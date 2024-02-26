@@ -90,11 +90,11 @@ public class RevisionCreatorTests
             Property2 = "Test2",
             Property3 = "Test3",
             Null1 = null,
-            ListIgnored = new[] { "123", "456" },
-            ListIncluded = new[] { "789", "ABC" },
+            ListIgnored = ["123", "456"],
+            ListIncluded = ["789", "ABC"],
             ComplexListIncluded = myAuditTestChildArray1,
-            DeepCollection = new[]
-            {
+            DeepCollection =
+            [
                 new MyDeepAuditTestChild
                 {
                     Property2 = "MyDeepAuditTestChild2",
@@ -106,7 +106,7 @@ public class RevisionCreatorTests
                     },
                     EmbeddedArray = myAuditTestChildArray2
                 }
-            }
+            ]
         };
         const string expected = "{\"RevisionType\":\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyAuditTestParent\",\"Name\":\"Test2\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyAuditTestParentProperty3\":\"Test3\",\"NullToBeHere\":null,\"StringArray\":[\"789\",\"ABC\"],\"ObjectArray\":[{\"ChildName\":\"C2\",\"ChildDescription\":\"C3\"},{\"ChildName\":\"C5\",\"ChildDescription\":\"C6\"}],\"VeryDeepArray\":[{\"DeepChildName\":\"MyDeepAuditTestChild2\",\"DeepChildDescription\":\"MyDeepAuditTestChild3\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedObject\":{\"ChildName\":\"DDD\",\"ChildDescription\":\"DDD\"},\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedArray\":[{\"ChildName\":\"AAAAA1\",\"ChildDescription\":\"BBBBB2\"},{\"ChildName\":\"AAAAA2\",\"ChildDescription\":\"BBBBB2\"}]}],\"PropertyNamesMapping\":{\"Name\":\"Some name for Property2\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyAuditTestParentProperty3\":\"Description\",\"NullToBeHere\":\"NullToBeHere\",\"StringArray\":\"StringArray\",\"ObjectArray\":\"ObjectArray\",\"ChildName\":\"ChildName\",\"ChildDescription\":\"ChildDescription\",\"VeryDeepArray\":\"VeryDeepArray\",\"DeepChildName\":\"DeepChildName\",\"DeepChildDescription\":\"DeepChildDescription\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedObject\":\"EmbeddedObject\",\"AiirhCommonLibrariesTestsAuditRevisionCreatorTestsMyDeepAuditTestChildEmbeddedArray\":\"EmbeddedArray\"}}";
         yield return new TestCaseData(data, expected);

@@ -14,7 +14,7 @@ public class TxtFileParser
     {
             var unzipped = await data.DecompressIfGZipAsync();
             var fileAsString = Encoding.UTF8.GetString(unzipped);
-            var fileLines = fileAsString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var fileLines = fileAsString.Split(["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries);
 
             var minRowsCount = options.SkipRows;
             if (fileLines.Length <= minRowsCount)

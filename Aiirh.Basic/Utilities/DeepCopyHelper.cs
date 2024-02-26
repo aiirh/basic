@@ -72,7 +72,7 @@ public static class DeepCopyHelper
                 return originalObject;
             }
 
-            if (visited.TryGetValue(originalObject, out object internalCopy))
+            if (visited.TryGetValue(originalObject, out var internalCopy))
             {
                 return internalCopy;
             }

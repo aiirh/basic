@@ -12,7 +12,7 @@ namespace Aiirh.CommonLibraries.Tests.Audit;
 [TestFixture]
 public class AuditLogHelperTests
 {
-    private static readonly string[] Names = { "John Smith", "Mary Johnson", "David Brown", "Susan Taylor", "James Clark", "Elizabeth Harris", "Robert Lewis", "Karen Young", "George Hall", "Jennifer Walker" };
+    private static readonly string[] Names = ["John Smith", "Mary Johnson", "David Brown", "Susan Taylor", "James Clark", "Elizabeth Harris", "Robert Lewis", "Karen Young", "George Hall", "Jennifer Walker"];
 
     [Test]
     public void ToAuditLogs_Empty_ShouldReturnEmpty()

@@ -7,7 +7,7 @@ namespace Aiirh.Basic.Validation;
 
 public class ValidationMessages : IEnumerable<ValidationMessage>
 {
-    private readonly List<ValidationMessage> _messages = new List<ValidationMessage>();
+    private readonly List<ValidationMessage> _messages = [];
 
     public bool IsValid => !_messages.Any();
 

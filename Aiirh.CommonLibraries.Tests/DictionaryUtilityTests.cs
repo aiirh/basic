@@ -17,13 +17,13 @@ public class DictionaryUtilityTests
         {
             foreach (var key in keys)
             {
-                var list = dict.GetValueOrAddDefault(key, new List<int>());
+                var list = dict.GetValueOrAddDefault(key, []);
                 list.Add(i);
             }
         }
 
         ClassicAssert.AreEqual(keys.Count, dict.Count);
-        foreach ((string _, List<int> value) in dict)
+        foreach ((var _, var value) in dict)
         {
             ClassicAssert.AreEqual(count, value.Count);
         }

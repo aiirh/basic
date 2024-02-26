@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Globalization;
-using System.Text;
 
 namespace Aiirh.Basic.Utilities;
 
 public static class MemorySizeUtility
 {
-    private static readonly string[] BinarySizes = { "B", "KiB", "MiB", "GiB", "TiB" };
-    private static readonly string[] DecimalSizes = { "B", "KB", "MB", "GB", "TB" };
+    private static readonly string[] BinarySizes = ["B", "KiB", "MiB", "GiB", "TiB"];
+    private static readonly string[] DecimalSizes = ["B", "KB", "MB", "GB", "TB"];
 
     /// <summary>
     /// Returns memory size with units.
@@ -17,23 +16,23 @@ public static class MemorySizeUtility
     /// <returns>Memory size with units, e.g. "41.34 KB"</returns>
     public static string ToMemorySizeString(this int sizeInBytes, MemorySizeUnits sizeUnits = MemorySizeUnits.Decimal)
     {
-            return ((long)sizeInBytes).ToMemorySizeString(sizeUnits);
-        }
+        return ((long)sizeInBytes).ToMemorySizeString(sizeUnits);
+    }
 
     public static string ToMemorySizeString(this long sizeInBytes, MemorySizeUnits sizeUnits = MemorySizeUnits.Decimal)
     {
-            var sizes = sizeUnits == MemorySizeUnits.Decimal ? DecimalSizes : BinarySizes;
-            double baseValue = sizeUnits == MemorySizeUnits.Decimal ? 1000D : 1024D;
-            var len = Convert.ToDouble(sizeInBytes);
-            var order = 0;
-            while (len >= baseValue * .9 && order < sizes.Length - 1)
-            {
-                order++;
-                len /= baseValue;
-            }
-
-            return string.Format(CultureInfo.CurrentCulture, "{0:0.##} {1}", len, sizes[order]);
+        var sizes = sizeUnits == MemorySizeUnits.Decimal ? DecimalSizes : BinarySizes;
+        var baseValue = sizeUnits == MemorySizeUnits.Decimal ? 1000D : 1024D;
+        var len = Convert.ToDouble(sizeInBytes);
+        var order = 0;
+        while (len >= baseValue * .9 && order < sizes.Length - 1)
+        {
+            order++;
+            len /= baseValue;
         }
+
+        return string.Format(CultureInfo.CurrentCulture, "{0:0.##} {1}", len, sizes[order]);
+    }
 }
 
 public enum MemorySizeUnits

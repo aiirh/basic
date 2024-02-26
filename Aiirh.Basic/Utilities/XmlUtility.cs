@@ -29,7 +29,7 @@ public static class XmlUtility
 
     public static string Serialize<T>(T obj, XmlWriterSettings settings)
     {
-        var emptyNamespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+        var emptyNamespaces = new XmlSerializerNamespaces([XmlQualifiedName.Empty]);
         var serializer = new XmlSerializer(obj.GetType());
         using var stream = new Utf8StringWriter();
         using var writer = XmlWriter.Create(stream, settings);
@@ -53,7 +53,7 @@ public static class XmlUtility
     public static string SerializeAndTrim<T>(this T item, int truncateFirstLines, int truncateEndLines)
     {
         var xmlNode = Serialize(item);
-        var lines = xmlNode.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+        var lines = xmlNode.Split(["\r\n"], StringSplitOptions.RemoveEmptyEntries);
         var trimmedLines = lines.Skip(truncateFirstLines).Take(lines.Length - truncateFirstLines - truncateEndLines);
         return string.Join("\r\n", trimmedLines);
     }
@@ -61,7 +61,7 @@ public static class XmlUtility
     public static (string first, string last) SerializeAndTake<T>(this T item, int takeFirstLines, int takeEndLines)
     {
         var xmlNode = Serialize(item);
-        var lines = xmlNode.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+        var lines = xmlNode.Split(["\r\n"], StringSplitOptions.RemoveEmptyEntries);
         var firstLines = lines.Take(takeFirstLines);
         var endLines = lines.Skip(lines.Length - takeEndLines).Take(takeEndLines);
         return (string.Join("\r\n", firstLines), string.Join("\r\n", endLines));

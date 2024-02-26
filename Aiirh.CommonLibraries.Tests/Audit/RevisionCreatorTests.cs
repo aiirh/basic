@@ -2,6 +2,7 @@
 using Aiirh.Audit.Internal;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests.Audit;
 
@@ -13,7 +14,7 @@ public class RevisionCreatorTests
     public void ToRevisionJson_ShouldReturnCorrectValue<T>(T data, string expected)
     {
         var result = data.ToRevisionJson();
-        Assert.AreEqual(expected, result);
+        ClassicAssert.AreEqual(expected, result);
     }
 
     public class MyAuditTestParent

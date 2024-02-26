@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Aiirh.Basic.Utilities;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests;
 
@@ -21,10 +22,10 @@ public class DictionaryUtilityTests
             }
         }
 
-        Assert.AreEqual(keys.Count, dict.Count);
+        ClassicAssert.AreEqual(keys.Count, dict.Count);
         foreach ((string _, List<int> value) in dict)
         {
-            Assert.AreEqual(count, value.Count);
+            ClassicAssert.AreEqual(count, value.Count);
         }
     }
 

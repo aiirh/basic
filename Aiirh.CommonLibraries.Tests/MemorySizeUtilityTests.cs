@@ -2,6 +2,7 @@ using Aiirh.Basic.Utilities;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests;
 
@@ -13,7 +14,7 @@ public class MemorySizeUtilityTests
     public void EncryptAndDecrypt(int value, MemorySizeUnits units, string expected)
     {
         var actual = value.ToMemorySizeString(units);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     private static IEnumerable<TestCaseData> GetTestCases()

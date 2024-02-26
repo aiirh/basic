@@ -5,19 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aiirh.Basic.Files
+namespace Aiirh.Basic.Files;
+
+public static class CsvParser
 {
-    public static class CsvParser
+    /// <summary>
+    /// Parses CSV file to rows and columns. Also take into account quoted columns.
+    /// </summary>
+    /// <param name="data">Input file data as byte array.</param>
+    /// <param name="options">Options.</param>
+    /// <returns>Collection of parsed T objects.</returns>
+    [Obsolete("This method internally tries to decompress GZip. Logic will be removed in future")]
+    public static async Task<IEnumerable<T>> Parse<T>(byte[] data, FileParseOptions<T> options)
     {
-        /// <summary>
-        /// Parses CSV file to rows and columns. Also take into account quoted columns.
-        /// </summary>
-        /// <param name="data">Input file data as byte array.</param>
-        /// <param name="options">Options.</param>
-        /// <returns>Collection of parsed T objects.</returns>
-        [Obsolete("This method internally tries to decompress GZip. Logic will be removed in future")]
-        public static async Task<IEnumerable<T>> Parse<T>(byte[] data, FileParseOptions<T> options)
-        {
             var unzipped = await data.DecompressIfGZipAsync();
             var separator = options.Separator;
             var s = Encoding.UTF8.GetString(unzipped);
@@ -78,5 +78,4 @@ namespace Aiirh.Basic.Files
 
             return columns.Skip(options.SkipRows).Select(options.Mapper);
         }
-    }
 }

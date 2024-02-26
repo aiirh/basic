@@ -2,6 +2,7 @@
 using Aiirh.Basic.Exceptions;
 using Aiirh.Basic.Utilities;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ public class AuditLogHelperTests
     public void ToAuditLogs_Empty_ShouldReturnEmpty()
     {
         var result = Enumerable.Empty<Revision>().ToAuditLogs().ToList();
-        Assert.AreEqual(0, result.Count);
+        ClassicAssert.AreEqual(0, result.Count);
     }
 
     [Test]
@@ -25,7 +26,7 @@ public class AuditLogHelperTests
     public void ToAuditLogs_OnlyOneRevision_ShouldReturnEmpty(IEnumerable<Revision> revisions, int _)
     {
         var result = revisions.First().MakeCollection().ToAuditLogs().ToList();
-        Assert.IsEmpty(result);
+        ClassicAssert.IsEmpty(result);
     }
 
     [Test]
@@ -33,7 +34,7 @@ public class AuditLogHelperTests
     public void ToAuditLogs_AllSame_ShouldReturnEmpty(IEnumerable<Revision> revisions)
     {
         var result = revisions.ToAuditLogs().ToList();
-        Assert.AreEqual(0, result.Count);
+        ClassicAssert.AreEqual(0, result.Count);
     }
 
     [Test]
@@ -41,7 +42,7 @@ public class AuditLogHelperTests
     public void ToAuditLogs_ValidRevisions_ShouldCorrectValue(IEnumerable<Revision> revisions, int countOfAuditLogs)
     {
         var result = revisions.ToAuditLogs().ToList();
-        Assert.AreEqual(countOfAuditLogs, result.Count);
+        ClassicAssert.AreEqual(countOfAuditLogs, result.Count);
     }
 
     [Test]
@@ -49,7 +50,7 @@ public class AuditLogHelperTests
     public void ToAuditLogs_DifferentRevisionTypes_ShouldTakeLatestType(IEnumerable<Revision> revisions, int countOfAuditLogs)
     {
         var result = revisions.ToAuditLogs().ToList();
-        Assert.AreEqual(countOfAuditLogs, result.Count);
+        ClassicAssert.AreEqual(countOfAuditLogs, result.Count);
     }
 
     [Test]
@@ -60,7 +61,7 @@ public class AuditLogHelperTests
         {
             var _ = revisions.ToAuditLogs(separator).ToList();
         });
-        Assert.AreEqual("This separator can't be used because it participates in some property names. Choose another separator", exception.Message);
+        ClassicAssert.AreEqual("This separator can't be used because it participates in some property names. Choose another separator", exception.Message);
     }
 
     private static IEnumerable<TestCaseData> GetAllSameTestData()

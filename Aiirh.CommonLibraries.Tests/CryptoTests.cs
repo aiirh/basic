@@ -1,6 +1,7 @@
 using Aiirh.Crypto;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests;
 
@@ -19,7 +20,7 @@ public class CryptoTests
     {
         var encrypted = value.EncryptString();
         var decrypted = encrypted.DecryptString();
-        Assert.AreEqual(value, decrypted);
+        ClassicAssert.AreEqual(value, decrypted);
     }
 
     private static IEnumerable<TestCaseData> GetTestCases()

@@ -1,9 +1,9 @@
-﻿namespace Aiirh.Basic.Entities
+﻿namespace Aiirh.Basic.Entities;
+
+public static class FilterPropertyExtensions
 {
-    public static class FilterPropertyExtensions
+    public static bool IsFilterRequired<T>(this FilterProperty<T> property)
     {
-        public static bool IsFilterRequired<T>(this FilterProperty<T> property)
-        {
             if (property == null)
             {
                 return false;
@@ -21,5 +21,4 @@
 
             return true;
         }
-    }
 }

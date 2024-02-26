@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework.Legacy;
 using TimeZoneConverter;
 
 namespace Aiirh.CommonLibraries.Tests;
@@ -15,7 +16,7 @@ public class TimeZoneTests
     public void ConvertToTimezone(DateTime testCase, IanaTimeZone timeZone, string expected, string testId)
     {
         var actual = testCase.ConvertToTimezone(timeZone).ToString("s");
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -25,7 +26,7 @@ public class TimeZoneTests
         var mappedCodes = allTimeZones.Select(x => TimeZoneMapping.TimeZoneToIanaName[x]);
         var allPossibleCodes = TZConvert.KnownIanaTimeZoneNames;
         var unknownCodesExist = mappedCodes.Any(x => !allPossibleCodes.Contains(x));
-        Assert.IsFalse(unknownCodesExist);
+        ClassicAssert.IsFalse(unknownCodesExist);
     }
 
     private static IEnumerable<TestCaseData> GetTestCasesConvertToTimezone()

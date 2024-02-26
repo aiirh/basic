@@ -1,5 +1,6 @@
 using Aiirh.DateAndTime;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System.Collections.Generic;
 
 namespace Aiirh.CommonLibraries.Tests;
@@ -12,7 +13,7 @@ public class DateTimeTests
     public void TimeCreate(string testData, Time expected)
     {
         var actual = new Time(testData);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -20,7 +21,7 @@ public class DateTimeTests
     public void TimeFormat(Time testData, string format, string expected)
     {
         var actual = testData.Format(format);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -28,7 +29,7 @@ public class DateTimeTests
     public void TimeFormat(Time testData, int minutes, Time expected)
     {
         var actual = testData.AddMinutes(minutes);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     private static IEnumerable<TestCaseData> GetTestCasesTimeCreate()

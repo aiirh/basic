@@ -1,6 +1,7 @@
 using Aiirh.Basic.Utilities;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests;
 
@@ -20,7 +21,7 @@ public class GZipTests
         var compressed = bytes.GZipCompress();
         var decompressed = compressed.GZipDecompress();
         var result = decompressed.FromByteArray();
-        Assert.AreEqual(value, result);
+        ClassicAssert.AreEqual(value, result);
     }
 
     private static IEnumerable<TestCaseData> GetTestCases()

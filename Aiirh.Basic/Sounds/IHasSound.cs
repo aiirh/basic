@@ -1,7 +1,6 @@
-﻿namespace Aiirh.Basic.Sounds
+﻿namespace Aiirh.Basic.Sounds;
+
+public interface IHasSound
 {
-    public interface IHasSound
-    {
-        SoundSequence GetSound();
-    }
+    SoundSequence GetSound();
 }

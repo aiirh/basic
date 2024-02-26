@@ -1,9 +1,8 @@
-﻿namespace Aiirh.Basic.Messages
-{
-    public interface IMessage
-    {
-        string Header { get; }
+﻿namespace Aiirh.Basic.Messages;
 
-        string Description { get; }
-    }
+public interface IMessage
+{
+    string Header { get; }
+
+    string Description { get; }
 }

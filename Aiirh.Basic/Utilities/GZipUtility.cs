@@ -5,15 +5,15 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aiirh.Basic.Utilities
-{
-    public static class GZipUtility
-    {
-        private static readonly byte[] GZipHeaderBytes = { 0x1f, 0x8b };
+namespace Aiirh.Basic.Utilities;
 
-        [Obsolete("Don't use this method. Consider using GZipCompress instead")]
-        public static async Task<byte[]> CompressAsync(this byte[] data)
-        {
+public static class GZipUtility
+{
+    private static readonly byte[] GZipHeaderBytes = { 0x1f, 0x8b };
+
+    [Obsolete("Don't use this method. Consider using GZipCompress instead")]
+    public static async Task<byte[]> CompressAsync(this byte[] data)
+    {
             if (!IsCompressNeeded(data))
             {
                 return data;
@@ -25,8 +25,8 @@ namespace Aiirh.Basic.Utilities
             return newData.ToArray();
         }
 
-        public static byte[] GZipCompress(this byte[] data)
-        {
+    public static byte[] GZipCompress(this byte[] data)
+    {
             using var uncompressed = new MemoryStream(data);
             using var compressed = new MemoryStream();
             using (var compressor = new GZipStream(compressed, CompressionMode.Compress))
@@ -37,8 +37,8 @@ namespace Aiirh.Basic.Utilities
             return compressed.ToArray();
         }
 
-        public static byte[] GZipDecompress(this byte[] data)
-        {
+    public static byte[] GZipDecompress(this byte[] data)
+    {
             using var compressed = new MemoryStream(data);
             using var decompressed = new MemoryStream();
             using var compressor = new GZipStream(compressed, CompressionMode.Decompress);
@@ -46,9 +46,9 @@ namespace Aiirh.Basic.Utilities
             return decompressed.ToArray();
         }
 
-        [Obsolete("Don't use this method. Consider using DecompressIfGZipAsync instead")]
-        public static async Task<byte[]> DecompressIfGZipAsync(this byte[] data)
-        {
+    [Obsolete("Don't use this method. Consider using DecompressIfGZipAsync instead")]
+    public static async Task<byte[]> DecompressIfGZipAsync(this byte[] data)
+    {
             if (data == null || data.Length <= 10 || !IsPossiblyGZippedBytes(data))
             {
                 return data;
@@ -61,13 +61,13 @@ namespace Aiirh.Basic.Utilities
             return newData.ToArray();
         }
 
-        private static bool IsCompressNeeded(this IReadOnlyList<byte> data)
-        {
+    private static bool IsCompressNeeded(this IReadOnlyList<byte> data)
+    {
             return data != null && data.Count > 360 && !IsPossiblyGZippedBytes(data);
         }
 
-        private static bool IsPossiblyGZippedBytes(IReadOnlyList<byte> a)
-        {
+    private static bool IsPossiblyGZippedBytes(IReadOnlyList<byte> a)
+    {
             if (a == null || a.Count < 11)
             {
                 return false;
@@ -75,5 +75,4 @@ namespace Aiirh.Basic.Utilities
 
             return !GZipHeaderBytes.Where((t, i) => t != a[i]).Any();
         }
-    }
 }

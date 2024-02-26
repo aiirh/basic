@@ -3,6 +3,7 @@ using System.Linq;
 using Aiirh.Basic.Utilities;
 using Aiirh.Ranges;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests;
 
@@ -16,7 +17,7 @@ public class NumericRangeTests
     {
         var actual = rangesInput.ReGroupRanges();
         var areIdentical = actual.CompareCollections(rangesOutput);
-        Assert.AreEqual(true, areIdentical);
+        ClassicAssert.AreEqual(true, areIdentical);
     }
 
     [Test]
@@ -24,7 +25,7 @@ public class NumericRangeTests
     public void Merge_ShouldReturnResult(NumericRange one, NumericRange another, NumericRange expected, string testId)
     {
         var actual = one.Merge(another);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -33,7 +34,7 @@ public class NumericRangeTests
     {
         var rangesInputList = rangesInput.ToList();
         var actualValues = rangesInputList.TakeValues(count);
-        Assert.AreEqual(values, actualValues);
+        ClassicAssert.AreEqual(values, actualValues);
     }
 
     [Test]
@@ -41,7 +42,7 @@ public class NumericRangeTests
     public void Concat_Numbers(IEnumerable<NumericRange> rangesInput, IEnumerable<int> values, IEnumerable<NumericRange> rangesExpected, string testId)
     {
         var actualValues = rangesInput.Concat(values);
-        Assert.AreEqual(rangesExpected, actualValues);
+        ClassicAssert.AreEqual(rangesExpected, actualValues);
     }
 
     [Test]
@@ -49,7 +50,7 @@ public class NumericRangeTests
     public void Concat_NumericRange(IEnumerable<NumericRange> rangesInput, NumericRange range, IEnumerable<NumericRange> rangesExpected, string testId)
     {
         var actualValues = rangesInput.Concat(range);
-        Assert.AreEqual(rangesExpected, actualValues);
+        ClassicAssert.AreEqual(rangesExpected, actualValues);
     }
 
     [Test]
@@ -57,7 +58,7 @@ public class NumericRangeTests
     public void Exclude_One(NumericRange initialRange, NumericRange rangeToExclude, IEnumerable<NumericRange> rangesExpected, string testId)
     {
         var actualValues = initialRange.Exclude(rangeToExclude);
-        Assert.AreEqual(rangesExpected, actualValues);
+        ClassicAssert.AreEqual(rangesExpected, actualValues);
     }
 
     [Test]
@@ -65,7 +66,7 @@ public class NumericRangeTests
     public void Exclude_Many(NumericRange initialRange, IEnumerable<NumericRange> rangesToExclude, IEnumerable<NumericRange> rangesExpected, string testId)
     {
         var actualValues = initialRange.Exclude(rangesToExclude);
-        Assert.AreEqual(rangesExpected, actualValues);
+        ClassicAssert.AreEqual(rangesExpected, actualValues);
     }
 
     [Test]
@@ -73,7 +74,7 @@ public class NumericRangeTests
     public void IntersectsBorderNotIncluded(NumericRange initialRange, NumericRange anotherRange, bool expected, string testId)
     {
         var actual = initialRange.Intersects(anotherRange, out _, out _, false);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -81,7 +82,7 @@ public class NumericRangeTests
     public void IntersectsBorderIncluded(NumericRange initialRange, NumericRange anotherRange, bool expected, string testId)
     {
         var actual = initialRange.Intersects(anotherRange, out _, out _);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -89,7 +90,7 @@ public class NumericRangeTests
     public void IntersectsOrCommonBorder(NumericRange initialRange, NumericRange anotherRange, bool expected, string testId)
     {
         var actual = initialRange.IntersectsOrCommonBorder(anotherRange, out _, out _);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -97,7 +98,7 @@ public class NumericRangeTests
     public void IsEmbedded(NumericRange currentRange, NumericRange anotherRange, bool expected, string testId)
     {
         var actual = NumericRangeExtensions.IsEmbedded(currentRange, anotherRange);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     [Test]
@@ -105,7 +106,7 @@ public class NumericRangeTests
     public void IsEmbeddedMultiple(IEnumerable<NumericRange> currentRanges, NumericRange anotherRange, bool expected, string testId)
     {
         var actual = currentRanges.IsEmbedded(anotherRange);
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     private static IEnumerable<TestCaseData> GetTestDataForGroups()

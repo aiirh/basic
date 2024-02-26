@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Aiirh.Basic.Utilities;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests;
 
@@ -15,7 +16,7 @@ public class CollectionUtilityTests
     {
         var dataList = data.ToList();
         var actual = dataList.Shuffle().ToList();
-        Assert.IsTrue(dataList.CompareCollections(actual));
+        ClassicAssert.IsTrue(dataList.CompareCollections(actual));
     }
 
     private static IEnumerable<TestCaseData> GetTestData()

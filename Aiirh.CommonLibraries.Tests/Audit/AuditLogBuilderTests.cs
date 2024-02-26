@@ -1,5 +1,6 @@
 ﻿using Aiirh.Audit.Internal;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,14 @@ public class AuditLogBuilderTests
     public void AuditLogBuild_ShouldReturnCorrectValue(string json1, string json2, int countOfResults)
     {
         var result = AuditLogBuilder.Build(json1, json2, DateTime.Today, "Test author", "Test comment", "->");
-        Assert.AreEqual(countOfResults, result.Changes.Count());
-        Assert.AreEqual("Test author", result.Author);
+        ClassicAssert.AreEqual(countOfResults, result.Changes.Count());
+        ClassicAssert.AreEqual("Test author", result.Author);
         foreach (var change in result.Changes)
         {
-            Assert.IsNotNull(change.PropertyName);
-            Assert.IsNotNull(change.PathSegments);
-            Assert.IsNotEmpty(change.PathSegments);
-            Assert.AreEqual("Test comment", change.Comment);
+            ClassicAssert.IsNotNull(change.PropertyName);
+            ClassicAssert.IsNotNull(change.PathSegments);
+            ClassicAssert.IsNotEmpty(change.PathSegments);
+            ClassicAssert.AreEqual("Test comment", change.Comment);
         }
     }
 

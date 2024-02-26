@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Aiirh.Basic.Utilities;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Aiirh.CommonLibraries.Tests;
 
@@ -12,7 +13,7 @@ public class StringUtilityTests
     public void ToSentence(string sourceStrung, string expected)
     {
         var actual = sourceStrung.ToSentence();
-        Assert.AreEqual(expected, actual);
+        ClassicAssert.AreEqual(expected, actual);
     }
 
     private static IEnumerable<TestCaseData> GetTestData()

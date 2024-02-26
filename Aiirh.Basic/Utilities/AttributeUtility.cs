@@ -4,78 +4,77 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Aiirh.Basic.Utilities
+namespace Aiirh.Basic.Utilities;
+
+public static class AttributeUtility
 {
-    public static class AttributeUtility
+    public static TAttribute GetAttributeValue<TAttribute>(this Type obj) where TAttribute : Attribute
     {
-        public static TAttribute GetAttributeValue<TAttribute>(this Type obj) where TAttribute : Attribute
+        return obj?.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault();
+    }
+
+    public static Dictionary<PropertyInfo, TAttribute> GetPropertyAttributes<TAttribute>(this Type type) where TAttribute : Attribute
+    {
+        var result = new Dictionary<PropertyInfo, TAttribute>();
+        if (type == null)
         {
-            return obj?.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault();
+            return null;
         }
 
-        public static Dictionary<PropertyInfo, TAttribute> GetPropertyAttributes<TAttribute>(this Type type) where TAttribute : Attribute
+        var properties = type.GetProperties();
+        foreach (var prop in properties)
         {
-            var result = new Dictionary<PropertyInfo, TAttribute>();
-            if (type == null)
+            var attr = prop.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault();
+            if (attr == null)
             {
-                return null;
+                continue;
             }
 
-            var properties = type.GetProperties();
-            foreach (var prop in properties)
-            {
-                var attr = prop.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault();
-                if (attr == null)
-                {
-                    continue;
-                }
+            result.Add(prop, attr);
+        }
 
-                result.Add(prop, attr);
-            }
+        return result;
+    }
 
+    public static Dictionary<PropertyInfo, TAttribute> GetPropertyAttributesDeep<TAttribute>(this Type type) where TAttribute : Attribute
+    {
+        var result = new Dictionary<PropertyInfo, TAttribute>();
+        if (type == null)
+        {
             return result;
         }
 
-        public static Dictionary<PropertyInfo, TAttribute> GetPropertyAttributesDeep<TAttribute>(this Type type) where TAttribute : Attribute
+        GetPropertyAttributesRecursive(type, result);
+        return result;
+    }
+
+    private static void GetPropertyAttributesRecursive<TAttribute>(Type objType, Dictionary<PropertyInfo, TAttribute> result) where TAttribute : Attribute
+    {
+        var properties = objType.GetProperties();
+        foreach (var prop in properties)
         {
-            var result = new Dictionary<PropertyInfo, TAttribute>();
-            if (type == null)
+            var attr = prop.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault();
+            if (attr != null)
             {
-                return result;
+                result.TryAdd(prop, attr);
             }
 
-            GetPropertyAttributesRecursive(type, result);
-            return result;
-        }
-
-        private static void GetPropertyAttributesRecursive<TAttribute>(Type objType, Dictionary<PropertyInfo, TAttribute> result) where TAttribute : Attribute
-        {
-            var properties = objType.GetProperties();
-            foreach (var prop in properties)
+            // Check if the property is a reference type and not a primitive type or a string
+            if (!prop.PropertyType.IsStandardType())
             {
-                var attr = prop.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault();
-                if (attr != null)
+                // If it's a collection type, get the element type and check attributes on its properties
+                if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
                 {
-                    result.TryAdd(prop, attr);
+                    var elementType = prop.PropertyType.GetElementType() ?? prop.PropertyType.GetGenericArguments().FirstOrDefault();
+                    if (elementType != null)
+                    {
+                        GetPropertyAttributesRecursive(elementType, result);
+                    }
                 }
-
-                // Check if the property is a reference type and not a primitive type or a string
-                if (!prop.PropertyType.IsStandardType())
+                else
                 {
-                    // If it's a collection type, get the element type and check attributes on its properties
-                    if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
-                    {
-                        var elementType = prop.PropertyType.GetElementType() ?? prop.PropertyType.GetGenericArguments().FirstOrDefault();
-                        if (elementType != null)
-                        {
-                            GetPropertyAttributesRecursive(elementType, result);
-                        }
-                    }
-                    else
-                    {
-                        // Recursively check attributes on properties of this property
-                        GetPropertyAttributesRecursive(prop.PropertyType, result);
-                    }
+                    // Recursively check attributes on properties of this property
+                    GetPropertyAttributesRecursive(prop.PropertyType, result);
                 }
             }
         }

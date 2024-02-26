@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Aiirh.Crypto.Exceptions
+namespace Aiirh.Crypto.Exceptions;
+
+public class EncryptionException : Exception
 {
-    public class EncryptionException : Exception
+    public EncryptionException(string message) : base(message)
     {
-        public EncryptionException(string message) : base(message)
-        {
         }
-    }
 }

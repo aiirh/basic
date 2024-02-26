@@ -21,6 +21,7 @@ public static class ValidationResultExtensions
         });
     }
 
+#if NETSTANDARD
     private static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
     {
         var seenKeys = new HashSet<TKey>();
@@ -32,4 +33,5 @@ public static class ValidationResultExtensions
             }
         }
     }
+#endif
 }

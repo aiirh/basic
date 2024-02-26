@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Aiirh.Basic.Validation
+namespace Aiirh.Basic.Validation;
+
+public abstract class SimpleValidator<TEntity>
 {
-    public abstract class SimpleValidator<TEntity>
+    public virtual async Task<IEnumerable<ValidationResult<TEntity>>> ValidateMany(IEnumerable<TEntity> entities)
     {
-        public virtual async Task<IEnumerable<ValidationResult<TEntity>>> ValidateMany(IEnumerable<TEntity> entities)
-        {
             var results = new List<ValidationResult<TEntity>>();
 
             foreach (var entity in entities)
@@ -25,6 +25,5 @@ namespace Aiirh.Basic.Validation
             return results;
         }
 
-        public abstract Task<ValidationMessages> Validate(TEntity entity);
-    }
+    public abstract Task<ValidationMessages> Validate(TEntity entity);
 }

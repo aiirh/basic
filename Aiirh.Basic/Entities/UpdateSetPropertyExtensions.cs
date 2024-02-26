@@ -1,11 +1,11 @@
 ﻿using Aiirh.Basic.Utilities;
 
-namespace Aiirh.Basic.Entities
+namespace Aiirh.Basic.Entities;
+
+public static class UpdateSetPropertyExtensions
 {
-    public static class UpdateSetPropertyExtensions
+    public static bool IsUpdateRequired<T>(this UpdateSetProperty<T> property)
     {
-        public static bool IsUpdateRequired<T>(this UpdateSetProperty<T> property)
-        {
             if (property == null)
             {
                 return false;
@@ -23,5 +23,4 @@ namespace Aiirh.Basic.Entities
 
             return true;
         }
-    }
 }

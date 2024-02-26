@@ -1,14 +1,13 @@
 ﻿using System.Diagnostics;
 
-namespace Aiirh.Basic.Utilities
+namespace Aiirh.Basic.Utilities;
+
+public static class DiagnosticsUtility
 {
-    public static class DiagnosticsUtility
+    public static long ElapsedAndReset(this Stopwatch sw)
     {
-        public static long ElapsedAndReset(this Stopwatch sw)
-        {
             var elapsed = sw.ElapsedMilliseconds;
             sw.Restart();
             return elapsed;
         }
-    }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Aiirh.Basic.Utilities
+namespace Aiirh.Basic.Utilities;
+
+public static class TypeUtility
 {
-    public static class TypeUtility
+    public static bool IsNullOrDefault<T>(this T value)
     {
-        public static bool IsNullOrDefault<T>(this T value)
-        {
             if (value is string stringValue)
             {
                 return string.IsNullOrWhiteSpace(stringValue);
@@ -16,8 +16,8 @@ namespace Aiirh.Basic.Utilities
             return result;
         }
 
-        public static bool IsStandardType(this Type type)
-        {
+    public static bool IsStandardType(this Type type)
+    {
             return type.IsPrimitive ||
                    type == typeof(string) ||
                    type == typeof(decimal) ||
@@ -39,10 +39,9 @@ namespace Aiirh.Basic.Utilities
                    type == typeof(bool);
         }
 
-        public static bool IsStandardType<T>()
-        {
+    public static bool IsStandardType<T>()
+    {
             var type = typeof(T);
             return type.IsStandardType();
         }
-    }
 }

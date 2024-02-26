@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Aiirh.Basic.Utilities
+namespace Aiirh.Basic.Utilities;
+
+public static class CollectionUtility
 {
-    public static class CollectionUtility
+    public static IEnumerable<T> MakeCollection<T>(this T value)
     {
-        public static IEnumerable<T> MakeCollection<T>(this T value)
-        {
             if (!value.IsNullOrDefault())
             {
                 yield return value;
             }
         }
 
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
-        {
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
+    {
             return collection == null || !collection.Any();
         }
 
-        public static bool AllHaveTheSameValue<T, TPropertyType>(this IEnumerable<T> entities, Func<T, TPropertyType> selector)
-        {
+    public static bool AllHaveTheSameValue<T, TPropertyType>(this IEnumerable<T> entities, Func<T, TPropertyType> selector)
+    {
             return entities.AllHaveTheSameValue(selector, out _);
         }
 
-        public static bool AllHaveTheSameValue<T, TPropertyType>(this IEnumerable<T> entities, Func<T, TPropertyType> selector, out IList<TPropertyType> differentValues)
-        {
+    public static bool AllHaveTheSameValue<T, TPropertyType>(this IEnumerable<T> entities, Func<T, TPropertyType> selector, out IList<TPropertyType> differentValues)
+    {
             if (entities == null)
             {
                 differentValues = Enumerable.Empty<TPropertyType>().ToList();
@@ -35,16 +35,16 @@ namespace Aiirh.Basic.Utilities
             return differentValues.Count == 1;
         }
 
-        public static IEnumerable<List<T>> SplitList<T>(this List<T> locations, int nSize = 30)
-        {
+    public static IEnumerable<List<T>> SplitList<T>(this List<T> locations, int nSize = 30)
+    {
             for (var i = 0; i < locations.Count; i += nSize)
             {
                 yield return locations.GetRange(i, Math.Min(nSize, locations.Count - i));
             }
         }
 
-        public static IEnumerable<IEnumerable<T>> ToEnumerableBatch<T>(this IEnumerable<T> source, int size)
-        {
+    public static IEnumerable<IEnumerable<T>> ToEnumerableBatch<T>(this IEnumerable<T> source, int size)
+    {
             T[] bucket = null;
             var count = 0;
 
@@ -75,8 +75,8 @@ namespace Aiirh.Basic.Utilities
             }
         }
 
-        public static bool CompareCollections<T>(this IEnumerable<T> first, IEnumerable<T> second) where T : IComparable<T>
-        {
+    public static bool CompareCollections<T>(this IEnumerable<T> first, IEnumerable<T> second) where T : IComparable<T>
+    {
             if (first == null || second == null)
             {
                 return false;
@@ -101,8 +101,8 @@ namespace Aiirh.Basic.Utilities
             return true;
         }
 
-        public static IEnumerable<T> TakeAndRemove<T>(this IList<T> list, int count)
-        {
+    public static IEnumerable<T> TakeAndRemove<T>(this IList<T> list, int count)
+    {
             count = Math.Min(list.Count, count);
             for (var i = 0; i < count; i++)
             {
@@ -112,25 +112,25 @@ namespace Aiirh.Basic.Utilities
             }
         }
 
-        public static T TakeAndRemove<T>(this IList<T> list)
-        {
+    public static T TakeAndRemove<T>(this IList<T> list)
+    {
             var element = list.First();
             list.Remove(element);
             return element;
         }
 
-        public static bool ContainsAny<T>(this IEnumerable<T> source, IEnumerable<T> other)
-        {
+    public static bool ContainsAny<T>(this IEnumerable<T> source, IEnumerable<T> other)
+    {
             return source.Intersect(other).Any();
         }
 
-        public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> source)
-        {
+    public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> source)
+    {
             return source.Select((item, index) => (item, index));
         }
 
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
-        {
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+    {
             var rng = new Random();
             var sourceList = source.ToList();
             int count = sourceList.Count;
@@ -142,5 +142,4 @@ namespace Aiirh.Basic.Utilities
                 sourceList.RemoveAt(randomIndex);
             }
         }
-    }
 }

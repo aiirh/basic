@@ -2,12 +2,12 @@
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace Aiirh.Basic.Utilities
+namespace Aiirh.Basic.Utilities;
+
+public static class TypeConverterUtility
 {
-    public static class TypeConverterUtility
+    public static T Convert<T>(this string value)
     {
-        public static T Convert<T>(this string value)
-        {
             if (string.IsNullOrWhiteSpace(value))
             {
                 return default;
@@ -26,8 +26,8 @@ namespace Aiirh.Basic.Utilities
             return JsonConvert.DeserializeObject<T>(value);
         }
 
-        public static string Convert<T>(this T value)
-        {
+    public static string Convert<T>(this T value)
+    {
             if (value.IsNullOrDefault())
             {
                 return default(T)?.ToString();
@@ -43,8 +43,8 @@ namespace Aiirh.Basic.Utilities
 
 
 
-        public static T Convert<T>(this object value)
-        {
+    public static T Convert<T>(this object value)
+    {
             if (value == null)
             {
                 return default;
@@ -56,5 +56,4 @@ namespace Aiirh.Basic.Utilities
             };
             return JsonConvert.DeserializeObject<T>(serializeObject, settings);
         }
-    }
 }

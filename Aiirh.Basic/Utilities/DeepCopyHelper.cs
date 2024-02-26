@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Aiirh.Basic.Utilities
-{
-    public static class DeepCopyHelper
-    {
-        private static readonly MethodInfo CloneMethod = typeof(object).GetMethod("MemberwiseClone", BindingFlags.NonPublic | BindingFlags.Instance);
+namespace Aiirh.Basic.Utilities;
 
-        public static bool IsPrimitive(this Type type)
-        {
+public static class DeepCopyHelper
+{
+    private static readonly MethodInfo CloneMethod = typeof(object).GetMethod("MemberwiseClone", BindingFlags.NonPublic | BindingFlags.Instance);
+
+    public static bool IsPrimitive(this Type type)
+    {
             if (type == typeof(string))
             {
                 return true;
@@ -18,24 +18,24 @@ namespace Aiirh.Basic.Utilities
             return type.IsValueType & type.IsPrimitive;
         }
 
-        public static object DeepCopy(this object originalObject)
-        {
+    public static object DeepCopy(this object originalObject)
+    {
             return InternalCopy(originalObject, new Dictionary<object, object>(new ReferenceEqualityComparer()));
         }
 
-        public static T DeepCopy<T>(this T original)
-        {
+    public static T DeepCopy<T>(this T original)
+    {
             return (T)DeepCopy((object)original);
         }
 
-        /// <summary>
-        /// Copies the properties from one object to another of the same class while preserving the reference to the target object.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to copy.</typeparam>
-        /// <param name="target">The target object to which properties will be copied.</param>
-        /// <param name="source">The source object from which properties will be copied.</param>
-        public static void SetPropertiesFrom<T>(this T target, T source)
-        {
+    /// <summary>
+    /// Copies the properties from one object to another of the same class while preserving the reference to the target object.
+    /// </summary>
+    /// <typeparam name="T">The type of objects to copy.</typeparam>
+    /// <param name="target">The target object to which properties will be copied.</param>
+    /// <param name="source">The source object from which properties will be copied.</param>
+    public static void SetPropertiesFrom<T>(this T target, T source)
+    {
             if (target is null)
             {
                 throw new ArgumentNullException(nameof(target));
@@ -59,8 +59,8 @@ namespace Aiirh.Basic.Utilities
             }
         }
 
-        private static object InternalCopy(object originalObject, IDictionary<object, object> visited)
-        {
+    private static object InternalCopy(object originalObject, IDictionary<object, object> visited)
+    {
             if (originalObject == null)
             {
                 return null;
@@ -99,8 +99,8 @@ namespace Aiirh.Basic.Utilities
             return cloneObject;
         }
 
-        private static void RecursiveCopyBaseTypePrivateFields(object originalObject, IDictionary<object, object> visited, object cloneObject, Type typeToReflect)
-        {
+    private static void RecursiveCopyBaseTypePrivateFields(object originalObject, IDictionary<object, object> visited, object cloneObject, Type typeToReflect)
+    {
             if (typeToReflect.BaseType == null)
             {
                 return;
@@ -110,8 +110,8 @@ namespace Aiirh.Basic.Utilities
             CopyFields(originalObject, visited, cloneObject, typeToReflect.BaseType, BindingFlags.Instance | BindingFlags.NonPublic, info => info.IsPrivate);
         }
 
-        private static void CopyFields(object originalObject, IDictionary<object, object> visited, object cloneObject, IReflect typeToReflect, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy, Func<FieldInfo, bool> filter = null)
-        {
+    private static void CopyFields(object originalObject, IDictionary<object, object> visited, object cloneObject, IReflect typeToReflect, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy, Func<FieldInfo, bool> filter = null)
+    {
             foreach (var fieldInfo in typeToReflect.GetFields(bindingFlags))
             {
                 if (filter != null && filter(fieldInfo) == false)
@@ -129,26 +129,26 @@ namespace Aiirh.Basic.Utilities
                 fieldInfo.SetValue(cloneObject, clonedFieldValue);
             }
         }
-    }
+}
 
-    public class ReferenceEqualityComparer : EqualityComparer<object>
+public class ReferenceEqualityComparer : EqualityComparer<object>
+{
+    public override bool Equals(object x, object y)
     {
-        public override bool Equals(object x, object y)
-        {
             return ReferenceEquals(x, y);
         }
 
-        public override int GetHashCode(object obj)
-        {
+    public override int GetHashCode(object obj)
+    {
             return obj.GetHashCode();
         }
-    }
+}
 
 
-    public static class ArrayExtensions
+public static class ArrayExtensions
+{
+    public static void ForEach(this Array array, Action<Array, int[]> action)
     {
-        public static void ForEach(this Array array, Action<Array, int[]> action)
-        {
             if (array.LongLength == 0)
             {
                 return;
@@ -158,15 +158,15 @@ namespace Aiirh.Basic.Utilities
             do action(array, walker.Position);
             while (walker.Step());
         }
-    }
+}
 
-    internal class ArrayTraverse
+internal class ArrayTraverse
+{
+    public int[] Position;
+    private readonly int[] _maxLengths;
+
+    public ArrayTraverse(Array array)
     {
-        public int[] Position;
-        private readonly int[] _maxLengths;
-
-        public ArrayTraverse(Array array)
-        {
             _maxLengths = new int[array.Rank];
             for (var i = 0; i < array.Rank; ++i)
             {
@@ -176,8 +176,8 @@ namespace Aiirh.Basic.Utilities
             Position = new int[array.Rank];
         }
 
-        public bool Step()
-        {
+    public bool Step()
+    {
             for (var i = 0; i < Position.Length; ++i)
             {
                 if (Position[i] >= _maxLengths[i])
@@ -196,5 +196,4 @@ namespace Aiirh.Basic.Utilities
 
             return false;
         }
-    }
 }

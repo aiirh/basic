@@ -11,7 +11,7 @@ namespace Aiirh.Crypto
     {
         private const int Iterations = 1000;
         private const int SecretKeySize = 128;
-        private static string _passPhrase;
+        private static string PassPhrase;
 
         internal static void Init(string passPhrase)
         {
@@ -19,7 +19,8 @@ namespace Aiirh.Crypto
             {
                 throw new InvalidConfigurationException("Pass phrase can't be empty");
             }
-            _passPhrase = passPhrase;
+
+            PassPhrase = passPhrase;
         }
 
         public static string EncryptString(this string input)
@@ -31,7 +32,7 @@ namespace Aiirh.Crypto
         {
             try
             {
-                var passPhase = string.IsNullOrEmpty(customPassPhase) ? _passPhrase : customPassPhase;
+                var passPhase = string.IsNullOrEmpty(customPassPhase) ? PassPhrase : customPassPhase;
                 if (string.IsNullOrEmpty(passPhase))
                 {
                     throw new InvalidConfigurationException("CryptoService is not initialized");
@@ -49,12 +50,10 @@ namespace Aiirh.Crypto
                 using var password = new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations);
                 var keyBytes = password.GetBytes(SecretKeySize / 8);
 
-                using var symmetricKey = new RijndaelManaged
-                {
-                    BlockSize = 128,
-                    Mode = CipherMode.CBC,
-                    Padding = PaddingMode.PKCS7
-                };
+                using var symmetricKey = new RijndaelManaged();
+                symmetricKey.BlockSize = 128;
+                symmetricKey.Mode = CipherMode.CBC;
+                symmetricKey.Padding = PaddingMode.PKCS7;
 
                 using var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes);
                 using var memoryStream = new MemoryStream();
@@ -87,7 +86,7 @@ namespace Aiirh.Crypto
         {
             try
             {
-                var passPhase = string.IsNullOrEmpty(customPassPhase) ? _passPhrase : customPassPhase;
+                var passPhase = string.IsNullOrEmpty(customPassPhase) ? PassPhrase : customPassPhase;
                 if (string.IsNullOrEmpty(passPhase))
                 {
                     throw new InvalidConfigurationException("CryptoService is not initialized");
@@ -108,12 +107,10 @@ namespace Aiirh.Crypto
                 using var password = new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations);
                 var keyBytes = password.GetBytes(SecretKeySize / 8);
 
-                using var symmetricKey = new RijndaelManaged
-                {
-                    BlockSize = 128,
-                    Mode = CipherMode.CBC,
-                    Padding = PaddingMode.PKCS7
-                };
+                using var symmetricKey = new RijndaelManaged();
+                symmetricKey.BlockSize = 128;
+                symmetricKey.Mode = CipherMode.CBC;
+                symmetricKey.Padding = PaddingMode.PKCS7;
 
                 using var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes);
                 using var memoryStream = new MemoryStream(cipherTextBytes);

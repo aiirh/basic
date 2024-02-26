@@ -3,34 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using Aiirh.Basic.Messages;
 
-namespace Aiirh.Basic.Validation
+namespace Aiirh.Basic.Validation;
+
+public class ValidationMessages : IEnumerable<ValidationMessage>
 {
-    public class ValidationMessages : IEnumerable<ValidationMessage>
+    private readonly List<ValidationMessage> _messages = new List<ValidationMessage>();
+
+    public bool IsValid => !_messages.Any();
+
+    public bool IsValidOrOnlyWarnings => IsValid || _messages.All(x => x.Severity == ValidationMessageSeverity.Warning);
+
+    public ValidationMessage this[int index]
     {
-        private readonly List<ValidationMessage> _messages = new List<ValidationMessage>();
+        get => _messages[index];
+        set => _messages.Insert(index, value);
+    }
 
-        public bool IsValid => !_messages.Any();
-
-        public bool IsValidOrOnlyWarnings => IsValid || _messages.All(x => x.Severity == ValidationMessageSeverity.Warning);
-
-        public ValidationMessage this[int index]
-        {
-            get => _messages[index];
-            set => _messages.Insert(index, value);
-        }
-
-        public IEnumerator<ValidationMessage> GetEnumerator()
-        {
+    public IEnumerator<ValidationMessage> GetEnumerator()
+    {
             return _messages.GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+    IEnumerator IEnumerable.GetEnumerator()
+    {
             return GetEnumerator();
         }
 
-        public void AddIfInvalid(ValidationCheck check)
-        {
+    public void AddIfInvalid(ValidationCheck check)
+    {
             if (check.IsValid)
             {
                 return;
@@ -38,23 +38,23 @@ namespace Aiirh.Basic.Validation
             _messages.Add(new ValidationMessage(check));
         }
 
-        public void Add(string header, string description, ValidationMessageSeverity severity)
-        {
+    public void Add(string header, string description, ValidationMessageSeverity severity)
+    {
             _messages.Add(new ValidationMessage(header, description, severity));
         }
 
-        public void Add(string message, ValidationMessageSeverity severity)
-        {
+    public void Add(string message, ValidationMessageSeverity severity)
+    {
             _messages.Add(new ValidationMessage(message, null, severity));
         }
 
-        public void AddRange(ValidationMessages messages)
-        {
+    public void AddRange(ValidationMessages messages)
+    {
             _messages.AddRange(messages);
         }
 
-        public void AddRange(IEnumerable<ValidationMessage> messages)
-        {
+    public void AddRange(IEnumerable<ValidationMessage> messages)
+    {
             if (messages == null)
             {
                 return;
@@ -62,13 +62,13 @@ namespace Aiirh.Basic.Validation
             _messages.AddRange(messages);
         }
 
-        public string GetMessagesAsString()
-        {
+    public string GetMessagesAsString()
+    {
             return string.Join("; ", _messages.Select(x => x.ToString()));
         }
 
-        public string GetApiMessagesWithSeparatedWarnings(bool printType)
-        {
+    public string GetApiMessagesWithSeparatedWarnings(bool printType)
+    {
             var errors = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Error).Select(x => $"{(printType ? "ERROR: " : string.Empty)}{x.Message}"));
             var warnings = string.Join("|", _messages.Where(x => x.Severity == ValidationMessageSeverity.Warning).Select(x => $"{(printType ? "WARNING: " : string.Empty)}{x.Message}"));
             return string.IsNullOrWhiteSpace(errors)
@@ -78,18 +78,17 @@ namespace Aiirh.Basic.Validation
                     : string.Join("|", errors, warnings);
         }
 
-        public IEnumerable<SimpleMessage> GetMessages()
-        {
+    public IEnumerable<SimpleMessage> GetMessages()
+    {
             return _messages.Select(x => x.Message);
         }
 
-        public ValidationMessages()
-        {
+    public ValidationMessages()
+    {
         }
 
-        public ValidationMessages(IEnumerable<ValidationMessage> messages)
-        {
+    public ValidationMessages(IEnumerable<ValidationMessage> messages)
+    {
             _messages = messages.ToList();
         }
-    }
 }

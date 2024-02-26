@@ -70,9 +70,4 @@ public static class AuditLogHelper
         var latestRevisionType = revisions.MaxBy(x => x.CreatedDate).GetRevisionType();
         return revisions.Where(x => x.GetRevisionType().Equals(latestRevisionType, StringComparison.InvariantCultureIgnoreCase));
     }
-
-    private static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-    {
-        return source.OrderBy(keySelector).LastOrDefault();
-    }
 }

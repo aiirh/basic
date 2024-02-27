@@ -132,15 +132,13 @@ public static class CryptographyTools
         return randomBytes;
     }
 
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-        private static Rfc2898DeriveBytes GetRfc2898DeriveBytes(string passPhase, byte[] saltStringBytes)
-        {
-            return new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations);
-        }
-#else
+
     private static Rfc2898DeriveBytes GetRfc2898DeriveBytes(string passPhase, byte[] saltStringBytes)
     {
+#if NETSTANDARD
+        return new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations);
+#else
         return new Rfc2898DeriveBytes(passPhase, saltStringBytes, Iterations, HashAlgorithmName.SHA256);
-    }
 #endif
+    }
 }

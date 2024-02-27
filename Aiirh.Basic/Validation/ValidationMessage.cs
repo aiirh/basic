@@ -13,16 +13,16 @@ public class ValidationMessage : IMessage
     {
         get
         {
-                switch (Message.Type)
-                {
-                    case Type.Simple:
-                    case Type.Warning:
-                        return ValidationMessageSeverity.Warning;
-                    case Type.Error:
-                    default:
-                        return ValidationMessageSeverity.Error;
-                }
+            switch (Message.Type)
+            {
+                case Type.Simple:
+                case Type.Warning:
+                    return ValidationMessageSeverity.Warning;
+                case Type.Error:
+                default:
+                    return ValidationMessageSeverity.Error;
             }
+        }
     }
 
     private ValidationMessage() { }
@@ -31,10 +31,10 @@ public class ValidationMessage : IMessage
 
     public ValidationMessage(string message, string description, ValidationMessageSeverity severity)
     {
-            Message = SimpleMessage.Validation(message, description, severity);
-        }
+        Message = SimpleMessage.Validation(message, description, severity);
+    }
 
     public ValidationMessage(ValidationCheck check) : this(check.Message.Header, check.Message.Description, check.Message.Severity)
     {
-        }
+    }
 }

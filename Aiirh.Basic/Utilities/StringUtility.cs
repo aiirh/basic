@@ -1,13 +1,14 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Aiirh.Basic.Utilities;
 
 public static class StringUtility
 {
+    [Obsolete("Use IsNotNullOrWhiteSpace instead", true)]
     public static bool HasValue(this string str)
     {
-        str = str?.Trim();
-        return !string.IsNullOrEmpty(str);
+        return !string.IsNullOrWhiteSpace(str);
     }
 
     public static bool IsNullOrWhiteSpace(this string str)
@@ -22,20 +23,27 @@ public static class StringUtility
 
     public static bool ContainsCaseInsensitive(this string str, string strToCompare)
     {
+#if NETSTANDARD
         return str.ToLower().Contains(strToCompare.ToLower());
+#else
+        return str.Contains(strToCompare, StringComparison.InvariantCultureIgnoreCase);
+#endif
     }
 
     public static string Truncate(this string str, int maxLength, string truncatedSuffix = "...")
     {
-        if (!str.HasValue() || str.Length <= maxLength)
+        if (str.IsNullOrWhiteSpace() || str.Length <= maxLength)
         {
             return str;
         }
-        if (truncatedSuffix == null)
-        {
-            truncatedSuffix = string.Empty;
-        }
+
+        truncatedSuffix ??= string.Empty;
+
+#if NETSTANDARD
         return str.Substring(0, maxLength - truncatedSuffix.Length) + truncatedSuffix;
+#else
+        return str[..(maxLength - truncatedSuffix.Length)] + truncatedSuffix;
+#endif
     }
 
     /// <summary>

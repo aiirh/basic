@@ -5,15 +5,16 @@ namespace Aiirh.Crypto;
 
 public static class Configuration
 {
-    public static void AddAiirhCrypto(this IServiceCollection services, Action<AiirhCryptoOptions> options = null)
+    public static IServiceCollection AddAiirhCrypto(this IServiceCollection services, Action<AiirhCryptoOptions> options = null)
     {
         if (options == null)
         {
-            return;
+            return services;
         }
         var optionsToUse = new AiirhCryptoOptions();
         options.Invoke(optionsToUse);
         CryptographyTools.Init(optionsToUse.PassPhrase);
+        return services;
     }
 }
 

@@ -19,6 +19,21 @@ public static class CollectionUtility
         return collection == null || !collection.Any();
     }
 
+    public static IEnumerable<T> ConcatSafe<T>(this IEnumerable<T> collection, T value)
+    {
+        if (collection is null)
+        {
+            return value is null ? Enumerable.Empty<T>() : value.MakeCollection();
+        }
+
+        return value is null ? collection : collection.Concat(value.MakeCollection());
+    }
+
+    public static IEnumerable<T> ConcatSafe<T>(this T value, IEnumerable<T> collection)
+    {
+        return collection.ConcatSafe(value);
+    }
+
     public static bool AllHaveTheSameValue<T, TPropertyType>(this IEnumerable<T> entities, Func<T, TPropertyType> selector)
     {
         return entities.AllHaveTheSameValue(selector, out _);

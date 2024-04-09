@@ -19,7 +19,7 @@ public static class AuditLogHelper
         return string.IsNullOrWhiteSpace(json) ? null : new Revision(author, json, createdDate, comment);
     }
 
-    public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->", int? depth = null)
+    public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, int? depth = null, string pathSeparator = "->")
     {
         var totalNumberOfChanges = 0;
         var isLimited = depth is > 0;

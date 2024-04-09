@@ -16,23 +16,20 @@ public static class AuditLogHelper
         }
 
         var json = data.ToRevisionJson();
-        if (string.IsNullOrWhiteSpace(json))
-        {
-            return null;
-        }
-
-        return new Revision(author, json, createdDate, comment);
+        return string.IsNullOrWhiteSpace(json) ? null : new Revision(author, json, createdDate, comment);
     }
 
-    public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->")
+    public static IEnumerable<IAuditLog> ToAuditLogs(this IEnumerable<Revision> revisions, string pathSeparator = "->", int? depth = null)
     {
+        var totalNumberOfChanges = 0;
+        var isLimited = depth is > 0;
         var revisionsAsArray = revisions.ToArray();
         if (revisionsAsArray.Length < 2)
         {
             yield break;
         }
 
-        var sortedRevisions = revisionsAsArray.ValidateRevisions(pathSeparator).TakeLastRevisionType().OrderBy(x => x.CreatedDate).ToArray();
+        var sortedRevisions = revisionsAsArray.ValidateRevisions(pathSeparator).TakeLastRevisionType().OrderByDescending(x => x.CreatedDate).ToArray();
         if (sortedRevisions.Length < 2)
         {
             yield break;
@@ -40,17 +37,24 @@ public static class AuditLogHelper
 
         for (var i = 0; i < sortedRevisions.Length - 1; i++)
         {
-            var earlier = sortedRevisions[i];
-            var later = sortedRevisions[i + 1];
+            var later = sortedRevisions[i];
+            var earlier = sortedRevisions[i + 1];
             if (later.EqualsAsDataJson(earlier))
             {
                 continue;
             }
 
             var auditLog = AuditLogBuilder.Build(earlier.DataJson, later.DataJson, later.CreatedDate, later.Author, later.Comment, pathSeparator);
-            if (auditLog.Changes.Any())
+            if (!auditLog.Changes.Any())
             {
-                yield return auditLog;
+                continue;
+            }
+
+            yield return auditLog;
+            totalNumberOfChanges += auditLog.Changes.Count();
+            if (isLimited && totalNumberOfChanges >= depth.Value)
+            {
+                yield break;
             }
         }
     }

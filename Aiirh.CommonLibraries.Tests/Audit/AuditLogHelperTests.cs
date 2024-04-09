@@ -57,11 +57,8 @@ public class AuditLogHelperTests
     [TestCaseSource(nameof(GetTestDataWrongSeparator))]
     public void ToAuditLogs_DifferentWrongSeparator_ShouldThrowException(IEnumerable<Revision> revisions, string separator)
     {
-        var exception = Assert.Throws<SimpleException>(() =>
-        {
-            var _ = revisions.ToAuditLogs(separator).ToList();
-        });
-        ClassicAssert.AreEqual("This separator can't be used because it participates in some property names. Choose another separator", exception.Message);
+        var exception = Assert.Throws<SimpleException>(() => { _ = revisions.ToAuditLogs(null, separator).ToList(); });
+        ClassicAssert.AreEqual("This separator can't be used because it participates in some property names. Choose another separator", exception!.Message);
     }
 
     private static IEnumerable<TestCaseData> GetAllSameTestData()

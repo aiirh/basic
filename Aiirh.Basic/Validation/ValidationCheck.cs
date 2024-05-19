@@ -12,10 +12,10 @@ public class ValidationCheck
 
     public static ValidationCheck Create(bool isValid, string header, string description, ValidationMessageSeverity severity)
     {
-            return new ValidationCheck
-            {
-                IsValid = isValid,
-                Message = new ValidationMessage(header, description, severity)
-            };
-        }
+        return new ValidationCheck
+        {
+            IsValid = isValid,
+            Message = new ValidationMessage(header, description, severity)
+        };
+    }
 }

@@ -8,7 +8,7 @@ public class UpdateSetProperty<T>
 
     public UpdateSetProperty(T value, bool updateIfNull = false)
     {
-            Value = value;
-            UpdateIfNull = updateIfNull;
-        }
+        Value = value;
+        UpdateIfNull = updateIfNull;
+    }
 }

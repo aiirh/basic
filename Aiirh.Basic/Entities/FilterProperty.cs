@@ -8,9 +8,9 @@ public class FilterProperty<T>
 
     public FilterProperty(T value, EmptyFilterValueBehavior emptyFilterValueBehavior = EmptyFilterValueBehavior.Ignore)
     {
-            Value = value;
-            EmptyFilterValueBehavior = emptyFilterValueBehavior;
-        }
+        Value = value;
+        EmptyFilterValueBehavior = emptyFilterValueBehavior;
+    }
 }
 
 public enum EmptyFilterValueBehavior

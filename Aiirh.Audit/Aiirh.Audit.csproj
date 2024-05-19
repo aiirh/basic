@@ -12,11 +12,12 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Services for tracking changes in data objects</Description>
         <Copyright>Evgenii Baleevskii</Copyright>
-        <Version>2.0.3</Version>
-        <AssemblyVersion>2.0.3.0</AssemblyVersion>
-        <FileVersion>2.0.3.0</FileVersion>
+        <Version>2.0.4</Version>
+        <AssemblyVersion>2.0.4.0</AssemblyVersion>
+        <FileVersion>2.0.4.0</FileVersion>
         <PackageIcon>AiirhLogo128.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/aiirh/common-libraries.git</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

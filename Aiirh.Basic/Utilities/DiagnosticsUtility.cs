@@ -6,8 +6,8 @@ public static class DiagnosticsUtility
 {
     public static long ElapsedAndReset(this Stopwatch sw)
     {
-            var elapsed = sw.ElapsedMilliseconds;
-            sw.Restart();
-            return elapsed;
-        }
+        var elapsed = sw.ElapsedMilliseconds;
+        sw.Restart();
+        return elapsed;
+    }
 }

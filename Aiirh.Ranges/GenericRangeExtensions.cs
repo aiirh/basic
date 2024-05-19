@@ -54,10 +54,10 @@ public static class GenericRangeExtensions
         if (orderedRange.Count < 2)
         {
             // Can't inverse range if it has less than 2 elements
-            return Enumerable.Empty<GenericRange<T>>();
+            return [];
         }
 
-        IEnumerable<GenericRange<T>> result = new List<GenericRange<T>>();
+        IEnumerable<GenericRange<T>> result = [];
         for (var i = 1; i < orderedRange.Count; i++)
         {
             var previousTaken = orderedRange[i - 1];

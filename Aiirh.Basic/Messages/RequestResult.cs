@@ -75,7 +75,6 @@ public class RequestResult
 
 public class RequestResult<T> : RequestResult
 {
-
     public T Data { get; private set; }
 
     private RequestResult() { }

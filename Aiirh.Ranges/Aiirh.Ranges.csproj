@@ -12,11 +12,12 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Tools for creating and working with ranges of values, defined as begin and end of range</Description>
         <Copyright>Evgenii Baleevskii</Copyright>
-        <Version>1.0.0</Version>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
+        <Version>1.0.1</Version>
+        <AssemblyVersion>1.0.1.0</AssemblyVersion>
+        <FileVersion>1.0.1.0</FileVersion>
         <PackageIcon>AiirhLogo128.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/aiirh/common-libraries.git</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

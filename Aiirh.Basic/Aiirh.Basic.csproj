@@ -12,11 +12,12 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Services that provide basic classes of usual application</Description>
         <Copyright>Evgenii Baleevskii</Copyright>
-        <Version>3.0.3</Version>
-        <AssemblyVersion>3.0.3.0</AssemblyVersion>
-        <FileVersion>3.0.3.0</FileVersion>
+        <Version>3.0.4</Version>
+        <AssemblyVersion>3.0.4.0</AssemblyVersion>
+        <FileVersion>3.0.4.0</FileVersion>
         <PackageIcon>AiirhLogo128.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/aiirh/common-libraries.git</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

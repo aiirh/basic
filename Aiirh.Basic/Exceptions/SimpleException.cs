@@ -13,15 +13,15 @@ public class SimpleException : Exception
 
     public SimpleException(IEnumerable<ValidationMessage> messages)
     {
-            Messages = messages?.Select(x => x.Message) ?? Enumerable.Empty<SimpleMessage>();
-        }
+        Messages = messages?.Select(x => x.Message) ?? [];
+    }
 
     public SimpleException(ValidationMessages messages) : this(messages.AsEnumerable()) { }
 
     private SimpleException(string header, string description, Exception innerException) : base(MessageBuilder.BuildMessage(header, description), innerException)
     {
-            Messages = SimpleMessage.Error(header, description).MakeCollection();
-        }
+        Messages = SimpleMessage.Error(header, description).MakeCollection();
+    }
 
     public SimpleException(string header, string description) : this(header, description, null) { }
 
@@ -31,11 +31,11 @@ public class SimpleException : Exception
 
     public SimpleException(IOperationResult operationResult) : base(string.Join(";", operationResult.Messages.Select(x => MessageBuilder.BuildMessage(x.Header, x.Description))))
     {
-            Messages = operationResult.Messages ?? Enumerable.Empty<SimpleMessage>();
-        }
+        Messages = operationResult.Messages ?? [];
+    }
 
     public SimpleException(RequestResult requestResult)
     {
-            Messages = requestResult.Messages ?? Enumerable.Empty<SimpleMessage>();
-        }
+        Messages = requestResult.Messages ?? [];
+    }
 }

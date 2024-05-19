@@ -11,13 +11,30 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Services that provide functionality of date, time and time zones</Description>
         <Copyright>Evgenii Baleevskii</Copyright>
-        <Version>1.0.3</Version>
-        <AssemblyVersion>1.0.3.0</AssemblyVersion>
-        <FileVersion>1.0.3.0</FileVersion>
+        <Version>1.0.4</Version>
+        <AssemblyVersion>1.0.4.0</AssemblyVersion>
+        <FileVersion>1.0.4.0</FileVersion>
+        <PackageIcon>AiirhLogo128.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/aiirh/common-libraries.git</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="TimeZoneConverter" Version="3.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\AiirhLogo128.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
     </ItemGroup>
 
 </Project>

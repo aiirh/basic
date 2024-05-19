@@ -7,23 +7,23 @@ public abstract class Validator<TEntity, TParams> where TParams : IValidationPar
 {
     public virtual async Task<IEnumerable<ValidationResult<TEntity>>> ValidateMany(IEnumerable<TEntity> entities, TParams parameters)
     {
-            var results = new List<ValidationResult<TEntity>>();
+        var results = new List<ValidationResult<TEntity>>();
 
-            foreach (var entity in entities)
+        foreach (var entity in entities)
+        {
+            var validationMessages = await Validate(entity, parameters);
+            if (!validationMessages.IsValid)
             {
-                var validationMessages = await Validate(entity, parameters);
-                if (!validationMessages.IsValid)
+                results.Add(new ValidationResult<TEntity>
                 {
-                    results.Add(new ValidationResult<TEntity>
-                    {
-                        InvalidEntity = entity,
-                        Messages = validationMessages
-                    });
-                }
+                    InvalidEntity = entity,
+                    Messages = validationMessages
+                });
             }
-
-            return results;
         }
+
+        return results;
+    }
 
     public abstract Task<ValidationMessages> Validate(TEntity entity, TParams parameters);
 }

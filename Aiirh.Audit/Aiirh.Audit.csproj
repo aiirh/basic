@@ -29,7 +29,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Aiirh.Basic\Aiirh.Basic.csproj" />
+        <PackageReference Include="Aiirh.Basic" Version="3.0.4" />
     </ItemGroup>
 
     <ItemGroup>

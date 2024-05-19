@@ -1,10 +1,9 @@
-﻿using Aiirh.Audit;
+﻿using System.Collections.Generic;
 using Aiirh.Audit.Internal;
 using NUnit.Framework;
-using System.Collections.Generic;
 using NUnit.Framework.Legacy;
 
-namespace Aiirh.CommonLibraries.Tests.Audit;
+namespace Aiirh.Audit.Tests;
 
 [TestFixture]
 public class RevisionCreatorTests

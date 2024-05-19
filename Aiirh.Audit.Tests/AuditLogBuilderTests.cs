@@ -1,11 +1,11 @@
-﻿using Aiirh.Audit.Internal;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Aiirh.Audit.Internal;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
-namespace Aiirh.CommonLibraries.Tests.Audit;
+namespace Aiirh.Audit.Tests;
 
 [TestFixture]
 public class AuditLogBuilderTests

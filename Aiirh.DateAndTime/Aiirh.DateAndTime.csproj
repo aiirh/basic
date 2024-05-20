@@ -16,7 +16,7 @@
         <FileVersion>1.0.4.0</FileVersion>
         <PackageIcon>AiirhLogo128.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/aiirh/common-libraries.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/aiirh/basic.git</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>

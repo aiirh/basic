@@ -1,10 +1,10 @@
-using Aiirh.Basic.Utilities;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
+using Aiirh.Basic.Utilities;
+using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
-namespace Aiirh.CommonLibraries.Tests;
+namespace Aiirh.Basic.Tests;
 
 [TestFixture]
 public class MemorySizeUtilityTests

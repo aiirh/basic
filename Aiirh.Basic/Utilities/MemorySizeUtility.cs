@@ -38,12 +38,12 @@ public static class MemorySizeUtility
 public enum MemorySizeUnits
 {
     /// <summary>
-    /// Shows size with base 2 (KiB, MiB, etc)
+    /// Shows size with base 2 (KiB, MiB, etc.)
     /// </summary>
     Binary,
 
     /// <summary>
-    /// Shows size with base 10 (KB, MB, etc)
+    /// Shows size with base 10 (KB, MB, etc.)
     /// </summary>
     Decimal
 }

@@ -4,7 +4,7 @@ using Aiirh.Basic.Utilities;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
-namespace Aiirh.CommonLibraries.Tests;
+namespace Aiirh.Basic.Tests;
 
 [TestFixture]
 public class CollectionUtilityTests

@@ -14,6 +14,11 @@ public static class CollectionUtility
         }
     }
 
+    public static T[] MakeArray<T>(this T value)
+    {
+        return !value.IsNullOrDefault() ? [value] : [];
+    }
+
     public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
     {
         return collection == null || !collection.Any();
@@ -23,7 +28,7 @@ public static class CollectionUtility
     {
         if (collection is null)
         {
-            return value is null ? Enumerable.Empty<T>() : value.MakeCollection();
+            return value is null ? [] : value.MakeCollection();
         }
 
         return value is null ? collection : collection.Concat(value.MakeCollection());
@@ -65,11 +70,7 @@ public static class CollectionUtility
 
         foreach (var item in source)
         {
-            if (bucket == null)
-            {
-                bucket = new T[size];
-            }
-
+            bucket ??= new T[size];
             bucket[count++] = item;
 
             if (count != size)

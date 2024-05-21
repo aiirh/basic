@@ -4,7 +4,7 @@ using Aiirh.Basic.Exceptions;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Aiirh.CommonLibraries.Tests;
+namespace Aiirh.Basic.Tests;
 
 [TestFixture]
 public class ExceptionTests

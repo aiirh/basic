@@ -28,4 +28,4 @@ public abstract class Validator<TEntity, TParams> where TParams : IValidationPar
     public abstract Task<ValidationMessages> Validate(TEntity entity, TParams parameters);
 }
 
-public interface IValidationParameters { }
+public interface IValidationParameters;

@@ -12,6 +12,6 @@ public class ValidationResult<T>
 
     public string GetSimpleMessage()
     {
-        return string.Join("; ", Messages?.Select(x => MessageBuilder.BuildMessage(x.Message.Header, x.Message.Description)) ?? Enumerable.Empty<string>());
+        return string.Join("; ", Messages?.Select(x => MessageBuilder.BuildMessage(x.Message.Header, x.Message.Description)) ?? []);
     }
 }

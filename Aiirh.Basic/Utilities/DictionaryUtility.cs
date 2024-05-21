@@ -55,14 +55,7 @@ public static class DictionaryUtility
 
     public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dict, KeyValuePair<TKey, TValue> pair)
     {
-        if (dict.ContainsKey(pair.Key))
-        {
-            dict[pair.Key] = pair.Value;
-        }
-        else
-        {
-            dict.Add(pair.Key, pair.Value);
-        }
+        dict[pair.Key] = pair.Value;
     }
 
     public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value)
@@ -100,14 +93,7 @@ public static class DictionaryUtility
         var results = new Dictionary<T1, T2>(first);
         foreach (var keyValuePair in second)
         {
-            if (!results.ContainsKey(keyValuePair.Key))
-            {
-                results.Add(keyValuePair.Key, keyValuePair.Value);
-            }
-            else
-            {
-                results[keyValuePair.Key] = keyValuePair.Value;
-            }
+            results[keyValuePair.Key] = keyValuePair.Value;
         }
         return results;
     }

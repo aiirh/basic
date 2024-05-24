@@ -12,6 +12,7 @@ public static class ExceptionExtensions
         {
             message.Append($". INNER:{LogException(ex.InnerException)}");
         }
+
         return message.ToString();
     }
 
@@ -22,6 +23,7 @@ public static class ExceptionExtensions
         {
             message.Append($". INNER:{LogException(ex.InnerException)}");
         }
+
         return message.ToString();
     }
 

@@ -13,10 +13,12 @@ public static class DictionaryUtility
         {
             return defaultValue;
         }
+
         if (!dict.TryGetValue(key, out var ret))
         {
             ret = defaultValue;
         }
+
         return ret;
     }
 
@@ -85,6 +87,7 @@ public static class DictionaryUtility
         {
             return second;
         }
+
         if (second == null)
         {
             return first;
@@ -95,6 +98,7 @@ public static class DictionaryUtility
         {
             results[keyValuePair.Key] = keyValuePair.Value;
         }
+
         return results;
     }
 
@@ -104,6 +108,7 @@ public static class DictionaryUtility
         {
             return second;
         }
+
         if (second == null)
         {
             return first;
@@ -121,6 +126,7 @@ public static class DictionaryUtility
                 results[keyValuePair.Key] = mergeMethod(results[keyValuePair.Key], keyValuePair.Value);
             }
         }
+
         return results;
     }
 
@@ -130,6 +136,7 @@ public static class DictionaryUtility
         {
             return null;
         }
+
         return dictionary is Dictionary<T1, T2> casted ? casted : dictionary.ToDictionary(x => x.Key, x => x.Value);
     }
 
@@ -141,6 +148,7 @@ public static class DictionaryUtility
             key = result[0].Key;
             return true;
         }
+
         key = default;
         return false;
     }
@@ -156,6 +164,7 @@ public static class DictionaryUtility
         {
             return value;
         }
+
         throw new SimpleException(exceptionMessage);
     }
 

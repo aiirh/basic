@@ -2,7 +2,7 @@
 
 public class FilterProperty<T>
 {
-    internal EmptyFilterValueBehavior EmptyFilterValueBehavior;
+    internal EmptyFilterValueBehavior EmptyFilterValueBehavior { get; }
 
     public T Value { get; }
 

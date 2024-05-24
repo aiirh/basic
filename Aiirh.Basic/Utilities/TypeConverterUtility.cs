@@ -63,19 +63,19 @@ public static class TypeConverterUtility
         return JsonConvert.SerializeObject(value);
     }
 
-
-
     public static T Convert<T>(this object value)
     {
         if (value == null)
         {
             return default;
         }
+
         var serializeObject = JsonConvert.SerializeObject(value);
         var settings = new JsonSerializerSettings
         {
             EqualityComparer = StringComparer.OrdinalIgnoreCase
         };
+
         return JsonConvert.DeserializeObject<T>(serializeObject, settings);
     }
 }

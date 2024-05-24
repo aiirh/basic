@@ -2,7 +2,7 @@
 
 public class UpdateSetProperty<T>
 {
-    internal bool UpdateIfNull;
+    internal bool UpdateIfNull { get; }
 
     public T Value { get; set; }
 

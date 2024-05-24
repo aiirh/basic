@@ -9,19 +9,19 @@ namespace Aiirh.Basic.Messages;
 
 public class RequestResult
 {
-    protected bool? IsExplicitSuccess;
+    protected bool? _isExplicitSuccess;
 
-    public bool Success => IsExplicitSuccess ?? Messages?.All(x => x.IsSimpleMessage) ?? true;
+    public bool Success => _isExplicitSuccess ?? Messages?.All(x => x.IsSimpleMessage) ?? true;
 
     public IEnumerable<SimpleMessage> Messages { get; protected set; }
 
-    public bool SuccessOrOnlyWarnings => IsExplicitSuccess ?? Messages?.All(x => x.IsWarningOrSimpleMessage) ?? true;
+    public bool SuccessOrOnlyWarnings => _isExplicitSuccess ?? Messages?.All(x => x.IsWarningOrSimpleMessage) ?? true;
 
     public static RequestResult CreateFromOperationResult(IOperationResult operationResult)
     {
         return new RequestResult
         {
-            IsExplicitSuccess = operationResult.Success,
+            _isExplicitSuccess = operationResult.Success,
             Messages = operationResult.Messages
         };
     }
@@ -31,7 +31,7 @@ public class RequestResult
         var messages = e is SimpleException se ? se.Messages : SimpleMessage.Error(e.Message, e.LogException()).MakeCollection();
         return new RequestResult
         {
-            IsExplicitSuccess = false,
+            _isExplicitSuccess = false,
             Messages = messages
         };
     }
@@ -77,7 +77,9 @@ public class RequestResult<T> : RequestResult
 {
     public T Data { get; private set; }
 
-    private RequestResult() { }
+    private RequestResult()
+    {
+    }
 
     public static RequestResult<T> Create(IEnumerable<SimpleMessage> messages, T data = default)
     {
@@ -123,13 +125,12 @@ public class RequestResult<T> : RequestResult
         return Create(messages, data);
     }
 
-
     public static RequestResult<T> CreateErrorFromOperationResult(IOperationResult operationResult)
     {
         return new RequestResult<T>
         {
             Data = default,
-            IsExplicitSuccess = false,
+            _isExplicitSuccess = false,
             Messages = operationResult.Messages
         };
     }
@@ -140,7 +141,7 @@ public class RequestResult<T> : RequestResult
         return new RequestResult<T>
         {
             Data = default,
-            IsExplicitSuccess = false,
+            _isExplicitSuccess = false,
             Messages = newMessages
         };
     }
@@ -151,7 +152,7 @@ public class RequestResult<T> : RequestResult
         {
             Messages = results.Where(x => !x.Success).SelectMany(x => x.Messages),
             Data = default,
-            IsExplicitSuccess = false
+            _isExplicitSuccess = false
         };
     }
 
@@ -160,7 +161,7 @@ public class RequestResult<T> : RequestResult
         return new RequestResult<T>
         {
             Data = operationResult.Data,
-            IsExplicitSuccess = operationResult.Success,
+            _isExplicitSuccess = operationResult.Success,
             Messages = operationResult.Messages
         };
     }
@@ -170,7 +171,7 @@ public class RequestResult<T> : RequestResult
         return new RequestResult<T>
         {
             Data = mappingFunc(operationResult.Data),
-            IsExplicitSuccess = operationResult.Success,
+            _isExplicitSuccess = operationResult.Success,
             Messages = operationResult.Messages
         };
     }

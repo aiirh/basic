@@ -7,7 +7,7 @@ namespace Aiirh.Basic.Validation;
 public static class ValidationResultExtensions
 {
     /// <summary>
-    /// Combine messages that belong to the same InvalidEntity using default equality comparer. Result messages are distinct (duplicates are removed)
+    /// Combine messages that belong to the same InvalidEntity using default equality comparer. Result messages are distinct (duplicates are removed).
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="validationResults"></param>

@@ -51,6 +51,7 @@ public static class CollectionUtility
             differentValues = Enumerable.Empty<TPropertyType>().ToList();
             return true;
         }
+
         differentValues = entities.Select(selector).Distinct().ToList();
         return differentValues.Count == 1;
     }

@@ -49,8 +49,8 @@ public static class StringUtility
     /// <summary>
     /// Returns a copy of this string converted to sentence case.
     /// </summary>
-    /// <param name="sourceString">Source string to convert</param>
-    /// <returns>A string in sentence case</returns>
+    /// <param name="sourceString">Source string to convert.</param>
+    /// <returns>A string in sentence case.</returns>
     public static string ToSentence(this string sourceString)
     {
         var lowerCase = sourceString.ToLower();

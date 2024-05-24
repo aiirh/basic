@@ -23,6 +23,7 @@ public static class XmlUtility
             wsSerializer.Serialize(xml, request);
             xml.Flush();
         }
+
         var data = ms.ToArray();
         return data;
     }

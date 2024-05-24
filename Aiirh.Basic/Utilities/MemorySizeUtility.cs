@@ -13,7 +13,7 @@ public static class MemorySizeUtility
     /// </summary>
     /// <param name="sizeInBytes">Integer value that represents memory size in bytes.</param>
     /// <param name="sizeUnits">Memory size units (decimal or binary).</param>
-    /// <returns>Memory size with units, e.g. "41.34 KB"</returns>
+    /// <returns>Memory size with units, e.g. "41.34 KB".</returns>
     public static string ToMemorySizeString(this int sizeInBytes, MemorySizeUnits sizeUnits = MemorySizeUnits.Decimal)
     {
         return ((long)sizeInBytes).ToMemorySizeString(sizeUnits);

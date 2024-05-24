@@ -28,7 +28,7 @@ public static class ExceptionExtensions
     }
 
     /// <summary>
-    /// Checks if exception itself or any of its inner exceptions are of or inherited from provided type
+    /// Checks if exception itself or any of its inner exceptions are of or inherited from provided type.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="exception"></param>

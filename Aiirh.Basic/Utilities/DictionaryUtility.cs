@@ -23,7 +23,7 @@ public static class DictionaryUtility
     }
 
     /// <summary>
-    /// Gets value from dictionary, if key is not found, inserts defaultValue to dictionary for the provided key and returns it
+    /// Gets value from dictionary, if key is not found, inserts defaultValue to dictionary for the provided key and returns it.
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>

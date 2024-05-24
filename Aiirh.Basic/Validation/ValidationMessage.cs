@@ -25,9 +25,13 @@ public class ValidationMessage : IMessage
         }
     }
 
-    private ValidationMessage() { }
+    private ValidationMessage()
+    {
+    }
 
-    public ValidationMessage(IMessage message, ValidationMessageSeverity severity) : this(message.Header, message.Description, severity) { }
+    public ValidationMessage(IMessage message, ValidationMessageSeverity severity) : this(message.Header, message.Description, severity)
+    {
+    }
 
     public ValidationMessage(string message, string description, ValidationMessageSeverity severity)
     {

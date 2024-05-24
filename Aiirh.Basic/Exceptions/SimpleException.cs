@@ -16,18 +16,26 @@ public class SimpleException : Exception
         Messages = messages?.Select(x => x.Message) ?? [];
     }
 
-    public SimpleException(ValidationMessages messages) : this(messages.AsEnumerable()) { }
+    public SimpleException(ValidationMessages messages) : this(messages.AsEnumerable())
+    {
+    }
 
     private SimpleException(string header, string description, Exception innerException) : base(MessageBuilder.BuildMessage(header, description), innerException)
     {
         Messages = SimpleMessage.Error(header, description).MakeCollection();
     }
 
-    public SimpleException(string header, string description) : this(header, description, null) { }
+    public SimpleException(string header, string description) : this(header, description, null)
+    {
+    }
 
-    public SimpleException(string header) : this(header, (string)null) { }
+    public SimpleException(string header) : this(header, (string)null)
+    {
+    }
 
-    public SimpleException(string header, Exception innerException) : this(header, null, innerException) { }
+    public SimpleException(string header, Exception innerException) : this(header, null, innerException)
+    {
+    }
 
     public SimpleException(IOperationResult operationResult) : base(string.Join(";", operationResult.Messages.Select(x => MessageBuilder.BuildMessage(x.Header, x.Description))))
     {

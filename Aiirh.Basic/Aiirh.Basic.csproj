@@ -6,19 +6,27 @@
         <Product>Aiirh Common Libraries</Product>
         <Company />
         <Authors>Evgenii Baleevskii</Authors>
+        <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Services that provide basic classes of usual application</Description>
         <Copyright>Evgenii Baleevskii</Copyright>
-        <Version>3.0.6</Version>
-        <AssemblyVersion>3.0.6.0</AssemblyVersion>
-        <FileVersion>3.0.6.0</FileVersion>
+        <Version>3.0.7</Version>
+        <AssemblyVersion>3.0.7.0</AssemblyVersion>
+        <FileVersion>3.0.7.0</FileVersion>
         <PackageIcon>AiirhLogo128.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/aiirh/basic</RepositoryUrl>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <NoWarn>1701;1702;1591</NoWarn>
@@ -44,6 +52,12 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="..\stylecop.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </AdditionalFiles>
     </ItemGroup>
 
 </Project>

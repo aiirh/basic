@@ -144,7 +144,6 @@ public class ReferenceEqualityComparer : EqualityComparer<object>
     }
 }
 
-
 public static class ArrayExtensions
 {
     public static void ForEach(this Array array, Action<Array, int[]> action)
@@ -155,7 +154,10 @@ public static class ArrayExtensions
         }
 
         var walker = new ArrayTraverse(array);
-        do action(array, walker.Position);
+        do
+        {
+            action(array, walker.Position);
+        }
         while (walker.Step());
     }
 }

@@ -28,11 +28,11 @@ public static class ExceptionExtensions
     }
 
     /// <summary>
-    /// Checks if exception itself or any of its inner exceptions are of or inherited from provided type.
+    /// Checks if the exception itself or any of its inner exceptions are of or inherited from the provided type.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="exception"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the exception to check for.</typeparam>
+    /// <param name="exception">The exception to check.</param>
+    /// <returns>True if the exception or any of its inner exceptions are of or inherited from the specified type; otherwise, false.</returns>
     public static bool IsCausedBy<T>(this Exception exception) where T : Exception
     {
         return exception switch

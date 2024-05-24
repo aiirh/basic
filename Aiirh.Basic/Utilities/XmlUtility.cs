@@ -59,7 +59,7 @@ public static class XmlUtility
         return string.Join("\r\n", trimmedLines);
     }
 
-    public static (string first, string last) SerializeAndTake<T>(this T item, int takeFirstLines, int takeEndLines)
+    public static (string First, string Last) SerializeAndTake<T>(this T item, int takeFirstLines, int takeEndLines)
     {
         var xmlNode = Serialize(item);
         var lines = xmlNode.Split(["\r\n"], StringSplitOptions.RemoveEmptyEntries);

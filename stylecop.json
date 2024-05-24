@@ -1,0 +1,21 @@
+{
+	"$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+	"settings": {
+		"indentation": {
+			"useTabs": false,
+			"tabSize": 4,
+			"indentationSize": 4
+		},
+		"readabilityRules": {
+			"allowBuiltInTypeAliases": false
+		},
+		"documentationRules": {
+			"documentInterfaces": false,
+			"documentInternalElements": false,
+			"documentExposedElements": false,
+			"documentPrivateElements": false,
+			"documentPrivateFields": false,
+			"xmlHeader": false
+		}
+	}
+}

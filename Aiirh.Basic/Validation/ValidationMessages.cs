@@ -35,6 +35,7 @@ public class ValidationMessages : IEnumerable<ValidationMessage>
         {
             return;
         }
+
         _messages.Add(new ValidationMessage(check));
     }
 
@@ -59,6 +60,7 @@ public class ValidationMessages : IEnumerable<ValidationMessage>
         {
             return;
         }
+
         _messages.AddRange(messages);
     }
 

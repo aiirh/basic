@@ -16,7 +16,9 @@ public class SimpleMessage : IMessage
 
     public Type Type { get; private set; }
 
-    private SimpleMessage() { }
+    private SimpleMessage()
+    {
+    }
 
     public static SimpleMessage Simple(string header, string description)
     {
@@ -54,6 +56,7 @@ public class SimpleMessage : IMessage
         {
             return source;
         }
+
         var newDescription = source.Header;
         return new SimpleMessage
         {

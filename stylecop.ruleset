@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Description="Code analysis rules" Name="Rules" ToolsVersion="14.0">
+	<Include Action="Default" Path="StyleCop.ruleset"/>
+	<Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
+		<Rule Action="Hidden" Id="CS1573"/>
+		<Rule Action="Hidden" Id="CS1591"/>
+		<Rule Action="Error" Id="CS8019"/>
+		<Rule Action="None" Id="CS2008"/>
+	</Rules>
+	<Rules AnalyzerId="xunit.analyzers" RuleNamespace="xunit.analyzers">
+		<Rule Action="Info" Id="xUnit1004"/>
+	</Rules>
+	<Rules AnalyzerId="Microsoft.CodeAnalysis.Analyzers" RuleNamespace="Microsoft.CodeAnalysis.Analyzers">
+		<Rule Action="None" Id="RS1001"/>
+		<Rule Action="None" Id="RS1004"/>
+	</Rules>
+	<Rules AnalyzerId="Post11.CodeAnalysis.Analyzers" RuleNamespace="Post11.CodeAnalysis.Analyzers">
+		<Rule Action="Error" Id="SX1309"/>
+		<Rule Action="Error" Id="SX1101"/>
+		<Rule Action="Error" Id="SA1000"/>
+		<Rule Action="Error" Id="SA1001"/>
+		<Rule Action="Error" Id="SA1002"/>
+		<Rule Action="Error" Id="SA1003"/>
+		<Rule Action="Error" Id="SA1004"/>
+		<Rule Action="Error" Id="SA1005"/>
+		<Rule Action="Error" Id="SA1008"/>
+		<Rule Action="Error" Id="SA1009"/>
+		<Rule Action="Error" Id="SA1012"/>
+		<Rule Action="Error" Id="SA1013"/>
+		<Rule Action="Error" Id="SA1014"/> <!-- Generic brackets without spaces -->
+		<Rule Action="Error" Id="SA1024"/>
+		<Rule Action="Error" Id="SA1025"/>
+		<Rule Action="Error" Id="SA1026"/>
+		<Rule Action="Error" Id="SA1027"/>
+		<Rule Action="Error" Id="SA1028"/>
+		<Rule Action="Error" Id="SA1106"/>
+		<Rule Action="Error" Id="SA1108"/>
+		<Rule Action="Error" Id="SA1116"/>
+		<Rule Action="Error" Id="SA1117"/>
+		<Rule Action="Error" Id="SA1118"/>
+		<Rule Action="Error" Id="SA1119"/>
+		<Rule Action="Error" Id="SA1121"/>
+		<Rule Action="Error" Id="SA1122"/>
+		<Rule Action="Error" Id="SA1129"/>
+		<Rule Action="Error" Id="SA1133"/>
+		<Rule Action="Error" Id="SA1134"/>
+		<Rule Action="Error" Id="SA1137"/>
+		<Rule Action="Error" Id="SA1203"/>
+		<Rule Action="Error" Id="SA1208"/>
+		<Rule Action="Error" Id="SA1210"/>
+		<Rule Action="Error" Id="SA1211"/>
+		<Rule Action="Error" Id="SA1214"/>
+		<Rule Action="Error" Id="SA1300"/>
+		<Rule Action="Error" Id="SA1303"/>
+		<Rule Action="Error" Id="SA1306"/>
+		<Rule Action="Error" Id="SA1310"/>
+		<Rule Action="Error" Id="SA1311"/>
+		<Rule Action="Error" Id="SA1313"/>
+		<Rule Action="Error" Id="SA1314"/>
+		<Rule Action="Error" Id="SA1400"/>
+		<Rule Action="Error" Id="SA1500"/> <!-- Braces on new line -->
+		<Rule Action="Error" Id="SA1501"/>
+		<Rule Action="Error" Id="SA1502"/>
+		<Rule Action="Error" Id="SA1505"/>
+		<Rule Action="Error" Id="SA1507"/>
+		<Rule Action="Error" Id="SA1508"/>
+		<Rule Action="Error" Id="SA1509"/>
+		<Rule Action="Error" Id="SA1512"/>
+		<Rule Action="Error" Id="SA1513"/> <!-- New line after braces -->
+		<Rule Action="Error" Id="SA1514"/>
+		<Rule Action="Error" Id="SA1515"/>
+		<Rule Action="Error" Id="SA1517"/>
+		<Rule Action="Error" Id="SA1518"/>
+		<Rule Action="Error" Id="SA1519"/>
+		<Rule Action="Error" Id="SA1503"/>
+		<Rule Action="Error" Id="SA1606"/>
+		<Rule Action="Error" Id="SA1629"/>
+
+		<Rule Action="Warning" Id="SA1209"/>
+		<Rule Action="Warning" Id="SA1407"/>
+		<Rule Action="Warning" Id="SA1408"/>
+		<Rule Action="Warning" Id="SA1614"/>
+		<Rule Action="Warning" Id="SA1616"/>
+		<Rule Action="Warning" Id="SA1622"/>
+		<Rule Action="Warning" Id="SA1625"/>
+		<Rule Action="Warning" Id="SA1636"/>
+
+		<Rule Action="Hidden" Id="SA1101"/> <!-- Force using this. -->
+		<Rule Action="Hidden" Id="SA1127"/> <!-- Generic constraints on new line -->
+		<Rule Action="Hidden" Id="SA1128"/> <!-- Constructor initializers on new line -->
+		<Rule Action="Hidden" Id="SA1200"/> <!-- Usings inside namespace -->
+		<Rule Action="Hidden" Id="SA1201"/> <!-- Constructor before property -->
+		<Rule Action="Hidden" Id="SA1202"/> <!-- Public before protected -->
+		<Rule Action="Hidden" Id="SA1204"/> <!-- Static members before non-static -->
+		<Rule Action="Hidden" Id="SA1206"/> <!-- Static keyword before new -->
+		<Rule Action="Hidden" Id="SA1309"/> <!-- Field with underscore -->
+		<Rule Action="Hidden" Id="SA1401"/> <!-- Field should be private -->
+		<Rule Action="Hidden" Id="SA1402"/> <!-- Single class in file -->
+		<Rule Action="Hidden" Id="SA1413"/> <!-- Trailing comma needed -->
+		<Rule Action="Hidden" Id="SA1516"/> <!-- Line between properties -->
+		<Rule Action="Hidden" Id="SA1623"/> <!-- Property summary should starts with Get or Set -->
+		<Rule Action="Hidden" Id="SA1633"/> <!-- File header is missing -->
+		<Rule Action="Hidden" Id="SA1649"/> <!-- File named as first class -->
+	</Rules>
+</RuleSet>

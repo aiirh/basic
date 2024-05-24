@@ -9,7 +9,6 @@ namespace Aiirh.Basic.Tests;
 [TestFixture]
 public class ExceptionTests
 {
-
     [Test]
     [TestCaseSource(nameof(GetTestData))]
     public void IsCausedBy(Exception exception, bool expectedResult)

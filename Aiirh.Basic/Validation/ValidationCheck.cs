@@ -8,7 +8,9 @@ public class ValidationCheck
 
     public ValidationMessage Message { get; private set; }
 
-    private ValidationCheck() { }
+    private ValidationCheck()
+    {
+    }
 
     public static ValidationCheck Create(bool isValid, string header, string description, ValidationMessageSeverity severity)
     {

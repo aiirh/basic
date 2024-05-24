@@ -23,14 +23,15 @@ public static class DictionaryUtility
     }
 
     /// <summary>
-    /// Gets value from dictionary, if key is not found, inserts defaultValue to dictionary for the provided key and returns it
+    /// Gets the value from the dictionary for the specified key.
+    /// If the key is not found, inserts the provided default value into the dictionary for the provided key and returns it.
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="dict"></param>
-    /// <param name="key"></param>
-    /// <param name="defaultValue"></param>
-    /// <returns></returns>
+    /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+    /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+    /// <param name="dict">The dictionary to retrieve the value from or insert the default value into.</param>
+    /// <param name="key">The key to locate in the dictionary.</param>
+    /// <param name="defaultValue">The value to insert if the key is not found.</param>
+    /// <returns>The value associated with the specified key, or the default value if the key was not found.</returns>
     public static TValue GetValueOrAddDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue)
     {
         if (dict.TryGetValue(key, out var existing))
@@ -49,7 +50,7 @@ public static class DictionaryUtility
         dic[toKey] = value;
     }
 
-    public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dict, (TKey, TValue) pair)
+    public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dict, (TKey Key, TValue Value) pair)
     {
         var (key, value) = pair;
         dict.AddOrUpdate(new KeyValuePair<TKey, TValue>(key, value));

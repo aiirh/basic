@@ -9,7 +9,6 @@ namespace Aiirh.Basic.Tests;
 [TestFixture]
 public class CollectionUtilityTests
 {
-
     [Test]
     [TestCaseSource(nameof(GetTestData))]
     public void Shuffle(IEnumerable<int> data)

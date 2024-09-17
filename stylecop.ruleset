@@ -14,7 +14,7 @@
 		<Rule Action="None" Id="RS1001"/>
 		<Rule Action="None" Id="RS1004"/>
 	</Rules>
-	<Rules AnalyzerId="Post11.CodeAnalysis.Analyzers" RuleNamespace="Post11.CodeAnalysis.Analyzers">
+	<Rules AnalyzerId="StyleCop.CodeAnalysis.Analyzers" RuleNamespace="StyleCop.CodeAnalysis.Analyzers">
 		<Rule Action="Error" Id="SX1309"/>
 		<Rule Action="Error" Id="SX1101"/>
 		<Rule Action="Error" Id="SA1000"/>
